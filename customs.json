@@ -1,8 +1,10 @@
 {
     "elements": {},
     "attributes": {
-        "th:text": {
-            "context": "span"
-        }
+        "th:text": {},
+        "th:src": {},
+        "th:replace": {},
+        "th:each": {},
+        "th:href": {}
     }
 }

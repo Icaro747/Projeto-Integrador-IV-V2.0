@@ -1,0 +1,236 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+/*Conteiner geral e div centralizada*/
+
+.container-geral {
+    height: 92.8vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center
+}
+
+.BoxLogin {
+    flex-direction: row;
+    justify-content: center;
+    background-color: #6dd5a9;
+    color: white;
+    width: 40%;
+    height: 600px;
+    padding: 10px;
+}
+
+.BoxR {
+    border-radius: 20px 0px 0px 20px;
+}
+
+.BoxL {
+    border-radius: 0px 20px 20px 0px;
+}
+/*Dentro da div Cadastrar*/
+
+.h1-cadastra {
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+}
+
+.cadastro-campos {
+    display: flex;
+    justify-content: center;
+}
+
+.button-cadastrar {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+.form__title {
+    font-weight: 400;
+    margin-bottom: 3rem;
+}
+
+.form__div {
+    position: relative;
+    height: 50px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+/*Input*/
+.form__input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 3rem;
+    width: -webkit-fill-available;
+    font-size: var(--normal-font-size);
+    font-family: 'Open Sans', sans-serif;
+    border-radius: .5rem;
+    outline: none;
+    padding-left: 5px;
+    background: none;
+    z-index: 1;
+    transition: .5s;
+    padding-left: 15px;
+}
+
+.form__label {
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+    padding: 0 .25rem;
+    background-color: var(--cor-background);
+    color: var(--input-color);
+    font-size: var(--normal-font-size);
+    font-family: 'Open Sans', sans-serif;
+    transition: .3s;
+}
+
+.form__input:focus+.form__label {
+    top: -.5rem;
+    left: .8rem;
+    color: var(--secundaria);
+    font-weight: 500;
+    z-index: 10;
+}
+
+.form__input:not(:placeholder-shown).form__input:not(:focus)+.form__label {
+    top: -.5rem;
+    left: .8rem;
+    font-weight: 500;
+    z-index: 10;
+}
+
+.form__input:focus {
+    border: 2px solid var(--secundaria);
+}
+
+form#Nome label {
+    display: block;
+    width: 10%;
+    float: left;
+    margin-top: 30px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+}
+
+.btn {
+    min-width: 100px;
+    width: 50%;
+    height: 50px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: .3s;
+    color: var(--text-cor1);
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.btn:hover,
+.btn:focus {
+    font-weight: bold;
+    -webkit-transform: scale(1.1);
+}
+
+.btn:active {
+    -webkit-transform: scale(0.5);
+}
+
+.btn-destaque {
+    background-color: var(--secundaria);
+}
+.btn-destaque:hover,
+.btn-destaque:focus{
+    background-color: var(--terciario);
+    box-shadow: 0 0 15px var(--sobra);
+}
+.btn-simples{
+    border: 2px solid var(--secundaria);
+    background-color: var(--cor-background);
+    color: var(--secundaria);
+}
+.cadastro-campos {
+    position: relative;
+}
+
+.hRtCnc {
+    margin-top: 50fr;
+    display: flex;
+    flex: 1 1 0%;
+    min-height: 614px;
+    padding-bottom: 64px;
+    -webkit-box-pack: center;
+    justify-content: center;
+    background-color: var(--the-background-cor);
+}
+
+.cAQjTg {
+    display: flex;
+    flex: 1 1 0%;
+    -webkit-box-pack: center;
+    justify-content: center;
+    padding: 0px 1rem;
+}
+
+.gAgEMf {
+    display: flex;
+    flex: 1 1 0%;
+    -webkit-box-pack: center;
+    justify-content: center;
+    max-width: 1010px;
+}
+
+.wWWhb {
+    display: flex;
+    flex: 1 1 0%;
+    flex-direction: column;
+}
+
+.divisorio {
+    display: flex;
+    width: 2px;
+    background-color: var(--text-cor2);
+    margin: 0px 32px;
+}
+
+.doTtzZ {
+    display: flex;
+    flex: 1 1 0%;
+    flex-direction: column;
+    max-width: 1216px;
+    margin-top: 32px;
+    padding: 0px 1rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    background-color: var(--cor-background);
+    box-shadow: 5px 10px 15px var(--sobra);
+    border-radius: 15px 5px;
+}
+
+.subtitulo-login {
+    font-size: 24px;
+    font-weight: 700;
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--secundaria);
+    margin-bottom: 20px;
+}
+
+
+/*Reponsividade*/
+
+@media (max-width: 1279px) {
+    .container-geral {
+        display: block;
+    }
+    .cadastro-campos {
+        display: flex;
+        justify-content: center;
+    }
+    .div-1,
+    .div-2 {
+        width: 100%;
+        border-radius: 0;
+    }
+}

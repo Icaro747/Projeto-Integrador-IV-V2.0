@@ -1,0 +1,14 @@
+:root {
+    --primaria: #bbbbbb;
+    --secundaria: #FF5510;
+    --terciario: #fa7743;
+
+    --sobra: rgba(51, 51, 51, 0.651);
+    --text-cor1: #ffffff;
+    --text-cor2: #000000;
+    --cor-background: #e0e0e0;
+    --the-background-cor: #00195c;
+    --destaque: rgb(255 192 97);
+    --Excluir: rgb(255, 0, 0);
+    --confirmar: rgb(22, 158, 22);
+}

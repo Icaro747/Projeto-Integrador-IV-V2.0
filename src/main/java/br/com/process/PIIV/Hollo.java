@@ -15,11 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class Hollo {
     
-    @RequestMapping("/hello")
-    public String sayHello(Model model){
-        model.addAttribute("nome", "Batata");
-        return "hello";
-    }
+    
     
 //    @RequestMapping("/lista")
 //    public String sayListe(Model model){
