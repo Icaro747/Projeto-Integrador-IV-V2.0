@@ -2,15 +2,23 @@
 
 <html lang="pt-br">
     <head>
-        <title>TODO supply a title</title>
+        <title>New Man</title>
         <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" th:href="@{/styles/css/MainCss.css}"/>
     </head>
+    
     <body>
+        
+        <div th:replace="fragments/header :: body"></div>
+        
+        <div th:replace="fragments/Carousel :: html"></div>
+        
+        
         <div class="ConteinerProdutos">
             
-                <div class="ProdutoBox">
+                <div class="ProdutoBox" th:each="Estoque : ${lista}">
                     <div class="Deliniado">
                         <div class="ProdutoImg">
                             <a href="">
@@ -19,13 +27,14 @@
                         </div>
                         <div class="ProdutoTitolo">
                             <a href="">
-                                <h2><strong>${Produto.nome}</strong></h2>
+                                <h2><strong th:text="${Estoque.nome}">Nome do produto</strong></h2>
                             </a>
                         </div>
                         <div class="ProdutoPreso">
                             <div class="DivisoriaPreso">
                                 <div class="PresoVista">
-                                    <span>R$ ${Produto.v_venda}</span>
+                                    <span>R$</span>
+                                    <span th:text="${Estoque.v_venda}">50,0</span>
                                     <small> á vista</small>
                                 </div>
                                 <div class="PresoJuros">
@@ -38,7 +47,9 @@
                         </div>
                     </div>
                 </div>
-            
         </div>
+        
+        
     </body>
+    
 </html>

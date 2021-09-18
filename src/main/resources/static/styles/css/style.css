@@ -1,0 +1,240 @@
+/*MENU HAMBGUER*/
+
+body,
+ul {
+    margin: 0px;
+    padding: 0px;
+}
+a {
+    color: var(--text-cor2);
+    text-decoration: none;
+    font-family: sans-serif;
+}
+#nav ul li{
+    border-radius: 5%;
+    padding: 5px;
+    transition: .5s;
+}
+#nav ul li:hover {
+    background-color: var(--cor-background);
+    color: var(--text-cor2);
+    padding: 10px
+}
+.text-header{
+    text-transform: uppercase;
+    font-size: 1.5em;
+}
+#logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+header{
+    background-color: var(--primaria);
+}
+#header {
+    box-sizing: border-box;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    align-items: center;
+    padding-top: 5px;
+}
+#nav{
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+#menu {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+    align-items: center;
+}
+/*
+#menu a {
+    display: block;
+    padding: 0.5rem;
+}
+*/
+#btn-mobile {
+    display: none;
+}
+
+.logo {
+    height: 100px;
+}
+
+.carrinho {
+    height: 25px;
+}
+
+
+/*Cabeçalho Um*/
+
+.header-pesquisa {
+    width: 70%;
+    margin: auto;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+}
+.txt {
+    border: none;
+    background: var(--cor-background);
+    outline: none;
+    padding: 10px;
+    color: var(--text-cor2);
+    font-size: 18px;
+    line-height: 20px;
+    width: 100%;
+    border-radius: 40px 0px 0px 40px;
+}
+
+
+/*Cabeçalho Dois*/
+
+.header-2 {
+    background-color: var(--cor-background);
+    height: 40px;
+}
+
+
+/*Carrousel com as roupas*/
+
+.h1-nmarca {
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    font-size: 3em;
+    padding: 5px;
+    font-weight: bold;
+    margin-top: 2%;
+}
+
+.h1-valor-roupa,
+.h1-nomeroupa {
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+}
+
+.div-btn {
+    display: flex;
+    justify-content: center;
+    padding: 15px;
+}
+
+.btn-linhas{
+    cursor: pointer;
+    height: 40px;
+    width: 85px;
+    outline: none;
+    border: none;
+    background-color: #363636;
+    color: var(--text-cor1);
+    border-radius: 10px;
+    box-shadow: 0 0 1em var(--sobra)
+}
+
+.adicionar-btn:hover {
+    background-color: var(--cor-background);
+    transition: .6s;
+    box-shadow: 0 0 1em var(--sobra);
+}
+.ico-pesquisa{
+    height: 40px;
+    background: var(--cor-background);
+    display: flex;
+    align-items: center;
+    padding-right: 20px;
+    border-radius: 0px 40px 40px 0px;
+}
+.ico-pesquisa a{
+    cursor: pointer;
+}
+/*DESTAQUES*/
+
+.conteiner {
+    display: flex;
+    background-color: red;
+}
+
+.destaques {
+    background-color: black;
+    width: 20%;
+    height: 500px;
+    margin: 10px;
+}
+.use{
+    display: flex;
+    align-items: center;
+}
+/*Reponsividade do menu hambuger*/
+@media (max-width: 600px) {
+    #menu {
+        display: block;
+        position: absolute;
+        width: 100%;
+        top: 70px;
+        right: 0px;
+        background: var(--primaria);
+        transition: 0.6s;
+        z-index: 1000;
+        height: 0px;
+        visibility: hidden;
+        overflow-y: hidden;
+    }
+    #nav.active #menu {
+        height: calc(100vh - 70px);
+        visibility: visible;
+        overflow-y: auto;
+    }
+    #menu a {
+        padding: 1rem 0;
+        display: flex;
+        justify-content: center;
+        border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+    }
+    #btn-mobile {
+        display: flex;
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        border: none;
+        background: none;
+        cursor: pointer;
+        gap: 0.5rem;
+    }
+    #hamburger {
+        border-top: 2px solid;
+        width: 20px;
+    }
+    #hamburger::after,
+    #hamburger::before {
+        content: '';
+        display: block;
+        width: 20px;
+        height: 2px;
+        background: currentColor;
+        margin-top: 5px;
+        transition: 0.3s;
+        position: relative;
+    }
+    #nav.active #hamburger {
+        border-top-color: transparent;
+    }
+    #nav.active #hamburger::before {
+        transform: rotate(135deg);
+    }
+    #nav.active #hamburger::after {
+        transform: rotate(-135deg);
+        top: -7px;
+    }
+    .header-pesquisa {
+        width: auto;
+    }
+    #barra-pesquisa{
+        width: 90%;
+        
+    }
+}
