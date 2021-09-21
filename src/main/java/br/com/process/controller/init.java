@@ -29,6 +29,12 @@ public class init {
         return "login";
     }
     
+    @RequestMapping("/adim/cadastro")
+    public String cadastro(Model model){
+        model.addAttribute("listTags", ProdutoDAO.getTags());
+        return "cadastro";
+    }
+    
     @RequestMapping("/")
     public String index(Model model){
         try {

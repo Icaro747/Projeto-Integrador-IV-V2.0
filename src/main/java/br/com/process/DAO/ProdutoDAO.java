@@ -2,6 +2,7 @@ package br.com.process.DAO;
 
 import br.com.process.conexao.Conexao;
 import br.com.process.entidade.Produto;
+import br.com.process.entidade.Tag;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -33,7 +34,7 @@ public class ProdutoDAO {
             instrucaoSQL.setString(2, produto.getMarca());
             instrucaoSQL.setString(3, produto.getTamanho());
             instrucaoSQL.setString(4, produto.getDescricao());
-            instrucaoSQL.setString(5, produto.getTag());
+            //instrucaoSQL.setString(5, produto.getTag());
             instrucaoSQL.setInt(6, produto.getQuantidade());
             instrucaoSQL.setDouble(7, produto.getV_compra());
             instrucaoSQL.setDouble(8, produto.getV_venda());
@@ -110,7 +111,7 @@ public class ProdutoDAO {
             instrucaoSQL.setString(2, produto.getMarca());
             instrucaoSQL.setString(3, produto.getTamanho());
             instrucaoSQL.setString(4, produto.getDescricao());
-            instrucaoSQL.setString(5, produto.getTag());
+            //instrucaoSQL.setString(5, produto.getTag());
             instrucaoSQL.setInt(6, produto.getQuantidade());
             instrucaoSQL.setDouble(7, produto.getV_compra());
             instrucaoSQL.setDouble(8, produto.getV_venda());
@@ -158,16 +159,59 @@ public class ProdutoDAO {
                 String Marca = rs.getString("Marca");
                 String Tamanho = rs.getString("Tamanho");
                 String Descricao = rs.getString("Descricao");
-                String Tag = rs.getString("Tag");
                 int QTD = rs.getInt("Quantidade");
                 double V_compra = rs.getDouble("V_compra");
                 double V_venda = rs.getDouble("V_venda");
                 boolean Statu = rs.getBoolean("Statu");
                 
-                Produto produto = new Produto(ID, Nome, Marca, Tamanho, Descricao, Tag, QTD, V_compra, V_venda, Statu);
+                Produto produto = new Produto(ID, Nome, Marca, Tamanho, Descricao, QTD, V_compra, V_venda, Statu);
                 Estoque.add(produto);
             }
             return Estoque;
+        } catch (SQLException e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }finally{
+            try {
+                if (rs!=null) {
+                    rs.close();
+                }
+                if (instrucaoSQL!=null) {
+                    instrucaoSQL.close();
+                }
+                if (conexao!=null) {
+                    conexao.close();
+                    Conexao.fecharConexao();  
+                }
+            } catch (SQLException e) {
+            }
+        }
+    }
+    
+    /**
+    * método para pegar todos os dados da tabela Estoque no banco de dados.
+    * @return Retorna uma <b>List</b> com todas os Produtos<br> se nenhum Produto foram encontrado, retorna uma <b>List</b> vazia.
+    */
+    public static List<Tag> getTags(){
+        
+        ResultSet rs = null;
+        Connection conexao = null;
+        PreparedStatement instrucaoSQL = null;
+        
+        List<Tag> Tags = new ArrayList<>();
+        
+        try {
+            conexao = Conexao.abrirConexao();
+            instrucaoSQL = conexao.prepareStatement("SELECT * FROM Tags");
+            rs = instrucaoSQL.executeQuery();
+            
+            while(rs.next()){
+                int ID = rs.getInt("ID_Tag");
+                String Nome = rs.getString("Nome_tag");
+                
+                Tag tag = new Tag(ID, Nome);
+                Tags.add(tag);
+            }
+            return Tags;
         } catch (SQLException e) {
             throw new IllegalArgumentException(e.getMessage());
         }finally{

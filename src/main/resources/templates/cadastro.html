@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Cadastro de produto</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" th:href="@{/styles/css/MainCss.css}"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    </head>
+    <body>
+        
+        <div th:replace="fragments/header :: body"></div>
+
+        <div class="hRtCnc">
+            <div class="doTtzZ">
+                <div class="cAQjTg">
+                    <div class="gAgEMf">
+
+                        <section class="wWWhb">
+                            <form action="">
+                                <h2 class="subtitulo-login">Cadastro Produto</h2>
+                                <div class="form__div">
+                                    <input type="text" class="form__input" name="nome" placeholder=" " required>
+                                    <label class="form__label">Nome</label>
+                                </div>
+                                <div class="form__div">
+                                    <input type="text" class="form__input" name="marca" placeholder=" " required>
+                                    <label class="form__label">Marca</label>
+                                </div>
+                                <div class="form__div">
+                                    <input type="text" class="form__input" name="tamanho" placeholder=" " required>
+                                    <label class="form__label">Tamanho</label>
+                                </div>
+                                <div class="form__div">
+                                    <input type="text" class="form__input" name="descricao" placeholder=" " required>
+                                    <label class="form__label">Descricao</label>
+                                </div>
+                                <div class="form__div">
+                                    <input type="number" class="form__input" name="quantidade" placeholder=" " required>
+                                    <label class="form__label">Quantidade</label>
+                                </div>
+                                <div class="form__div">
+                                    <input type="number" class="form__input decimal" name="v_compra" placeholder=" " required step=".01">
+                                    <label class="form__label">Valor de compra</label>
+                                </div>
+                                <div class="form__div">
+                                    <input type="number" class="form__input decimal" name="v_venda" placeholder=" " required step="any">
+                                    <label class="form__label">Valor de venda</label>
+                                </div>
+                                <div class="form__div BoxInputsRadio">
+                                    <h3 class="LabelRadio LabelCenter">Statu</h3>
+                                    <div class="InputsRadio">
+                                        <div class="InputRadioOption">
+                                            <input type="radio" class="InputRadio" name="status" value="1">
+                                            <label class="LabelRadio">Ativo</label>
+                                        </div>
+                                        <div class="InputRadioOption">
+                                            <input type="radio" class="InputRadio" name="status" value="0">
+                                            <label class="LabelRadio">Desativa</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form__div BoxInputsRadio">
+                                    <h3 class="LabelRadio LabelCenter">Tags</h3>
+                                    <div class="InputsRadio">
+                                        <div class="InputRadioOption" th:each="Tag : ${listTags}">
+                                            <input type="checkbox" class="" name="tag">
+                                            <label class="LabelRadio" th:text="${Tag.nome_tag}">Tag</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="button-cadastrar">
+                                    <button type="submit" class="btn btn-destaque">Cadastrar</button>
+                                </div>
+                            </form>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $(".decimal").change(function() {
+                    $(this).val(parseFloat($(this).val()).toFixed(2));
+                });
+            });
+        </script>
+    </body>
+</html>
