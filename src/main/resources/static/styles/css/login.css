@@ -1,42 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
-/*Conteiner geral e div centralizada*/
-
-.container-geral {
-    height: 92.8vh;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center
-}
-
-.BoxLogin {
-    flex-direction: row;
-    justify-content: center;
-    background-color: #6dd5a9;
-    color: white;
-    width: 40%;
-    height: 600px;
-    padding: 10px;
-}
-
-.BoxR {
-    border-radius: 20px 0px 0px 20px;
-}
-
-.BoxL {
-    border-radius: 0px 20px 20px 0px;
-}
-/*Dentro da div Cadastrar*/
-
-.h1-cadastra {
-    font-family: 'Montserrat', sans-serif;
-    text-align: center;
-}
-
-.cadastro-campos {
-    display: flex;
-    justify-content: center;
-}
 
 .button-cadastrar {
     display: flex;
@@ -66,11 +28,11 @@
     font-family: 'Open Sans', sans-serif;
     border-radius: .5rem;
     outline: none;
-    padding-left: 5px;
     background: none;
     z-index: 1;
     transition: .5s;
     padding-left: 15px;
+    border: black solid 2px;
 }
 
 .form__label {
@@ -104,15 +66,61 @@
     border: 2px solid var(--secundaria);
 }
 
-form#Nome label {
-    display: block;
-    width: 10%;
-    float: left;
-    margin-top: 30px;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: bold;
+.BoxInputsRadio{
+    height: auto;
+    padding-block: 10px;
+    border-radius: .5rem;
+    border-color: var(--text-cor2);
+    border-style: solid;
+    border-width: 2px;
 }
-
+.InputsRadio{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.LabelRadio{
+    font-family: 'Open Sans', sans-serif;
+    font-size: x-large;
+    color: var(--input-color);
+    margin-left: 10px;
+}
+.LabelCenter{
+    display: flex;
+    justify-content: space-evenly;
+    font-weight: 400;
+}
+.InputRadio{
+    appearance: none;
+    width: 30px;
+    height: 30px;
+    background: aliceblue;
+    cursor: pointer;
+    outline: none;
+    border-radius: 50%;
+    border: 2px solid;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.InputRadio:before{
+    content: '';
+    position: absolute;
+    height: 15px;
+    width: 15px;
+    background: black;
+    border-radius: 50%;
+    opacity: 0;
+    transition: .5s;
+}
+.InputRadio:checked:before{
+    opacity: 1;
+}
+.InputRadioOption{
+    display: flex;
+    align-items: center;
+}
 .btn {
     min-width: 100px;
     width: 50%;
@@ -150,10 +158,6 @@ form#Nome label {
     background-color: var(--cor-background);
     color: var(--secundaria);
 }
-.cadastro-campos {
-    position: relative;
-}
-
 .hRtCnc {
     margin-top: 50fr;
     display: flex;
@@ -215,22 +219,4 @@ form#Nome label {
     text-transform: uppercase;
     color: var(--secundaria);
     margin-bottom: 20px;
-}
-
-
-/*Reponsividade*/
-
-@media (max-width: 1279px) {
-    .container-geral {
-        display: block;
-    }
-    .cadastro-campos {
-        display: flex;
-        justify-content: center;
-    }
-    .div-1,
-    .div-2 {
-        width: 100%;
-        border-radius: 0;
-    }
 }

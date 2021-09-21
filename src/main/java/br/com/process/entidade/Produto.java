@@ -1,5 +1,7 @@
 package br.com.process.entidade;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Icaro
@@ -11,25 +13,24 @@ public class Produto {
     private String marca;
     private String tamanho;
     private String descricao;
-    private String tag;
     private int quantidade;
     private double v_compra;
     private double v_venda;
     private boolean status;
+    
+    private ArrayList<Tag> tags = new ArrayList<>();
 
-    public Produto(int id_produto, String nome, String marca, String tamanho, String descricao, String tag, int quantidade, double v_compra, double v_venda, boolean status) {
+    public Produto(int id_produto, String nome, String marca, String tamanho, String descricao, int quantidade, double v_compra, double v_venda, boolean status) {
         this.id_produto = id_produto;
         this.nome = nome;
         this.marca = marca;
         this.tamanho = tamanho;
         this.descricao = descricao;
-        this.tag = tag;
         this.quantidade = quantidade;
         this.v_compra = v_compra;
         this.v_venda = v_venda;
         this.status = status;
     }
-
     
     public boolean isStatus() {
         return status;
@@ -79,14 +80,6 @@ public class Produto {
         this.descricao = descricao;
     }
 
-    public String getTag() {
-        return tag;
-    }
-
-    public void setTag(String tag) {
-        this.tag = tag;
-    }
-
     public int getQuantidade() {
         return quantidade;
     }
@@ -118,8 +111,8 @@ public class Produto {
     @Override
     public String toString() {
         return String.format("id: %d <br/> Nome: %s <br/> Marca: %s <br/> Tamanho: %s <br/>"
-                + " Descricao: %s <br/> Tag: %s <br/> Qtd: %d <br/> Valor de Compra: %f <br/>"
+                + " Descricao: %s <br/>Qtd: %d <br/> Valor de Compra: %f <br/>"
                 + "Valor de Venda: %f <br/> Status: %s",
-                id_produto, nome, marca, tamanho, descricao, tag, quantidade, v_compra, v_venda, status);
+                id_produto, nome, marca, tamanho, descricao, quantidade, v_compra, v_venda, status);
     }
 }

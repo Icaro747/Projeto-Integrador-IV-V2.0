@@ -51,12 +51,6 @@ header{
     gap: 2rem;
     align-items: center;
 }
-/*
-#menu a {
-    display: block;
-    padding: 0.5rem;
-}
-*/
 #btn-mobile {
     display: none;
 }

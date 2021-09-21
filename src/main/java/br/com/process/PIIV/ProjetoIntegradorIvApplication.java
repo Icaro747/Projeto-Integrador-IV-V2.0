@@ -12,23 +12,23 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackageClasses = br.com.process.controller.init.class)
 public class ProjetoIntegradorIvApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ProjetoIntegradorIvApplication.class, args);
-	}
-        
-        @Bean
-	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
-		return args -> {
+    public static void main(String[] args) {
+        SpringApplication.run(ProjetoIntegradorIvApplication.class, args);
+    }
 
-			System.out.println("Let's inspect the beans provided by Spring Boot:");
+    @Bean
+    public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
+        return args -> {
 
-			String[] beanNames = ctx.getBeanDefinitionNames();
-			Arrays.sort(beanNames);
-			for (String beanName : beanNames) {
-				System.out.println(beanName);
-			}
+            System.out.println("Vamos inspecionar os beans fornecidos pelo Spring Boot:");
 
-		};
-	}
+            String[] beanNames = ctx.getBeanDefinitionNames();
+            Arrays.sort(beanNames);
+            for (String beanName : beanNames) {
+                System.out.println(beanName);
+            }
+
+        };
+    }
 
 }
