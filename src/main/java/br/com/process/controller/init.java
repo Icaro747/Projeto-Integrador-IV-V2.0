@@ -52,7 +52,7 @@ public class init {
             return "mensagem";
         }        
     }
-    
+  
     @RequestMapping("/adim/listaProduto")
     public String listaProduto (Model model){
         model.addAttribute("listaProduto", ProdutoDAO.getEstoque());
@@ -79,7 +79,7 @@ public class init {
         model.addAttribute("MSG", "Sei la");
         return "mensagem";
     }
-
+  
     @RequestMapping("/")
     public String index(Model model){
         try {

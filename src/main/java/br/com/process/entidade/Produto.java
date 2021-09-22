@@ -22,11 +22,11 @@ public class Produto {
 
     public Produto() {
     }
-
+  
     public Produto(int id_produto) {
         this.id_produto = id_produto;
     }
-    
+  
     public Produto(int id_produto, String nome, String marca, String tamanho, String descricao, int quantidade, double v_compra, double v_venda, boolean status) {
         this.id_produto = id_produto;
         this.nome = nome;
