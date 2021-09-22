@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <h1>Lista Produto</h1>
+        
+        <table>
+            <th>ID do Produto</th>
+            <th>Nome</th>
+            <th>Marca</th>
+            <th>Tamanho</th>
+            <th>Descricao</th>
+            <th>Quantidade</th>
+            <th>V_compra</th>
+            <th>V_venda</th>
+            <th>Statu</th>
+            <tr th:each="produto : ${listaProduto}">
+                <td th:text="${produto.id_produto}"></td>
+                <td th:text="${produto.nome}"></td>
+                <td th:text="${produto.marca}"></td>
+                <td th:text="${produto.tamanho}"></td>
+                <td th:text="${produto.descricao}"></td>
+                <td th:text="${produto.quantidade}"></td>
+                <td th:text="${produto.v_compra}"></td>
+                <td th:text="${produto.v_venda}"></td>
+                <td th:text="${produto.status}"></td>
+                <td><a href="#">Atualizar</a></td>
+                <td><a th:href="@{'../Excluir?ID=' + ${produto.id_produto}}">Excluir</a></td>
+            </tr>
+        </table> 
+    </body>
+</html>
