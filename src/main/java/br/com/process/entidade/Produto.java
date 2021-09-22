@@ -20,6 +20,9 @@ public class Produto {
     
     private ArrayList<Tag> tags = new ArrayList<>();
 
+    public Produto() {
+    }
+
     public Produto(int id_produto, String nome, String marca, String tamanho, String descricao, int quantidade, double v_compra, double v_venda, boolean status) {
         this.id_produto = id_produto;
         this.nome = nome;
