@@ -28,17 +28,16 @@ public class ProdutoDAO {
         
         try{
             conexao = Conexao.abrirConexao();
-            instrucaoSQL = conexao.prepareStatement("INSERT INTO Produtos (Nome, Marca, Tamanho, Descricao, Tag, Quantidade, V_compra, V_venda, Statu) VALUES (?,?,?,?,?,?,?,?,?)");
+            instrucaoSQL = conexao.prepareStatement("INSERT INTO Produtos (Nome, Marca, Tamanho, Descricao, Quantidade, V_compra, V_venda, Statu) VALUES (?,?,?,?,?,?,?,?)");
             
             instrucaoSQL.setString(1, produto.getNome());
             instrucaoSQL.setString(2, produto.getMarca());
             instrucaoSQL.setString(3, produto.getTamanho());
             instrucaoSQL.setString(4, produto.getDescricao());
-            //instrucaoSQL.setString(5, produto.getTag());
-            instrucaoSQL.setInt(6, produto.getQuantidade());
-            instrucaoSQL.setDouble(7, produto.getV_compra());
-            instrucaoSQL.setDouble(8, produto.getV_venda());
-            instrucaoSQL.setBoolean(9, produto.isStatus());
+            instrucaoSQL.setInt(5, produto.getQuantidade());
+            instrucaoSQL.setDouble(6, produto.getV_compra());
+            instrucaoSQL.setDouble(7, produto.getV_venda());
+            instrucaoSQL.setBoolean(8, produto.isStatus());
             
             int linhaAfetadas = instrucaoSQL.executeUpdate();
             return linhaAfetadas > 0;
