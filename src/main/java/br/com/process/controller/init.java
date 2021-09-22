@@ -2,6 +2,7 @@ package br.com.process.controller;
 
 import br.com.process.DAO.ProdutoDAO;
 import br.com.process.entidade.Produto;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,14 +52,34 @@ public class init {
             return "mensagem";
         }        
     }
+  
+    @RequestMapping("/adim/listaProduto")
+    public String listaProduto (Model model){
+        model.addAttribute("listaProduto", ProdutoDAO.getEstoque());
+        return "listaProduto";
+    }
+    
+    @RequestMapping("Excluir")
+    public String Excluir(Model model, HttpServletRequest request){
+        try {
+            Produto produto = new Produto(Integer.parseInt(request.getParameter("ID")));
+            if(ProdutoDAO.Excluir(produto)){
+                model.addAttribute("MSG", "Adicionado com Sucesso");
+            } else{
+                model.addAttribute("MSG", "Erro ao Adicionar");
+            }
+        } catch (Exception e) {
+            model.addAttribute("MSG", e);
+        }
+        return "mensagem";
+    }
     
     @RequestMapping("seila")
     public String seila(Model model){
         model.addAttribute("MSG", "Sei la");
         return "mensagem";
     }
-    
-    
+  
     @RequestMapping("/")
     public String index(Model model){
         try {
