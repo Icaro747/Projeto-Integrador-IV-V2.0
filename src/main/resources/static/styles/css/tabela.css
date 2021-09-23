@@ -1,0 +1,71 @@
+table{
+    min-width: max-content;
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Open Sans';
+}
+table th{
+    height: 50px;
+    color: var(--text-cor1);
+}
+table tr{
+    margin: 50px;
+    transition: .3s;
+}
+table td{
+    border-bottom: 1px solid var(--text-cor1);
+}
+table tr:hover{
+    background-color: var(--sobra);
+}
+table th,
+table td{
+    height: 30px;
+    color: var(--text-cor2);
+    text-align: center;
+    padding: 8px 8px;
+}
+table td a{
+    transition: .5s all;
+    padding: inherit;
+    color: var(--secundaria);
+    font-weight: 600;
+    font-variant: all-small-caps;
+}
+table td a:hover{
+    color: var(--text-cor1);
+    background-color: var(--secundaria);
+    border-radius: 5px;
+}
+.BoxLista{
+    overflow-x: auto;
+}
+.Buscarbox{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    box-shadow: none;
+    padding: 10px;
+}
+.Buscar-btn{
+    min-width: min-content;
+    max-width: 150px;
+    padding: revert;
+    width: 20%;
+}
+.BoxListe{
+    overflow-x: auto;
+}
+.BoxListaSize{
+    width: 80%;
+    margin: auto;
+    min-height: 50vh;
+    height: auto;
+}
+.btnDesativar{
+    color: var(--Excluir);
+}
+.btnDesativar:hover{
+    color: var(--text-cor1);
+    background-color: var(--Excluir);
+}

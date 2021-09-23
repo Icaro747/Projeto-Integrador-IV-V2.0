@@ -7,6 +7,8 @@
         <link rel="stylesheet" type="text/css" th:href="@{/styles/css/MainCss.css}"/>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <link rel="shortcut icon" th:href="@{img/newman.ico}" type="image/x-icon">
         <title>Login</title>
     </head>
 
@@ -79,7 +81,12 @@
                 if (Senha === ConSenha){
                     return true;
                 }else{
-                    alert("As senhas não estão iguais!");
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'As senhas não estão iguais!',
+                        confirmButtonColor: '#0262dc'
+                    });
                     return false;
                 }
             }

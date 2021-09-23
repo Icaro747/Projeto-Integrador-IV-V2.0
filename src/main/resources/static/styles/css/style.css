@@ -164,6 +164,10 @@ header{
     display: flex;
     align-items: center;
 }
+.titolo{
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
 /*Reponsividade do menu hambuger*/
 @media (max-width: 600px) {
     #menu {
