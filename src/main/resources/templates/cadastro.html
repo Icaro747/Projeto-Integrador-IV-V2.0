@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" th:href="@{/styles/css/MainCss.css}"/>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <link rel="shortcut icon" th:href="@{img/newman.ico}" type="image/x-icon">
     </head>
     <body>
         
@@ -40,18 +41,13 @@
                                     <label class="form__label">Quantidade</label>
                                 </div>
                                 <div class="form__div">
-                                    <input type="number" class="form__input" name="v_compra" placeholder=" " required step=".01">
+                                    <input type="number" class="form__input decimal" name="v_compra" placeholder=" " required step=".01">
                                     <label class="form__label">Valor de compra</label>
                                 </div>
                                 <div class="form__div">
-                                    <input type="number" class="form__input" name="v_venda" placeholder=" " required step="any">
+                                    <input type="number" class="form__input decimal" name="v_venda" placeholder=" " required step="any">
                                     <label class="form__label">Valor de venda</label>
                                 </div>
-                                <div class="form__div">
-                                    <input type="number" class="form__input" name="status" placeholder=" " required step="any">
-                                    <label class="form__label">Valor de venda</label>
-                                </div>                                
-                                <!--
                                 <div class="form__div BoxInputsRadio">
                                     <h3 class="LabelRadio LabelCenter">Statu</h3>
                                     <div class="InputsRadio">
@@ -65,8 +61,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                -->
-                                <!-- 
                                 <div class="form__div BoxInputsRadio">
                                     <h3 class="LabelRadio LabelCenter">Tags</h3>
                                     <div class="InputsRadio">
@@ -76,7 +70,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                -->
                                 <div class="button-cadastrar">
                                     <button type="submit" class="btn btn-destaque">Cadastrar</button>
                                 </div>

@@ -59,18 +59,18 @@ public class ProdutoDAO {
     }
     
     /**
-     * Método para excluir um produto do banco de dados.
-     * @param produto Entidade identifica o produto a ser excluído.
-     * @return <b>true</b> se a exclusão foi bem sucedida <b>false</b> se não for.
+     * Método para desativar um produto no banco de dados.
+     * @param produto Entidade identifica o produto a ser desativar.
+     * @return <b>true</b> se a desativar foi bem sucedida <b>false</b> se não for.
      */
-    public static boolean Excluir(Produto produto){
+    public static boolean Desativar(Produto produto){
         
         Connection conexao = null;
         PreparedStatement instrucaoSQL = null;
         
         try{
             conexao = Conexao.abrirConexao();
-            instrucaoSQL = conexao.prepareStatement("DELETE FROM Produtos WHERE ID_Produto = ?");
+            instrucaoSQL = conexao.prepareStatement("UPDATE Produtos SET Statu = 0 WHERE ID_Produto = ?");
             
             instrucaoSQL.setInt(1, produto.getId_produto());
             
@@ -187,8 +187,8 @@ public class ProdutoDAO {
     }
     
     /**
-    * método para pegar todos os dados da tabela Estoque no banco de dados.
-    * @return Retorna uma <b>List</b> com todas os Produtos<br> se nenhum Produto foram encontrado, retorna uma <b>List</b> vazia.
+    * método para pegar todos os dados da tabela Tasg no banco de dados.
+    * @return Retorna uma <b>List</b> com todas os Tags<br> se nenhum Tag foram encontrado, retorna uma <b>List</b> vazia.
     */
     public static List<Tag> getTags(){
         

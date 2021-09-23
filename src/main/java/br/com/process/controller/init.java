@@ -13,30 +13,33 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class init {
-    
-    @RequestMapping("/url")
-    public String page(Model model) {
-        model.addAttribute("attribute", "value");
-        return "view.name";
-    }
-    
-    @RequestMapping("/hello")
-    public String sayHello(Model model){
-        model.addAttribute("nome", "Batata");
-        return "hello";
-    }
-    
+   
+    /**
+     * 
+     * @return 
+     */
     @RequestMapping("login")
     public String login(){
         return "login";
     }
     
+    /**
+     * 
+     * @param model
+     * @return 
+     */
     @RequestMapping("/adim/cadastro")
     public String cadastro(Model model){
         model.addAttribute("listTags", ProdutoDAO.getTags());
         return "cadastro";
     }
     
+    /**
+     * 
+     * @param model
+     * @param produto
+     * @return 
+     */
     @RequestMapping("add")
     public String add(Model model, Produto produto){
         try {
@@ -52,21 +55,32 @@ public class init {
             return "mensagem";
         }        
     }
-  
+    
+    /**
+     * 
+     * @param model
+     * @return 
+     */
     @RequestMapping("/adim/listaProduto")
     public String listaProduto (Model model){
         model.addAttribute("listaProduto", ProdutoDAO.getEstoque());
         return "listaProduto";
     }
     
+    /**
+     * 
+     * @param model
+     * @param request
+     * @return 
+     */
     @RequestMapping("Excluir")
-    public String Excluir(Model model, HttpServletRequest request){
+    public String Desativar(Model model, HttpServletRequest request){
         try {
             Produto produto = new Produto(Integer.parseInt(request.getParameter("ID")));
-            if(ProdutoDAO.Excluir(produto)){
-                model.addAttribute("MSG", "Adicionado com Sucesso");
+            if(ProdutoDAO.Desativar(produto)){
+                model.addAttribute("MSG", "Desativado com Sucesso");
             } else{
-                model.addAttribute("MSG", "Erro ao Adicionar");
+                model.addAttribute("MSG", "Erro ao Desativado");
             }
         } catch (Exception e) {
             model.addAttribute("MSG", e);
@@ -74,12 +88,11 @@ public class init {
         return "mensagem";
     }
     
-    @RequestMapping("seila")
-    public String seila(Model model){
-        model.addAttribute("MSG", "Sei la");
-        return "mensagem";
-    }
-  
+    /**
+     * 
+     * @param model
+     * @return 
+     */
     @RequestMapping("/")
     public String index(Model model){
         try {
