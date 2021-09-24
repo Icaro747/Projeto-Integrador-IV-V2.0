@@ -18,25 +18,33 @@ public class Produto {
     private double v_venda;
     private boolean status;
     
-    private ArrayList<Tag> tags = new ArrayList<>();
+    private ArrayList<Integer> tags = new ArrayList<>();
 
     public Produto() {
-    }
-
-    public Produto(int id_produto) {
-        this.id_produto = id_produto;
     }
     
     public Produto(int id_produto, String nome, String marca, String tamanho, String descricao, int quantidade, double v_compra, double v_venda, boolean status) {
         this.id_produto = id_produto;
         this.nome = nome;
         this.marca = marca;
-        this.tamanho = tamanho;
+        if (tamanho.length()>2) {
+            throw new IllegalArgumentException("Quantidade de caracteres no campo tamanho inválido");
+        } else{
+            this.tamanho = tamanho;
+        }
         this.descricao = descricao;
         this.quantidade = quantidade;
         this.v_compra = v_compra;
         this.v_venda = v_venda;
         this.status = status;
+    }
+
+    public ArrayList<Integer> getTags() {
+        return tags;
+    }
+
+    public void setTags(ArrayList<Integer> tags) {
+        this.tags = tags;
     }
     
     public boolean isStatus() {
@@ -76,7 +84,11 @@ public class Produto {
     }
 
     public void setTamanho(String tamanho) {
-        this.tamanho = tamanho;
+        if (tamanho.length()>2) {
+            throw new IllegalArgumentException("Quantidade de caracteres no campo tamanho inválido");
+        } else{
+            this.tamanho = tamanho;
+        }
     }
 
     public String getDescricao() {

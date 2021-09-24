@@ -16,7 +16,7 @@ table td{
     border-bottom: 1px solid var(--text-cor1);
 }
 table tr:hover{
-    background-color: var(--sobra);
+    background-color: var(--text-cor1);
 }
 table th,
 table td{
@@ -68,4 +68,39 @@ table td a:hover{
 .btnDesativar:hover{
     color: var(--text-cor1);
     background-color: var(--Excluir);
+}
+.btnAtivar{
+    color: var(--confirmar);
+}
+.btnAtivar:hover{
+    color: var(--text-cor1);
+    background-color: var(--confirmar);
+}
+.Buscarbox{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    box-shadow: none;
+    padding: 10px;
+}
+.Buscatext{
+    font-size: 14px;
+    height: 45px;
+    border: none;
+    padding-left: 10px;
+    margin-right: 5px;
+    border-radius: 4px;
+    color: var(--text-cor2);
+    width: 100%;
+}
+.Buscabtn{
+    min-width: min-content;
+    max-width: 150px;
+    width: 20%;
+    background-color: var(--confirmar);
+    color: var(--text-cor1);
+    border: none;
+    height: 45px;
+    border-radius: 5px;
+    cursor: pointer;
 }

@@ -4,13 +4,16 @@
         <title>Mensagem do Servidor</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" th:href="@{/styles/css/MainCss.css}"/>
         <link rel="shortcut icon" th:href="@{img/newman.ico}" type="image/x-icon">
     </head>
     <body>
+        <div th:replace="fragments/header :: body"></div>
         <div style="
             display: flex;
             align-items: center;
-            flex-direction: column;">
+            flex-direction: column;
+            margin-top: 10%;">
             <h1>Mensagem do Servidor</h1>
             <h2 th:text="${MSG}">mensagem</h2>
         </div>
