@@ -144,7 +144,9 @@ header{
     padding-right: 20px;
     border-radius: 0px 40px 40px 0px;
 }
-.ico-pesquisa a{
+.ico-pesquisa button{
+    border: none;
+    background-color: transparent;
     cursor: pointer;
 }
 /*DESTAQUES*/

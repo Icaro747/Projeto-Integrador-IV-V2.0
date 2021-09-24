@@ -2,9 +2,12 @@
     "elements": {},
     "attributes": {
         "th:text": {},
+        "th:if": {},
+        "th:unless": {},
         "th:src": {},
         "th:replace": {},
         "th:each": {},
-        "th:href": {}
+        "th:href": {},
+        "th:value": {}
     }
 }

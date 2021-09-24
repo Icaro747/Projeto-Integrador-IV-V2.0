@@ -11,6 +11,12 @@
         <div th:replace="fragments/header :: body"></div>
         <h1 class="LabelCenter titolo">Lista Produto</h1>
         <div class="BoxListaSize doTtzZ">
+            <form action="/adim/buscar" method="POST">
+                <div class="Buscarbox">
+                    <input class="Buscatext" type="text" name="nome">
+                    <button class="Buscabtn">Buscar</button>
+                </div>
+            </form>
             <div class="BoxListe">
                 <table>
                     <th>ID Produto</th>
@@ -27,12 +33,15 @@
                         <td th:text="${produto.marca}"></td>
                         <td th:text="${produto.tamanho}"></td>
                         <td th:text="${produto.quantidade}"></td>
-                        <td th:text="${produto.v_compra}"></td>
-                        <td th:text="${produto.v_venda}"></td>
+                        <td th:text="|R$ ${produto.v_compra}|"></td>
+                        <td th:text="|R$ ${produto.v_venda}|"></td>
                         <td th:if="${produto.status}">Ativo</td>
                         <td th:unless="${produto.status}">Desativo</td>
                         <td><a href="#">Atualizar</a></td>
-                        <td><a th:href="@{'../Excluir?ID=' + ${produto.id_produto}}" class="btnDesativar">Desativar</a></td>
+                        <td>
+                            <a th:if="${produto.status}" th:href="@{'../Desativar?ID=' + ${produto.id_produto}}" class="btnDesativar">Desativar</a>
+                            <a th:unless="${produto.status}" th:href="@{'../Ativar?ID=' + ${produto.id_produto}}" class="btnAtivar">Ativar</a>
+                        </td>
                     </tr>
                 </table>
             </div>

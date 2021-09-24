@@ -65,7 +65,7 @@
                                     <h3 class="LabelRadio LabelCenter">Tags</h3>
                                     <div class="InputsRadio">
                                         <div class="InputRadioOption" th:each="Tag : ${listTags}">
-                                            <input type="checkbox" class="" name="tag">
+                                            <input type="checkbox" class="" name="tags" th:value="${Tag.id_tag}">
                                             <label class="LabelRadio" th:text="${Tag.nome_tag}">Tag</label>
                                         </div>
                                     </div>
