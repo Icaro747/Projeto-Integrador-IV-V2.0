@@ -21,7 +21,7 @@
                     <div class="Deliniado">
                         <div class="ProdutoImg">
                             <a href="">
-                                <img src="resources/img/roupa.jpg">
+                                <img th:src="@{'/img/uploads/'+${Estoque.name_IMG}}">
                             </a>
                         </div>
                         <div class="ProdutoTitolo">
@@ -33,14 +33,14 @@
                             <div class="DivisoriaPreso">
                                 <div class="PresoVista">
                                     <span>R$</span>
-                                    <span th:text="${Estoque.v_venda}">50,0</span>
+                                    <span th:text="${Estoque.v_vista}">50,0</span>
                                     <small> á vista</small>
                                 </div>
                                 <div class="PresoJuros">
                                     <span>3x</span>
-                                    <small> de </small>
-                                    <span>R$ ${Math.round((Produto.v_venda/3)* 100)/100}</span>
-                                    <small> sem juros</small>
+                                    <small> de R$</small>
+                                    <span th:text="${Estoque.v_juros3v}">${Math.round((Produto.v_venda/3)* 100)/100}</span>
+                                    <!--<small> sem juros</small>-->
                                 </div>
                             </div>
                         </div>
