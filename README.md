@@ -18,6 +18,7 @@ create table Produtos(
     Quantidade int NOT NULL,
     V_compra DECIMAL(9,2) NOT NULL,
     V_venda DECIMAL(9,2) NOT NULL,
+    name_img VARCHAR(150) NOT NULL,
     Statu BOOLEAN NOT NULL
 );
 
