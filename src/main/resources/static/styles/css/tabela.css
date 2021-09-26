@@ -97,10 +97,14 @@ table td a:hover{
     min-width: min-content;
     max-width: 150px;
     width: 20%;
-    background-color: var(--confirmar);
+    background-color: var(--secundaria);
     color: var(--text-cor1);
     border: none;
     height: 45px;
     border-radius: 5px;
     cursor: pointer;
+    transition: .5s;
+}
+.Buscabtn:hover{
+    background-color: var(--terciario);
 }

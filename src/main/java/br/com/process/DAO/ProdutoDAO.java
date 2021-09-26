@@ -30,7 +30,7 @@ public class ProdutoDAO {
         
         try{
             conexao = Conexao.abrirConexao();
-            instrucaoSQL = conexao.prepareStatement("INSERT INTO Produtos (Nome, Marca, Tamanho, Descricao, Quantidade, V_compra, V_venda, Statu) VALUES (?,?,?,?,?,?,?,?)");
+            instrucaoSQL = conexao.prepareStatement("INSERT INTO Produtos (Nome, Marca, Tamanho, Descricao, Quantidade, V_compra, V_venda, name_img, Statu) VALUES (?,?,?,?,?,?,?,?,?)");
             
             instrucaoSQL.setString(1, produto.getNome());
             instrucaoSQL.setString(2, produto.getMarca());
@@ -39,38 +39,44 @@ public class ProdutoDAO {
             instrucaoSQL.setInt(5, produto.getQuantidade());
             instrucaoSQL.setDouble(6, produto.getV_compra());
             instrucaoSQL.setDouble(7, produto.getV_venda());
-            instrucaoSQL.setBoolean(8, produto.isStatus());
+            instrucaoSQL.setString(8, produto.getName_IMG());
+            instrucaoSQL.setBoolean(9, produto.isStatus());
             
             int linhaAfetadas = instrucaoSQL.executeUpdate();
             
             /**
              * Seu produto foi adicionar ao banco de dados com sucesso ele prossegue
              */
-            if (linhaAfetadas>0) {
+            if (linhaAfetadas > 0) {
                 
                 /**
-                 * pega o ID do último produto adicionado ao banco de dados
+                 * Produto tem 1 ou mais Tag? 
                  */
-                instrucaoSQL = conexao.prepareStatement("SELECT ID_Produto FROM Produtos ORDER BY ID_Produto DESC LIMIT 1");
-                rs = instrucaoSQL.executeQuery();
-                
-                if (rs.next()) {
-                    
-                    produto.setId_produto(rs.getInt("ID_Produto"));
-                    
-                    instrucaoSQL = null;
-                    linhaAfetadas = 0;
-                    
+                if (produto.getTags().size() >= 1) {
                     /**
-                     * 
+                     * pega o ID do último produto adicionado ao banco de dados
                      */
-                    for (Integer tag : produto.getTags()) {
-                        instrucaoSQL = conexao.prepareStatement("INSERT INTO Relacao_Produtos_Tags (FK_Produto, FK_Tag) VALUES (?,?)");
-                        
-                        instrucaoSQL.setInt(1, produto.getId_produto());
-                        instrucaoSQL.setInt(2, tag);
-                        
-                        linhaAfetadas += instrucaoSQL.executeUpdate();
+                    instrucaoSQL = conexao.prepareStatement("SELECT ID_Produto FROM Produtos ORDER BY ID_Produto DESC LIMIT 1");
+                    rs = instrucaoSQL.executeQuery();
+
+                    if (rs.next()) {
+
+                        produto.setId_produto(rs.getInt("ID_Produto"));
+
+                        instrucaoSQL = null;
+                        linhaAfetadas = 0;
+
+                        /**
+                         * 
+                         */
+                        for (Integer tag : produto.getTags()) {
+                            instrucaoSQL = conexao.prepareStatement("INSERT INTO Relacao_Produtos_Tags (FK_Produto, FK_Tag) VALUES (?,?)");
+
+                            instrucaoSQL.setInt(1, produto.getId_produto());
+                            instrucaoSQL.setInt(2, tag);
+
+                            linhaAfetadas += instrucaoSQL.executeUpdate();
+                        }
                     }
                 }
             }
@@ -109,7 +115,11 @@ public class ProdutoDAO {
         try{
             conexao = Conexao.abrirConexao();
             
-            instrucaoSQL = conexao.prepareStatement("UPDATE Produtos SET Statu = 0 WHERE ID_Produto = ?");
+            if (status == PropriedadeStatus.Ativo) {
+                instrucaoSQL = conexao.prepareStatement("UPDATE Produtos SET Statu = 1 WHERE ID_Produto = ?");
+            }else{
+                instrucaoSQL = conexao.prepareStatement("UPDATE Produtos SET Statu = 0 WHERE ID_Produto = ?");
+            }
             
             instrucaoSQL.setInt(1, produto.getId_produto());
             
@@ -207,9 +217,10 @@ public class ProdutoDAO {
                 int QTD = rs.getInt("Quantidade");
                 double V_compra = rs.getDouble("V_compra");
                 double V_venda = rs.getDouble("V_venda");
+                String IMG = rs.getString("name_img");
                 boolean Statu = rs.getBoolean("Statu");
                 
-                Produto produto = new Produto(ID, Nome, Marca, Tamanho, Descricao, QTD, V_compra, V_venda, Statu);
+                Produto produto = new Produto(ID, Nome, Marca, Tamanho, Descricao, QTD, V_compra, V_venda, IMG, Statu);
                 Estoque.add(produto);
             }
             return Estoque;
@@ -311,12 +322,52 @@ public class ProdutoDAO {
                 int QTD = rs.getInt("Quantidade");
                 double V_compra = rs.getDouble("V_compra");
                 double V_venda = rs.getDouble("V_venda");
+                String IMG = rs.getString("name_img");
                 boolean Status = rs.getBoolean("Statu");
                 
-                Produto produto = new Produto(ID, Nome, Marca, Tamanho, Descricao, QTD, V_compra, V_venda, Status);
+                Produto produto = new Produto(ID, Nome, Marca, Tamanho, Descricao, QTD, V_compra, V_venda, IMG, Status);
                 estoque.add(produto);
             }
             return estoque;
+        } catch (SQLException e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }finally{
+            try {
+                if (rs!=null) {
+                    rs.close();
+                }
+                if (instrucaoSQL!=null) {
+                    instrucaoSQL.close();
+                }
+                if (conexao!=null) {
+                    conexao.close();
+                    Conexao.fecharConexao();  
+                }
+            } catch (SQLException e) {
+            }
+        }
+    }
+
+    public static Produto getProduto(Produto produto) {
+        
+        ResultSet rs = null;
+        Connection conexao = null;
+        PreparedStatement instrucaoSQL = null;
+        
+        try {
+            conexao = Conexao.abrirConexao();
+            
+            instrucaoSQL = conexao.prepareStatement("SELECT * FROM Produtos WHERE ID_Produto = ?");
+            
+            instrucaoSQL.setInt(1, produto.getId_produto());
+            rs = instrucaoSQL.executeQuery();
+            
+            if (rs.next()) {
+                produto.setNome(rs.getString("Nome"));
+            }
+            
+            return produto;
+            
         } catch (SQLException e) {
             throw new IllegalArgumentException(e.getMessage());
         }finally{

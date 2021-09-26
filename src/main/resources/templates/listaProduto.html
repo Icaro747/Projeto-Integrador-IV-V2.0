@@ -35,12 +35,14 @@
                         <td th:text="${produto.quantidade}"></td>
                         <td th:text="|R$ ${produto.v_compra}|"></td>
                         <td th:text="|R$ ${produto.v_venda}|"></td>
+                        
                         <td th:if="${produto.status}">Ativo</td>
                         <td th:unless="${produto.status}">Desativo</td>
+                        
                         <td><a href="#">Atualizar</a></td>
                         <td>
-                            <a th:if="${produto.status}" th:href="@{'../Desativar?ID=' + ${produto.id_produto}}" class="btnDesativar">Desativar</a>
-                            <a th:unless="${produto.status}" th:href="@{'../Ativar?ID=' + ${produto.id_produto}}" class="btnAtivar">Ativar</a>
+                            <a th:if="${produto.status}" th:href="@{'../Desativar?id_produto=' + ${produto.id_produto}}" class="btnDesativar">Desativar</a>
+                            <a th:unless="${produto.status}" th:href="@{'../Ativar?id_produto=' + ${produto.id_produto}}" class="btnAtivar">Ativar</a>
                         </td>
                     </tr>
                 </table>
