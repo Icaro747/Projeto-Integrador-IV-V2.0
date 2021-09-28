@@ -37,6 +37,19 @@ public class ProdutoController {
         return "cadastro";
     }
     
+    @RequestMapping("/produto")
+    public String produto(Model model , Produto produto){
+        try{
+        produto = ProdutoDAO.getProduto(produto);
+        model.addAttribute("produto",produto);
+        return "produtos" ;
+        }
+        catch(Exception e){
+             model.addAttribute("MSG", e);
+        }
+        return "mensagem";
+    }
+    
     @PostMapping("/add")
     public String add(Model model, Produto produto, @RequestParam("img") MultipartFile file, RedirectAttributes redirectAttributes){
         try {
