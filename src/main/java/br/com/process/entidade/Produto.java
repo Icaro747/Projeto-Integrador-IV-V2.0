@@ -22,12 +22,24 @@ public class Produto {
     private static double v_vista;
     private static double v_juros3v;
     private final double ValorDescontoVista = 0.15;
-    private final double ValorJuros = 0.02;
+    private final double ValorJuros = 0.05;
     private final double QuantidadeParcelaMaxima = 3;
     
     private ArrayList<Integer> tags = new ArrayList<>();
 
     public Produto() {
+    }
+
+    public Produto(int id_produto, String nome, String marca, String descricao, int quantidade, double v_compra, double v_venda, String name_IMG, boolean status) {
+        this.id_produto = id_produto;
+        this.nome = nome;
+        this.marca = marca;
+        this.descricao = descricao;
+        this.quantidade = quantidade;
+        this.v_compra = v_compra;
+        this.v_venda = v_venda;
+        this.name_IMG = name_IMG;
+        this.status = status;
     }
     
     public Produto(int id_produto, String nome, String marca, String tamanho, String descricao, int quantidade, double v_compra, double v_venda, String name_IMG, boolean status) {
@@ -79,8 +91,12 @@ public class Produto {
         return name_IMG;
     }
 
-    public void setName_IMG(String name_IMG) {
+    public void newName_IMG(String name_IMG) {
         this.name_IMG = "Produto_IMG_" + name_IMG;
+    }
+
+    public void setName_IMG(String name_IMG) {
+        this.name_IMG = name_IMG;
     }
     
     public ArrayList<Integer> getTags() {

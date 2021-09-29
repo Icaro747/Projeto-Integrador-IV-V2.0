@@ -19,16 +19,14 @@
             
                 <div class="ProdutoBox" th:each="Estoque : ${lista}">
                     <div class="Deliniado">
+                        <a th:href="@{'../produto?id_produto=' + ${Estoque.id_produto}}">
                         <div class="ProdutoImg">
-                            <a href="">
                                 <img th:src="@{'/img/uploads/'+${Estoque.name_IMG}}">
-                            </a>
                         </div>
                         <div class="ProdutoTitolo">
-                            <a href="">
                                 <h2><strong th:text="${Estoque.nome}">Nome do produto</strong></h2>
-                            </a>
                         </div>
+                        </a>
                         <div class="ProdutoPreso">
                             <div class="DivisoriaPreso">
                                 <div class="PresoVista">

@@ -1,9 +1,4 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
         <title>Produto</title>
@@ -17,7 +12,7 @@ and open the template in the editor.
         <h1 class="LabelCenter titolo">Produto</h1>
         <div class="ConteinerProdutos">
             <div class="box-Imagem-produto">
-             <img src="">
+             <img th:src="@{'/img/uploads/'+${produto.name_IMG}}">
             </div>
             <div class="Detalhe-produto">
                 <form >
@@ -54,7 +49,7 @@ and open the template in the editor.
                             <input type="radio" class="InputRadio" name="Tamanho">
                         </div>
                         <div class="alinhamento-inputs-radio">
-                            <label class="LabelRadio"> GG</label>
+                            <label class="LabelRadio">GG</label>
                             <input type="radio" class="InputRadio" name="Tamanho">
                         </div>
                     </div>
