@@ -22,8 +22,8 @@ and open the template in the editor.
             <div class="Detalhe-produto">
                 <form >
                     <h1 class="text-titulo" th:text="${produto.nome}"></h1>
-                    <h2 class="text-descrition"></h2>
-                    <div class="Divisor-detalhes"></div>    
+                    <h2 class="text-descrition" th:text="|R$ ${produto.v_venda}|"></h2>
+                    <div class="hr"></div>    
                     <h2 class="text-descrition">Genero</h2>
                     <div class="text-descrition">
                         <div class="alinhamento-inputs-radio">
@@ -39,8 +39,8 @@ and open the template in the editor.
                             <input type="radio" class="InputRadio" name="Genero">
                         </div>
                     </div>
-                    <div class="text-descrition">
-                        <h2 class="text-descrition">Tamanho</h2>
+                    <h2 class="text-descrition">Tamanho</h2>
+                    <div class="text-descrition">  
                         <div class="alinhamento-inputs-radio">
                             <label class="LabelRadio">P</label>
                             <input type="radio"  class="InputRadio" name="Tamanho">
@@ -58,10 +58,12 @@ and open the template in the editor.
                             <input type="radio" class="InputRadio" name="Tamanho">
                         </div>
                     </div>
-                    <div class="Divisor-detalhes"></div>    
+                    <div class="hr"></div>  
+                    <div class="Divisor-detalhes"></div>   
+                    <div class="btn-comprar">
                     <button class="btn btn-destaque adicionarcarrinho">Compra</button>
+                    </div>
                 </form>
             </div>
-        </div>
     </body>
 </html>
