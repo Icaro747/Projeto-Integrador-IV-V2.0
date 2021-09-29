@@ -23,6 +23,11 @@
     vertical-align: top;
     box-sizing: border-box;
     display: block;
+    height: 390px;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    justify-content: space-between;
 }
 .ProdutoImg{
     overflow: hidden;

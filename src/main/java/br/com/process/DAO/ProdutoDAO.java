@@ -30,17 +30,16 @@ public class ProdutoDAO {
         
         try{
             conexao = Conexao.abrirConexao();
-            instrucaoSQL = conexao.prepareStatement("INSERT INTO Produtos (Nome, Marca, Tamanho, Descricao, Quantidade, V_compra, V_venda, name_img, Statu) VALUES (?,?,?,?,?,?,?,?,?)");
+            instrucaoSQL = conexao.prepareStatement("INSERT INTO Produtos (Nome, Marca, Descricao, Quantidade, V_compra, V_venda, name_img, Statu) VALUES (?,?,?,?,?,?,?,?)");
             
             instrucaoSQL.setString(1, produto.getNome());
             instrucaoSQL.setString(2, produto.getMarca());
-            instrucaoSQL.setString(3, produto.getTamanho());
-            instrucaoSQL.setString(4, produto.getDescricao());
-            instrucaoSQL.setInt(5, produto.getQuantidade());
-            instrucaoSQL.setDouble(6, produto.getV_compra());
-            instrucaoSQL.setDouble(7, produto.getV_venda());
-            instrucaoSQL.setString(8, produto.getName_IMG());
-            instrucaoSQL.setBoolean(9, produto.isStatus());
+            instrucaoSQL.setString(3, produto.getDescricao());
+            instrucaoSQL.setInt(4, produto.getQuantidade());
+            instrucaoSQL.setDouble(5, produto.getV_compra());
+            instrucaoSQL.setDouble(6, produto.getV_venda());
+            instrucaoSQL.setString(7, produto.getName_IMG());
+            instrucaoSQL.setBoolean(8, produto.isStatus());
             
             int linhaAfetadas = instrucaoSQL.executeUpdate();
             
@@ -105,6 +104,7 @@ public class ProdutoDAO {
     /**
      * Método para desativar um produto no banco de dados.
      * @param produto Entidade identifica o produto a ser desativar.
+     * @param status
      * @return <b>true</b> se a desativar foi bem sucedida <b>false</b> se não for.
      */
     public static boolean MudancaStatus(Produto produto, PropriedadeStatus status){
@@ -153,21 +153,44 @@ public class ProdutoDAO {
         
         try{
             conexao = Conexao.abrirConexao();
-            instrucaoSQL = conexao.prepareStatement("UPDATE Produtos SET Nome = ?, Marca = ?, Tamanho = ?, Descricao = ?, Tag = ?, Quantidade = ?, V_compra = ?, V_venda = ?, Statu = ? WHERE ID_Produto = ?");
+            instrucaoSQL = conexao.prepareStatement("UPDATE Produtos SET Nome = ?, Marca = ?, Descricao = ?, Quantidade = ?, V_compra = ?, V_venda = ?, name_img = ?, Statu = ? WHERE ID_Produto = ?");
             
             instrucaoSQL.setString(1, produto.getNome());
             instrucaoSQL.setString(2, produto.getMarca());
-            instrucaoSQL.setString(3, produto.getTamanho());
-            instrucaoSQL.setString(4, produto.getDescricao());
-            //instrucaoSQL.setString(5, produto.getTag());
-            instrucaoSQL.setInt(6, produto.getQuantidade());
-            instrucaoSQL.setDouble(7, produto.getV_compra());
-            instrucaoSQL.setDouble(8, produto.getV_venda());
-            instrucaoSQL.setBoolean(9, produto.isStatus());
-            instrucaoSQL.setInt(10, produto.getId_produto());
+            instrucaoSQL.setString(3, produto.getDescricao());
+            instrucaoSQL.setInt(4, produto.getQuantidade());
+            instrucaoSQL.setDouble(5, produto.getV_compra());
+            instrucaoSQL.setDouble(6, produto.getV_venda());
+            instrucaoSQL.setString(7, produto.getName_IMG());
+            instrucaoSQL.setBoolean(8, produto.isStatus());
+            instrucaoSQL.setInt(9, produto.getId_produto());
             
             int linhaAfetadas = instrucaoSQL.executeUpdate();
+
+            if (linhaAfetadas > 0) {
+
+                instrucaoSQL = conexao.prepareStatement("DELETE FROM Relacao_Produtos_Tags WHERE FK_Produto = ?");
+                instrucaoSQL.setInt(1, produto.getId_produto());
+
+                linhaAfetadas = instrucaoSQL.executeUpdate();
+
+                if (linhaAfetadas > 0 && produto.getTags().size() >= 1) {
+
+                    linhaAfetadas = 0;
+                    
+                    for (Integer tag : produto.getTags()) {
+                        instrucaoSQL = conexao.prepareStatement("INSERT INTO Relacao_Produtos_Tags (FK_Produto, FK_Tag) VALUES (?,?)");
+
+                        instrucaoSQL.setInt(1, produto.getId_produto());
+                        instrucaoSQL.setInt(2, tag);
+
+                        linhaAfetadas += instrucaoSQL.executeUpdate();
+                    }
+                }
+            }
+
             return linhaAfetadas > 0;
+
         } catch (SQLException e){
             throw new IllegalArgumentException(e.getMessage());
         }finally{
@@ -211,8 +234,7 @@ public class ProdutoDAO {
             while(rs.next()){
                 int ID = rs.getInt("ID_Produto");
                 String Nome = rs.getString("Nome");
-                String Marca = rs.getString("Marca");
-                String Tamanho = rs.getString("Tamanho");
+                String Marca = rs.getString("Marca");;
                 String Descricao = rs.getString("Descricao");
                 int QTD = rs.getInt("Quantidade");
                 double V_compra = rs.getDouble("V_compra");
@@ -220,7 +242,7 @@ public class ProdutoDAO {
                 String IMG = rs.getString("name_img");
                 boolean Statu = rs.getBoolean("Statu");
                 
-                Produto produto = new Produto(ID, Nome, Marca, Tamanho, Descricao, QTD, V_compra, V_venda, IMG, Statu);
+                Produto produto = new Produto(ID, Nome, Marca, Descricao, QTD, V_compra, V_venda, IMG, Statu);
                 Estoque.add(produto);
             }
             return Estoque;
@@ -317,7 +339,6 @@ public class ProdutoDAO {
                 int ID = rs.getInt("ID_Produto");
                 String Nome = rs.getString("Nome");
                 String Marca = rs.getString("Marca");
-                String Tamanho = rs.getString("Tamanho");
                 String Descricao = rs.getString("Descricao");
                 int QTD = rs.getInt("Quantidade");
                 double V_compra = rs.getDouble("V_compra");
@@ -325,7 +346,7 @@ public class ProdutoDAO {
                 String IMG = rs.getString("name_img");
                 boolean Status = rs.getBoolean("Statu");
                 
-                Produto produto = new Produto(ID, Nome, Marca, Tamanho, Descricao, QTD, V_compra, V_venda, IMG, Status);
+                Produto produto = new Produto(ID, Nome, Marca, Descricao, QTD, V_compra, V_venda, IMG, Status);
                 estoque.add(produto);
             }
             return estoque;
@@ -364,6 +385,8 @@ public class ProdutoDAO {
             
             if (rs.next()) {
                 produto.setNome(rs.getString("Nome"));
+                produto.setV_venda(rs.getDouble("V_venda"));
+                produto.setName_IMG(rs.getString("name_img"));
             }
             
             return produto;

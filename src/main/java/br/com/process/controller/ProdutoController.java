@@ -31,7 +31,7 @@ public class ProdutoController {
      * @param model
      * @return 
      */
-    @RequestMapping("/adim/cadastro")
+    @RequestMapping("/admin/cadastro")
     public String cadastro(Model model){
         model.addAttribute("listTags", ProdutoDAO.getTags());
         return "cadastro";
@@ -53,7 +53,7 @@ public class ProdutoController {
     @PostMapping("/add")
     public String add(Model model, Produto produto, @RequestParam("img") MultipartFile file, RedirectAttributes redirectAttributes){
         try {
-            produto.setName_IMG(file.getOriginalFilename());
+            produto.newName_IMG(file.getOriginalFilename());
             if(ProdutoDAO.Adicionar(produto)){
                 if (!file.isEmpty()) {
                     byte[] bytes = file.getBytes();
@@ -75,7 +75,7 @@ public class ProdutoController {
      * @param model
      * @return 
      */
-    @RequestMapping("/adim/listaProduto")
+    @RequestMapping("/admin/listaProduto")
     public String listaProduto (Model model){
         model.addAttribute("listaProduto", ProdutoDAO.getEstoque(PropriedadeStatus.Desativa));
         return "listaProduto";
@@ -127,7 +127,7 @@ public class ProdutoController {
      * @param produto
      * @return 
      */
-    @RequestMapping("/adim/buscar")
+    @RequestMapping("/admin/buscar")
     public String AdimBuscar(Model model, Produto produto){
         try {
             model.addAttribute("listaProduto", ProdutoDAO.BuscarProdutos(produto, PropriedadeStatus.Desativa));
