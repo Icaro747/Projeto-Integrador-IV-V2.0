@@ -31,7 +31,7 @@ public class init {
     @RequestMapping("/")
     public String index(Model model){
         try {
-            model.addAttribute("lista", ProdutoDAO.getEstoque(PropriedadeStatus.Desativa));
+            model.addAttribute("lista", ProdutoDAO.getEstoque(PropriedadeStatus.Ativo));
         } catch (Exception e) {
             model.addAttribute("MSG", e.getMessage());
             System.err.println("------------------>>ERRO<<------------------");
