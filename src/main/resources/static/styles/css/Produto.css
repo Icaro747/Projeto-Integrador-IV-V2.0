@@ -120,6 +120,41 @@
     color: var(--text-cor2)
 }
 
+.text-titulo{
+    padding: 10px;
+    display: flex;
+}
+
+.text-descrition{
+     padding: 10px;
+     display: flex;
+}
+.hr{
+    border-bottom: 1px solid black;
+}
+
+.btn-comprar{
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+
+.btn{
+    width: 100%;
+}
+
+.InputRadio{
+    margin-left: 10px;
+}
+.ConteinerProdutos{
+    box-shadow: 0px 0px 1em black;
+    border-radius: 10px;
+}
+
+.btn:hover{
+    background-color: blue;
+}
+
 @media (max-width: 1279px) {
     
 }
