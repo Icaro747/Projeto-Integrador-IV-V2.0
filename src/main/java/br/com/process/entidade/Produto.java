@@ -7,7 +7,8 @@ import java.util.ArrayList;
  * @author Icaro
  */
 public class Produto {
-
+    
+    public String teste;
     private int id_produto;
     private String nome;
     private String marca;
