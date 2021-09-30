@@ -28,9 +28,9 @@
                                     <!--<small> sem juros</small>-->
                      </div>
                     <div class="quantidade_produto">
-                        <button type="button" class="remove"> - </button><!-- Adicionar mais produto -->
-                         <input type="text" class="quantitySelect" value="1" data-mask="000">
-                         <button type="button" class="add"> + </button>
+                        <button type="button" class="remove" id="menos" onclick="less()"> - </button><!-- Adicionar mais produto -->
+                         <input type="text" class="quantitySelect" value="1" data-mask="000" id="num"  name="numero">
+                         <button type="button" class="add" id="mais"  onclick="more()"> + </button>
                     </div>
                     <!--<h2 class="text-descrition" th:text="|R$ ${produto.v_venda}|"></h2>-->
                     <div class="hr"></div>    
@@ -76,7 +76,23 @@
                 </form>
             </div>
             <script type="text/javascript">
+                numero = 1;
+                
+                function less() {
+                  numero--;
+                  setValue(numero);
+                }
 
+                function more() {
+                  numero++;
+                  setValue(numero);
+                }
+
+                function setValue(value) {
+                  document.getElementById('num').value = value;
+                }
+
+                setValue(numero);
     </script>
     </body>
 </html>
