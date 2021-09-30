@@ -27,6 +27,11 @@
                                     <span th:text="${produto.v_juros3v}">${Math.round((Produto.v_venda/3)* 100)/100}</span>
                                     <!--<small> sem juros</small>-->
                      </div>
+                    <div class="quantidade_produto">
+                        <button type="button" class="remove"> - </button><!-- Adicionar mais produto -->
+                         <input type="text" class="quantitySelect" value="1" data-mask="000">
+                         <button type="button" class="add"> + </button>
+                    </div>
                     <!--<h2 class="text-descrition" th:text="|R$ ${produto.v_venda}|"></h2>-->
                     <div class="hr"></div>    
                     <h2 class="text-descrition">Genero</h2>
@@ -70,5 +75,8 @@
                     </div>
                 </form>
             </div>
+            <script type="text/javascript">
+
+    </script>
     </body>
 </html>
