@@ -9,15 +9,25 @@
     </head>
     <body>
         <div th:replace="fragments/header :: body"></div>
-        <h1 class="LabelCenter titolo">Produto</h1>
-        <div class="ConteinerProdutos">
+        <div class="ConteinerProdutos2">
             <div class="box-Imagem-produto">
              <img th:src="@{'/img/uploads/'+${produto.name_IMG}}">
             </div>
             <div class="Detalhe-produto">
                 <form >
                     <h1 class="text-titulo" th:text="${produto.nome}"></h1>
-                    <h2 class="text-descrition" th:text="|R$ ${produto.v_venda}|"></h2>
+                    <div class="PresoVista">
+                                    <span>R$</span>
+                                    <span th:text="${produto.v_vista}">50,0</span>
+                                    <small> á vista</small>
+                    </div>
+                    <div class="PresoJuros">
+                                    <span>3x</span>
+                                    <small> de R$</small>
+                                    <span th:text="${produto.v_juros3v}">${Math.round((Produto.v_venda/3)* 100)/100}</span>
+                                    <!--<small> sem juros</small>-->
+                     </div>
+                    <!--<h2 class="text-descrition" th:text="|R$ ${produto.v_venda}|"></h2>-->
                     <div class="hr"></div>    
                     <h2 class="text-descrition">Genero</h2>
                     <div class="text-descrition">

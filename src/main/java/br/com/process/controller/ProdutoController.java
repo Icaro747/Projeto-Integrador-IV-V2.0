@@ -24,7 +24,7 @@ public class ProdutoController {
     /**
      * 
      */
-    private final static String FOLDER_IMG_UPLOADED = "C://Users//Icaro//Documents//NetBeansProjects//PI//Projeto-Integrador-IV-V2.0//src//main//resources//static//img//uploads//";
+    private final static String FOLDER_IMG_UPLOADED = "C://Users//Danta//Documents//NetBeansProjects//Projeto-Integrador-IV-V2.0//src//main//resources//static//img//uploads//";
 
     /**
      * 
