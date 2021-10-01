@@ -19,15 +19,21 @@
                     <div class="PresoVista">
                                     <span>R$</span>
                                     <span th:text="${produto.v_vista}">50,0</span>
-                                    <small> á vista</small>
+                                    <small> á vista ou</small>
                     </div>
+                    <h2 class="Preso" th:text="|R$ ${produto.v_venda}|"></h2>
                     <div class="PresoJuros">
                                     <span>3x</span>
                                     <small> de R$</small>
                                     <span th:text="${produto.v_juros3v}">${Math.round((Produto.v_venda/3)* 100)/100}</span>
                                     <!--<small> sem juros</small>-->
                      </div>
-                    <!--<h2 class="text-descrition" th:text="|R$ ${produto.v_venda}|"></h2>-->
+                    <div class="quantidade_produto">
+                        <button type="button" class="remove" id="menos" onclick="less()"> - </button><!-- Adicionar mais produto -->
+                         <input type="text" class="quantitySelect" value="1" data-mask="000" id="num"  name="numero"><!--Quantidade de Produto-->
+                         <button type="button" class="add" id="mais"  onclick="more()"> + </button><!-- Diminuir produto -->
+                    </div>
+                    
                     <div class="hr"></div>    
                     <h2 class="text-descrition">Genero</h2>
                     <div class="text-descrition">
@@ -70,5 +76,24 @@
                     </div>
                 </form>
             </div>
+            <script type="text/javascript">
+                numero = 1;
+                
+                function less() {
+                  numero--;
+                  setValue(numero);
+                }
+
+                function more() {
+                  numero++;
+                  setValue(numero);
+                }
+
+                function setValue(value) {
+                  document.getElementById('num').value = value;
+                }
+
+                setValue(numero);
+    </script>
     </body>
 </html>

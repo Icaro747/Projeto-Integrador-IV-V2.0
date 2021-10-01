@@ -143,6 +143,7 @@
 }
 .hr{
     border-bottom: 1px solid black;
+    padding: 10px;
 }
 
 .btn-comprar{
@@ -161,7 +162,7 @@
 .ConteinerProdutos2{
     box-shadow: 0px 0px 1em #afafaf;
     border-radius: 5px;
-    width: 80%;
+    width: 50%;
     margin: auto;
     display: flex;
     justify-content: space-evenly;
@@ -173,14 +174,52 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    align-content: center;
-        
+    align-content: center;  
+}
+
+.box-Imagem-produto img{
+   -webkit-transition: -webkit-transform .5s ease;
+   transition: transform .5s ease;
+}
+
+.box-Imagem-produto:hover img{
+   -webkit-transform: scale(1.1);
+   transform: scale(1.1);
+}
+
+.quantidade_produto{
+    max-width: 80px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    border: 1px solid #e0e0e0;
+    padding: 5px 0;
+}
+
+.quantidade_produto button{
+    border: 0;
+    background-color: transparent;
+    width: 25%;
+    cursor: pointer;
+    font-size: 17px;
+}
+
+.quantitySelect{
+    width: 50%;
+    text-align: center;
+    border: 0;
+    font-size: 14px;
 }
 
 .btn:hover{
     background-color: blue;
 }
 
+.Preso{
+    color: #00a000;
+    font: 700 20px "Open Sans",Arial,Helvetica,sans-serif;
+    margin: 0 0 3px 0;
+}
 @media (max-width: 1279px) {
     
 }
