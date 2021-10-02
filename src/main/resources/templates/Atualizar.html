@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Atualizar de Produto</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" th:href="@{/styles/css/MainCss.css}"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <link rel="shortcut icon" th:href="@{img/newman.ico}" type="image/x-icon">
+    </head>
+    <body>
+        
+        <div th:replace="fragments/header :: body"></div>
+
+        <div class="hRtCnc">
+            <div class="doTtzZ">
+                <div class="cAQjTg">
+                    <div class="gAgEMf">
+
+                        <section class="wWWhb">
+                            <form action="../Atualizar" method="POST" enctype="multipart/form-data">
+                                <h2 class="subtitulo-login">Atualizar do Produto</h2>
+                                <input type="hidden" name="id_produto" th:value="${Produto.id_produto}">
+                                <div class="form__div">
+                                    <input type="text" class="form__input" name="nome" th:value="${Produto.nome}" placeholder=" " required>
+                                    <label class="form__label">Nome</label>
+                                </div>
+                                <div class="form__div">
+                                    <input type="text" class="form__input" name="marca" th:value="${Produto.marca}" placeholder=" " required>
+                                    <label class="form__label">Marca</label>
+                                </div>
+                                <div class="form__div">
+                                    <input type="text" class="form__input" name="descricao" th:value="${Produto.descricao}" placeholder=" " required>
+                                    <label class="form__label">Descricao</label>
+                                </div>
+                                <div class="form__div">
+                                    <input type="number" class="form__input" name="quantidade" th:value="${Produto.quantidade}" placeholder=" " required>
+                                    <label class="form__label">Quantidade</label>
+                                </div>
+                                <div class="form__div">
+                                    <input type="number" class="form__input decimal" name="v_compra" th:value="${Produto.v_compra}" placeholder=" " required>
+                                    <label class="form__label">Valor de compra</label>
+                                </div>
+                                <div class="form__div">
+                                    <input type="number" class="form__input decimal" name="v_venda" th:value="${Produto.v_venda}" placeholder=" " required>
+                                    <label class="form__label">Valor de venda</label>
+                                </div>
+                                <div class="form__div BoxInputsRadio">
+                                    <h3 class="LabelRadio LabelCenter">Tags</h3>
+                                    <div class="InputsRadio">
+                                        <div class="InputRadioOption" th:each="Tag : ${listTags}">
+                                            <input type="checkbox" class="" name="tags" th:value="${Tag.id_tag}">
+                                            <label class="LabelRadio" th:text="${Tag.nome_tag}">Tag</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form__div BoxInputsRadio">
+                                    <h3 class="LabelRadio LabelCenter">img</h3>
+                                    <div class="InputsRadio">
+                                        <input type="file" class="LabelRadio" name="img" accept="image/png, image/jpeg">
+                                    </div>
+                                </div>
+                                <div class="button-cadastrar">
+                                    <button type="submit" class="btn btn-destaque">Atualizar</button>
+                                </div>
+                            </form>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $(".decimal").change(function() {
+                    $(this).val(parseFloat($(this).val()).toFixed(2));
+                });
+            });
+        </script>
+    </body>
+</html>
