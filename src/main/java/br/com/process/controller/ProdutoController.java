@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 /**
  *
  * @author Dell
+ * @author Icaro
  */
 @Controller
 public class ProdutoController {
@@ -35,16 +37,45 @@ public class ProdutoController {
         model.addAttribute("listTags", ProdutoDAO.getTags());
         return "cadastro";
     }
+    
+    @RequestMapping("/admin/atualizar")
+    public String teleAtualizar(Model model, Produto produto){
+        model.addAttribute("listTags", ProdutoDAO.getTags());
+        model.addAttribute("Produto", ProdutoDAO.getProduto(produto));
+        return "Atualizar";
+    }
+    
+    @PostMapping("/Atualizar")
+    public String Atualizar(Model model, Produto produto, @RequestParam("img") MultipartFile file, RedirectAttributes redirectAttributes){
+        try {
+            if (!file.isEmpty()) {
+                produto.newName_IMG(file.getOriginalFilename());
+            }
+            if(ProdutoDAO.Atualizar(produto, !file.isEmpty())){
+                if (!file.isEmpty()) {
+                    byte[] bytes = file.getBytes();
+                    Path path = Paths.get(FOLDER_IMG_UPLOADED + produto.getName_IMG());
+                    Files.write(path, bytes);
+                }
+                model.addAttribute("MSG", "Atualizar com Sucesso");
+            } else{
+                model.addAttribute("MSG", "Erro ao Atualizar");
+            }
+        } catch (Exception e) {
+            model.addAttribute("MSG", e);
+        }
+        return "mensagem";
+    }
 
     @RequestMapping("/produto")
     public String produto(Model model , Produto produto){
         try{
-        produto = ProdutoDAO.getProduto(produto);
-        model.addAttribute("produto",produto);
-        return "produtos" ;
+            produto = ProdutoDAO.getProduto(produto);
+            model.addAttribute("produto",produto);
+            return "produtos" ;
         }
         catch(Exception e){
-             model.addAttribute("MSG", e);
+            model.addAttribute("MSG", e);
         }
         return "mensagem";
     }

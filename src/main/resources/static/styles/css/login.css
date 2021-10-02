@@ -164,7 +164,6 @@
     padding-bottom: 64px;
     -webkit-box-pack: center;
     justify-content: center;
-    background-color: var(--the-background-cor);
 }
 
 .cAQjTg {
@@ -206,7 +205,7 @@
     padding-top: 1rem;
     padding-bottom: 1rem;
     background-color: var(--cor-background);
-    box-shadow: 5px 10px 15px var(--sobra);
+    box-shadow: 2px 6px 11px 5px var(--sobra);
     border-radius: 15px 5px;
 }
 

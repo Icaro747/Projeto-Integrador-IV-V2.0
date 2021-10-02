@@ -19,12 +19,9 @@ public class Produto {
     private String name_IMG;
     private boolean status;
     
-    private static double v_vista;
-    private static double v_juros3v;
     private final double ValorDescontoVista = 0.15;
     private final double ValorJuros = 0.05;
     private final double QuantidadeParcelaMaxima = 3;
-    
     private ArrayList<Integer> tags = new ArrayList<>();
 
     public Produto() {
@@ -38,31 +35,6 @@ public class Produto {
         this.quantidade = quantidade;
         this.v_compra = v_compra;
         this.v_venda = v_venda;
-        this.name_IMG = name_IMG;
-        this.status = status;
-    }
-    
-    public Produto(int id_produto, String nome, String marca, String tamanho, String descricao, int quantidade, double v_compra, double v_venda, String name_IMG, boolean status) {
-        this.id_produto = id_produto;
-        this.nome = nome;
-        this.marca = marca;
-        if (tamanho.length()>2) {
-            throw new IllegalArgumentException("Quantidade de caracteres no campo tamanho inválido");
-        } else{
-            this.tamanho = tamanho;
-        }
-        this.descricao = descricao;
-        this.quantidade = quantidade;
-        if (v_compra > 0) {
-            this.v_compra = v_compra;
-        }else{
-            throw new IllegalArgumentException("valor de compra inválido");
-        }
-        if (v_venda > v_compra) {
-            this.v_venda = v_venda;
-        }else{
-            throw new IllegalArgumentException("valor de venda inválido");
-        }
         this.name_IMG = name_IMG;
         this.status = status;
     }

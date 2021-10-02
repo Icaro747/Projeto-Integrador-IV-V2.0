@@ -144,16 +144,27 @@ public class ProdutoDAO {
     /**
      * método para atualizar os dados do produto.
      * @param produto Entidade a ser atualizar e os demais dados.
+     * @param img
      * @return <b>true</b> se a Atualizar foi bem sucedida <b>false</b> se não for.
      */
-    public static boolean Atualizar(Produto produto){
+    public static boolean Atualizar(Produto produto, boolean img){
         
         Connection conexao = null;
         PreparedStatement instrucaoSQL = null;
         
         try{
             conexao = Conexao.abrirConexao();
-            instrucaoSQL = conexao.prepareStatement("UPDATE Produtos SET Nome = ?, Marca = ?, Descricao = ?, Quantidade = ?, V_compra = ?, V_venda = ?, name_img = ?, Statu = ? WHERE ID_Produto = ?");
+            
+            if (img) {
+                instrucaoSQL = conexao.prepareStatement("UPDATE Produtos SET Nome = ?, Marca = ?, Descricao = ?, Quantidade = ?, V_compra = ?, V_venda = ?, name_img = ? WHERE ID_Produto = ?");
+            
+                instrucaoSQL.setString(7, produto.getName_IMG());
+                instrucaoSQL.setInt(8, produto.getId_produto());
+            } else {
+                instrucaoSQL = conexao.prepareStatement("UPDATE Produtos SET Nome = ?, Marca = ?, Descricao = ?, Quantidade = ?, V_compra = ?, V_venda = ? WHERE ID_Produto = ?");
+            
+                instrucaoSQL.setInt(7, produto.getId_produto());
+            }
             
             instrucaoSQL.setString(1, produto.getNome());
             instrucaoSQL.setString(2, produto.getMarca());
@@ -161,9 +172,6 @@ public class ProdutoDAO {
             instrucaoSQL.setInt(4, produto.getQuantidade());
             instrucaoSQL.setDouble(5, produto.getV_compra());
             instrucaoSQL.setDouble(6, produto.getV_venda());
-            instrucaoSQL.setString(7, produto.getName_IMG());
-            instrucaoSQL.setBoolean(8, produto.isStatus());
-            instrucaoSQL.setInt(9, produto.getId_produto());
             
             int linhaAfetadas = instrucaoSQL.executeUpdate();
 
@@ -172,9 +180,9 @@ public class ProdutoDAO {
                 instrucaoSQL = conexao.prepareStatement("DELETE FROM Relacao_Produtos_Tags WHERE FK_Produto = ?");
                 instrucaoSQL.setInt(1, produto.getId_produto());
 
-                linhaAfetadas = instrucaoSQL.executeUpdate();
+                instrucaoSQL.executeUpdate();
 
-                if (linhaAfetadas > 0 && produto.getTags().size() >= 1) {
+                if (produto.getTags().size() >= 1) {
 
                     linhaAfetadas = 0;
                     
@@ -234,7 +242,7 @@ public class ProdutoDAO {
             while(rs.next()){
                 int ID = rs.getInt("ID_Produto");
                 String Nome = rs.getString("Nome");
-                String Marca = rs.getString("Marca");;
+                String Marca = rs.getString("Marca");
                 String Descricao = rs.getString("Descricao");
                 int QTD = rs.getInt("Quantidade");
                 double V_compra = rs.getDouble("V_compra");
@@ -387,6 +395,10 @@ public class ProdutoDAO {
                 produto.setNome(rs.getString("Nome"));
                 produto.setV_venda(rs.getDouble("V_venda"));
                 produto.setName_IMG(rs.getString("name_img"));
+                produto.setDescricao(rs.getString("Descricao"));
+                produto.setV_compra(rs.getDouble("V_compra"));
+                produto.setQuantidade(rs.getInt("Quantidade"));
+                produto.setMarca(rs.getString("Marca"));
             }
             
             return produto;

@@ -9,43 +9,46 @@
     </head>
     <body>
         <div th:replace="fragments/header :: body"></div>
+        
         <h1 class="LabelCenter titolo">Lista Produto</h1>
-        <div class="BoxListaSize doTtzZ">
-            <form action="/adim/buscar" method="POST">
-                <div class="Buscarbox">
-                    <input class="Buscatext" type="text" name="nome">
-                    <button class="Buscabtn">Buscar</button>
+        <div class="ConteinerProdutos">
+            <div class="BoxListaSize doTtzZ">
+                <form action="/adim/buscar" method="POST">
+                    <div class="Buscarbox">
+                        <input class="Buscatext" type="text" name="nome">
+                        <button class="Buscabtn">Buscar</button>
+                    </div>
+                </form>
+                <div class="BoxListe">
+                    <table>
+                        <th>ID Produto</th>
+                        <th>Nome</th>
+                        <th>Marca</th>
+                        <th>Tamanho</th>
+                        <th>Quantidade</th>
+                        <th>Valor compra</th>
+                        <th>Valor venda</th>
+                        <th>Status</th>
+                        <tr th:each="produto : ${listaProduto}">
+                            <td th:text="${produto.id_produto}"></td>
+                            <td th:text="${produto.nome}"></td>
+                            <td th:text="${produto.marca}"></td>
+                            <td th:text="${produto.tamanho}"></td>
+                            <td th:text="${produto.quantidade}"></td>
+                            <td th:text="|R$ ${produto.v_compra}|"></td>
+                            <td th:text="|R$ ${produto.v_venda}|"></td>
+
+                            <td th:if="${produto.status}">Ativo</td>
+                            <td th:unless="${produto.status}">Desativo</td>
+
+                            <td><a th:href="@{'./atualizar?id_produto=' + ${produto.id_produto}}">Atualizar</a></td>
+                            <td>
+                                <a th:if="${produto.status}" th:href="@{'../Desativar?id_produto=' + ${produto.id_produto}}" class="btnDesativar">Desativar</a>
+                                <a th:unless="${produto.status}" th:href="@{'../Ativar?id_produto=' + ${produto.id_produto}}" class="btnAtivar">Ativar</a>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
-            </form>
-            <div class="BoxListe">
-                <table>
-                    <th>ID Produto</th>
-                    <th>Nome</th>
-                    <th>Marca</th>
-                    <th>Tamanho</th>
-                    <th>Quantidade</th>
-                    <th>Valor compra</th>
-                    <th>Valor venda</th>
-                    <th>Status</th>
-                    <tr th:each="produto : ${listaProduto}">
-                        <td th:text="${produto.id_produto}"></td>
-                        <td th:text="${produto.nome}"></td>
-                        <td th:text="${produto.marca}"></td>
-                        <td th:text="${produto.tamanho}"></td>
-                        <td th:text="${produto.quantidade}"></td>
-                        <td th:text="|R$ ${produto.v_compra}|"></td>
-                        <td th:text="|R$ ${produto.v_venda}|"></td>
-                        
-                        <td th:if="${produto.status}">Ativo</td>
-                        <td th:unless="${produto.status}">Desativo</td>
-                        
-                        <td><a href="#">Atualizar</a></td>
-                        <td>
-                            <a th:if="${produto.status}" th:href="@{'../Desativar?id_produto=' + ${produto.id_produto}}" class="btnDesativar">Desativar</a>
-                            <a th:unless="${produto.status}" th:href="@{'../Ativar?id_produto=' + ${produto.id_produto}}" class="btnAtivar">Ativar</a>
-                        </td>
-                    </tr>
-                </table>
             </div>
         </div>
     </body>
