@@ -1,5 +1,6 @@
 package br.com.process.entidade;
 
+import br.com.process.uteis.Formulas;
 import java.util.ArrayList;
 
 /**
@@ -40,11 +41,13 @@ public class Produto {
     }
     
     public double getV_vista() {
-        return getV_venda() - (getV_venda() * getValorDescontoVista());
+        double V_vista = getV_venda() - (getV_venda() * getValorDescontoVista());
+        return Formulas.Arredondando(V_vista, 2);
     }
 
     public double getV_juros3v() {
-        return (getV_venda() + (getV_venda() * getValorJuros())) / getQuantidadeParcelaMaxima();
+        double V_juros3v = (getV_venda() + (getV_venda() * getValorJuros())) / getQuantidadeParcelaMaxima();
+        return Formulas.Arredondando(V_juros3v, 2);
     }
     
     public double getValorDescontoVista() {

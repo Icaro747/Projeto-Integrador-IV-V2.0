@@ -2,7 +2,6 @@ package br.com.process.DAO;
 
 import br.com.process.conexao.Conexao;
 import br.com.process.entidade.Produto;
-import br.com.process.entidade.Tag;
 import br.com.process.uteis.PropriedadeStatus;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -62,20 +61,7 @@ public class ProdutoDAO {
 
                         produto.setId_produto(rs.getInt("ID_Produto"));
 
-                        instrucaoSQL = null;
-                        linhaAfetadas = 0;
-
-                        /**
-                         * 
-                         */
-                        for (Integer tag : produto.getTags()) {
-                            instrucaoSQL = conexao.prepareStatement("INSERT INTO Relacao_Produtos_Tags (FK_Produto, FK_Tag) VALUES (?,?)");
-
-                            instrucaoSQL.setInt(1, produto.getId_produto());
-                            instrucaoSQL.setInt(2, tag);
-
-                            linhaAfetadas += instrucaoSQL.executeUpdate();
-                        }
+                        linhaAfetadas = TagDAO.AdicionarRelacao(produto);
                     }
                 }
             }
@@ -177,23 +163,11 @@ public class ProdutoDAO {
 
             if (linhaAfetadas > 0) {
 
-                instrucaoSQL = conexao.prepareStatement("DELETE FROM Relacao_Produtos_Tags WHERE FK_Produto = ?");
-                instrucaoSQL.setInt(1, produto.getId_produto());
-
-                instrucaoSQL.executeUpdate();
+                TagDAO.RemoverRelacao(produto);
 
                 if (produto.getTags().size() >= 1) {
 
-                    linhaAfetadas = 0;
-                    
-                    for (Integer tag : produto.getTags()) {
-                        instrucaoSQL = conexao.prepareStatement("INSERT INTO Relacao_Produtos_Tags (FK_Produto, FK_Tag) VALUES (?,?)");
-
-                        instrucaoSQL.setInt(1, produto.getId_produto());
-                        instrucaoSQL.setInt(2, tag);
-
-                        linhaAfetadas += instrucaoSQL.executeUpdate();
-                    }
+                    linhaAfetadas = TagDAO.AdicionarRelacao(produto);
                 }
             }
 
@@ -254,50 +228,6 @@ public class ProdutoDAO {
                 Estoque.add(produto);
             }
             return Estoque;
-        } catch (SQLException e) {
-            throw new IllegalArgumentException(e.getMessage());
-        }finally{
-            try {
-                if (rs!=null) {
-                    rs.close();
-                }
-                if (instrucaoSQL!=null) {
-                    instrucaoSQL.close();
-                }
-                if (conexao!=null) {
-                    conexao.close();
-                    Conexao.fecharConexao();  
-                }
-            } catch (SQLException e) {
-            }
-        }
-    }
-    
-    /**
-    * método para pegar todos os dados da tabela Tasg no banco de dados.
-    * @return Retorna uma <b>List</b> com todas os Tags<br> se nenhum Tag foram encontrado, retorna uma <b>List</b> vazia.
-    */
-    public static List<Tag> getTags(){
-        
-        ResultSet rs = null;
-        Connection conexao = null;
-        PreparedStatement instrucaoSQL = null;
-        
-        List<Tag> Tags = new ArrayList<>();
-        
-        try {
-            conexao = Conexao.abrirConexao();
-            instrucaoSQL = conexao.prepareStatement("SELECT * FROM Tags");
-            rs = instrucaoSQL.executeQuery();
-            
-            while(rs.next()){
-                int ID = rs.getInt("ID_Tag");
-                String Nome = rs.getString("Nome_tag");
-                
-                Tag tag = new Tag(ID, Nome);
-                Tags.add(tag);
-            }
-            return Tags;
         } catch (SQLException e) {
             throw new IllegalArgumentException(e.getMessage());
         }finally{

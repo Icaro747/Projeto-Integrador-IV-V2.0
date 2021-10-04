@@ -1,8 +1,10 @@
 package br.com.process.controller;
 
 import br.com.process.DAO.ProdutoDAO;
+import br.com.process.DAO.TagDAO;
 import br.com.process.entidade.Produto;
 import br.com.process.uteis.PropriedadeStatus;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -32,17 +34,17 @@ public class ProdutoController {
      * @param model
      * @return 
      */
-    @RequestMapping("/admin/cadastro")
+    @RequestMapping("/admin/CadastroProduto")
     public String cadastro(Model model){
-        model.addAttribute("listTags", ProdutoDAO.getTags());
-        return "cadastro";
+        model.addAttribute("listTags", TagDAO.getTags());
+        return "CadastroProduto";
     }
     
-    @RequestMapping("/admin/atualizar")
+    @RequestMapping("/admin/AtualizarProduto")
     public String teleAtualizar(Model model, Produto produto){
-        model.addAttribute("listTags", ProdutoDAO.getTags());
+        model.addAttribute("listTags", TagDAO.getTags());
         model.addAttribute("Produto", ProdutoDAO.getProduto(produto));
-        return "Atualizar";
+        return "AtualizarProduto";
     }
     
     @PostMapping("/Atualizar")
@@ -61,7 +63,7 @@ public class ProdutoController {
             } else{
                 model.addAttribute("MSG", "Erro ao Atualizar");
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             model.addAttribute("MSG", e);
         }
         return "mensagem";
@@ -94,7 +96,7 @@ public class ProdutoController {
             } else{
                 model.addAttribute("MSG", "Erro ao Adicionar");
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             model.addAttribute("MSG", e);
         }
         return "mensagem";
