@@ -13,7 +13,8 @@ import org.springframework.context.annotation.ComponentScans;
 @ComponentScans({
     @ComponentScan(basePackageClasses = br.com.process.controller.init.class),
     @ComponentScan(basePackageClasses = br.com.process.controller.ProdutoController.class),
-    @ComponentScan(basePackageClasses = br.com.process.controller.AdminController.class)
+    @ComponentScan(basePackageClasses = br.com.process.controller.AdminController.class),
+    @ComponentScan(basePackageClasses = br.com.process.controller.TagController.class)
 })
 public class ProjetoIntegradorIvApplication {
     

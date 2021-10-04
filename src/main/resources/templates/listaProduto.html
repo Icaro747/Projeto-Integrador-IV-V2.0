@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
     <head>
         <title>Lista de Produto</title>
         <meta charset="UTF-8">
@@ -41,7 +41,7 @@
                             <td th:if="${produto.status}">Ativo</td>
                             <td th:unless="${produto.status}">Desativo</td>
 
-                            <td><a th:href="@{'./atualizar?id_produto=' + ${produto.id_produto}}">Atualizar</a></td>
+                            <td><a th:href="@{'./AtualizarProduto?id_produto=' + ${produto.id_produto}}">Atualizar</a></td>
                             <td>
                                 <a th:if="${produto.status}" th:href="@{'../Desativar?id_produto=' + ${produto.id_produto}}" class="btnDesativar">Desativar</a>
                                 <a th:unless="${produto.status}" th:href="@{'../Ativar?id_produto=' + ${produto.id_produto}}" class="btnAtivar">Ativar</a>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
     <head>
         <title>Atualizar de Produto</title>
         <meta charset="UTF-8">
@@ -70,12 +70,6 @@
             </div>
         </div>
         
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $(".decimal").change(function() {
-                    $(this).val(parseFloat($(this).val()).toFixed(2));
-                });
-            });
-        </script>
+        <script type="text/javascript" th:src="@{/styles/js/Decimal.js}"></script>
     </body>
 </html>
