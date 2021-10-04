@@ -23,7 +23,8 @@ create table Produtos(
 
 create table Tags(
     ID_Tag INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    Nome_tag VARCHAR(50) NOT NULL
+    Nome_tag VARCHAR(50) NOT NULL,
+    IMG VARCHAR(150) NOT NULL
 );
 
 create table Relacao_Produtos_Tags(
