@@ -13,6 +13,7 @@ public class Produto {
     private String nome;
     private String marca;
     private String tamanho;
+    private String genero; 
     private String descricao;
     private int quantidade;
     private double v_compra;
@@ -56,6 +57,18 @@ public class Produto {
 
     public double getValorJuros() {
         return ValorJuros;
+    }
+
+    public String getGenero() {
+        return genero;
+    }
+
+    public void setGenero(String genero) {
+        this.genero = genero;
+    }
+    
+    public double getValorTotal(){
+        return v_venda * quantidade;
     }
     
     public double getQuantidadeParcelaMaxima() {

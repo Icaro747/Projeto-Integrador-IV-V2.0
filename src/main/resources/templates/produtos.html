@@ -14,7 +14,10 @@
              <img th:src="@{'/img/uploads/'+${produto.name_IMG}}">
             </div>
             <div class="Detalhe-produto">
-                <form >
+                <form action="/carrinho" method="POST">
+                    <input type="hidden" name="id_produto" th:value="${produto.id_produto}">
+                    <input type="hidden" name="v_venda" th:value="${produto.v_venda}">
+                    <input type="hidden" name="nome" th:value="${produto.nome}">
                     <h1 class="text-titulo" th:text="${produto.nome}"></h1>
                     <div class="PresoVista">
                                     <span>R$</span>
@@ -30,7 +33,7 @@
                      </div>
                     <div class="quantidade_produto">
                         <button type="button" class="remove" id="menos" onclick="less()"> - </button><!-- Adicionar mais produto -->
-                         <input type="text" class="quantitySelect" value="1" data-mask="000" id="num"  name="numero"><!--Quantidade de Produto-->
+                         <input type="text" class="quantitySelect" value="1" data-mask="000" id="num"  name="quantidade"><!--Quantidade de Produto-->
                          <button type="button" class="add" id="mais"  onclick="more()"> + </button><!-- Diminuir produto -->
                     </div>
                     
@@ -39,40 +42,40 @@
                     <div class="text-descrition">
                         <div class="alinhamento-inputs-radio">
                             <label class="LabelRadio">Masculino</label>
-                            <input type="radio" class="InputRadio" name="Genero">
+                            <input type="radio" class="InputRadio" name="genero" value="M">
                         </div>
                         <div class="alinhamento-inputs-radio">
                             <label class="LabelRadio">Feminino</label>
-                            <input type="radio" class="InputRadio" name="Genero">
+                            <input type="radio" class="InputRadio" name="genero" value="F">
                         </div>
                         <div class="alinhamento-inputs-radio">
                             <label class="LabelRadio">Unisex</label>
-                            <input type="radio" class="InputRadio" name="Genero">
+                            <input type="radio" class="InputRadio" name="genero" value="U">
                         </div>
                     </div>
                     <h2 class="text-descrition">Tamanho</h2>
                     <div class="text-descrition">  
                         <div class="alinhamento-inputs-radio">
                             <label class="LabelRadio">P</label>
-                            <input type="radio"  class="InputRadio" name="Tamanho">
+                            <input type="radio"  class="InputRadio" name="tamanho" value="P">
                         </div>
                         <div class="alinhamento-inputs-radio">
                             <label class="LabelRadio">M</label>
-                            <input type="radio" class="InputRadio" name="Tamanho">
+                            <input type="radio" class="InputRadio" name="tamanho" value="M">
                         </div>
                         <div class="alinhamento-inputs-radio">
                             <label class="LabelRadio">G</label>
-                            <input type="radio" class="InputRadio" name="Tamanho">
+                            <input type="radio" class="InputRadio" name="tamanho" value="G">
                         </div>
                         <div class="alinhamento-inputs-radio">
                             <label class="LabelRadio">GG</label>
-                            <input type="radio" class="InputRadio" name="Tamanho">
+                            <input type="radio" class="InputRadio" name="tamanho" value="GG">
                         </div>
                     </div>
                     <div class="hr"></div>  
                     <div class="Divisor-detalhes"></div>   
                     <div class="btn-comprar">
-                    <button class="btn btn-destaque adicionarcarrinho">Compra</button>
+                        <button type="submit" class="btn btn-destaque adicionarcarrinho">Compra</button>
                     </div>
                 </form>
             </div>

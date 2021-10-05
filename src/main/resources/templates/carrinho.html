@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Carrinho</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" th:href="@{/styles/css/MainCss.css}"/>
+        <link rel="shortcut icon" th:href="@{img/newman.ico}" type="image/x-icon">
+    </head>
+    <body>
+        <div th:replace="fragments/header :: body"></div>
+        
+        <h1 class="LabelCenter titolo">Carrinho</h1>
+        <div class="ConteinerProdutos">
+            <div class="BoxListaSize doTtzZ">
+                <div class="BoxListe">
+                    <table>
+                        <th>Nome</th>
+                        <th>Tamanho</th>
+                        <th>Quantidade</th>
+                        <th>Valor</th>
+                        <th>Valor total</th>
+                            <tr th:each="produto : ${ListaCarrinho}">
+                            <td th:text="${produto.nome}"></td>
+                            <td th:text="${produto.tamanho}"></td>
+                            <td th:text="${produto.quantidade}"></td>
+                            <td th:text="|R$ ${produto.v_venda}|"></td>
+                            <td th:text="|R$ ${produto.ValorTotal}|"></td>
+
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
