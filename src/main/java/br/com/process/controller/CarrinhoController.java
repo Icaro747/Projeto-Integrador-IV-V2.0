@@ -38,12 +38,16 @@ public class CarrinhoController {
     @RequestMapping("/listaCarrinho")
     public String listaCarrinho (Model model, HttpServletRequest request){
         try {
-            HttpSession session = request.getSession();
-            Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
-            List<Produto> itensProduto = carrinho.getProdutos();
-            model.addAttribute("ListaCarrinho", itensProduto);
-            //model.addAttribute("MSG", "carrinhoComItens");
-            return "carrinho";
+            if(request.getSession().getAttribute("carrinho")!=null){            
+                HttpSession session = request.getSession();
+                Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
+                List<Produto> itensProduto = carrinho.getProdutos();
+                model.addAttribute("ListaCarrinho", itensProduto);
+                return "carrinho";
+            } else{
+                model.addAttribute("MSG", "Ops!!\nSeu Carrinho está Vazio :(");
+                return "mensagem";
+            }    
         } catch (Exception e) {
             model.addAttribute("MSG", e);        
             return "mensagem";
