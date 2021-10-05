@@ -10,6 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -69,9 +70,10 @@ public class ProdutoController {
         return "mensagem";
     }
 
-    @RequestMapping("/produto")
-    public String produto(Model model , Produto produto){
+    @RequestMapping(value = "/produto/{id}")
+    public String produto(Model model , @PathVariable int id){
         try{
+            Produto produto = new Produto(id);
             produto = ProdutoDAO.getProduto(produto);
             model.addAttribute("produto",produto);
             return "produtos" ;
