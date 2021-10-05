@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" th:href="@{/styles/css/MainCss.css}"/>
         <link rel="shortcut icon" th:href="@{img/newman.ico}" type="image/x-icon">
+        <script th:src="@{/styles/js/jquery-3.6.0.min.js}" type="text/javascript"></script>
     </head>
     <body>
         <div th:replace="fragments/header :: body"></div>
@@ -18,19 +19,40 @@
                         <th>Nome</th>
                         <th>Tamanho</th>
                         <th>Quantidade</th>
-                        <th>Valor</th>
-                        <th>Valor total</th>
-                            <tr th:each="produto : ${ListaCarrinho}">
+                        <th>Valor unitário</th>
+                        <th>Valor subtotal</th>
+                        <tr th:each="produto : ${ListaCarrinho}">
                             <td th:text="${produto.nome}"></td>
                             <td th:text="${produto.tamanho}"></td>
-                            <td th:text="${produto.quantidade}"></td>
+                            <td>
+                                <span>
+                                    <a th:id="@{'/listaCarrinho/' + ${produto.indice} + '/-'}" th:onclick="|Confirmado('/listaCarrinho/${produto.indice}/-')|"> - </a>
+                                    <p th:text="${produto.quantidade}"></p>
+                                    <a th:id="@{'/listaCarrinho/' + ${produto.indice} + '/+'}" th:onclick="|Confirmado('/listaCarrinho/${produto.indice}/+')|"> + </a>
+                                </span>
+                            </td>
                             <td th:text="|R$ ${produto.v_venda}|"></td>
                             <td th:text="|R$ ${produto.ValorTotal}|"></td>
-
+                            <td><a class="btnDesativar" th:href="@{'./RemoveItem/' + ${produto.indice}}">remover</a></td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <td class="final"><b>Valor total</b></td>
+                            <td class="final"><b th:text="|R$ ${session.carrinho.TotalVenda}|"></b></td>
                         </tr>
                     </table>
                 </div>
             </div>
         </div>
+        
+        <script type="text/javascript">
+            function Confirmado(url){
+                $.ajax(url).done(function(){
+                    location.reload();
+                });
+            }
+        </script>
     </body>
 </html>

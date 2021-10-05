@@ -14,7 +14,7 @@
              <img th:src="@{'/img/uploads/'+${produto.name_IMG}}">
             </div>
             <div class="Detalhe-produto">
-                <form action="/carrinho" method="POST">
+                <form action="/carrinho" method="POST" >
                     <input type="hidden" name="id_produto" th:value="${produto.id_produto}">
                     <input type="hidden" name="v_venda" th:value="${produto.v_venda}">
                     <input type="hidden" name="nome" th:value="${produto.nome}">
@@ -42,34 +42,34 @@
                     <div class="text-descrition">
                         <div class="alinhamento-inputs-radio">
                             <label class="LabelRadio">Masculino</label>
-                            <input type="radio" class="InputRadio" name="genero" value="M">
+                            <input type="radio" class="InputRadio" name="genero" value="M" required>
                         </div>
                         <div class="alinhamento-inputs-radio">
                             <label class="LabelRadio">Feminino</label>
-                            <input type="radio" class="InputRadio" name="genero" value="F">
+                            <input type="radio" class="InputRadio" name="genero" value="F" required>
                         </div>
                         <div class="alinhamento-inputs-radio">
                             <label class="LabelRadio">Unisex</label>
-                            <input type="radio" class="InputRadio" name="genero" value="U">
+                            <input type="radio" class="InputRadio" name="genero" value="U" required>
                         </div>
                     </div>
                     <h2 class="text-descrition">Tamanho</h2>
                     <div class="text-descrition">  
                         <div class="alinhamento-inputs-radio">
                             <label class="LabelRadio">P</label>
-                            <input type="radio"  class="InputRadio" name="tamanho" value="P">
+                            <input type="radio"  class="InputRadio" name="tamanho" value="P" required>
                         </div>
                         <div class="alinhamento-inputs-radio">
                             <label class="LabelRadio">M</label>
-                            <input type="radio" class="InputRadio" name="tamanho" value="M">
+                            <input type="radio" class="InputRadio" name="tamanho" value="M" required>
                         </div>
                         <div class="alinhamento-inputs-radio">
                             <label class="LabelRadio">G</label>
-                            <input type="radio" class="InputRadio" name="tamanho" value="G">
+                            <input type="radio" class="InputRadio" name="tamanho" value="G" required>
                         </div>
                         <div class="alinhamento-inputs-radio">
                             <label class="LabelRadio">GG</label>
-                            <input type="radio" class="InputRadio" name="tamanho" value="GG">
+                            <input type="radio" class="InputRadio" name="tamanho" value="GG" required>
                         </div>
                     </div>
                     <div class="hr"></div>  
@@ -79,6 +79,7 @@
                     </div>
                 </form>
             </div>
+            
             <script type="text/javascript">
                 numero = 1;
                 
@@ -97,6 +98,6 @@
                 }
 
                 setValue(numero);
-    </script>
+            </script>
     </body>
 </html>

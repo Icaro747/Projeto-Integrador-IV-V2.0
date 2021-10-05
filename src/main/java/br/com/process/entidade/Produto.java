@@ -20,6 +20,7 @@ public class Produto {
     private double v_venda;
     private String name_IMG;
     private boolean status;
+    private int indice;
     
     private final double ValorDescontoVista = 0.15;
     private final double ValorJuros = 0.05;
@@ -56,6 +57,22 @@ public class Produto {
         this.name_IMG = name_IMG;
         this.status = status;
     }
+
+    public int getIndice() {
+        return indice;
+    }
+
+    public void setIndice(int indice) {
+        this.indice = indice;
+    }
+    
+    /**
+     * Retorna O valor de venda x quantidade
+     * @return <b>double</b> V_venda * Quantidade
+     */
+    public double V_QTD(){
+        return getV_venda() * getQuantidade();
+    }
     
     public double getV_vista() {
         double V_vista = getV_venda() - (getV_venda() * getValorDescontoVista());
@@ -84,7 +101,7 @@ public class Produto {
     }
     
     public double getValorTotal(){
-        return v_venda * quantidade;
+        return Formulas.Arredondando(v_venda * quantidade, 2);
     }   
     
     public double getQuantidadeParcelaMaxima() {

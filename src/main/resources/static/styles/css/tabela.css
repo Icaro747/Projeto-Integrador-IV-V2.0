@@ -26,16 +26,26 @@ table td{
     padding: 8px 8px;
 }
 table td a{
-    transition: .5s all;
+    transition: .3s all;
     padding: inherit;
     color: var(--secundaria);
     font-weight: 600;
     font-variant: all-small-caps;
+    min-width: 30px;
+    cursor: pointer;
 }
 table td a:hover{
     color: var(--text-cor1);
     background-color: var(--secundaria);
     border-radius: 5px;
+}
+table td span{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.final{
+    border-bottom: 2px solid #020202;
 }
 .BoxLista{
     overflow-x: auto;

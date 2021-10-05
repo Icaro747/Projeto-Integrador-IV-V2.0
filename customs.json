@@ -3,6 +3,7 @@
     "attributes": {
         "th:text": {},
         "th:if": {},
+        "th:id": {},
         "th:unless": {},
         "th:src": {},
         "th:replace": {},
