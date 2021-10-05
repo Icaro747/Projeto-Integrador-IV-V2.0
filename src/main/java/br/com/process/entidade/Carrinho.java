@@ -1,5 +1,6 @@
 package br.com.process.entidade;
 
+import br.com.process.uteis.Formulas;
 import java.sql.Date;
 import java.util.ArrayList;
 
@@ -11,13 +12,13 @@ import java.util.ArrayList;
 public class Carrinho {
 
     private int id_carrinho;
-    private ArrayList<Produto> produtos = new ArrayList<>();
+    private final ArrayList<Produto> produtos = new ArrayList<>();
     private double totalVenda;
     private Date dataVenda;
     
     public Carrinho() {        
     }
-
+    
     public int getId_carrinho() {
         return id_carrinho;
     }
@@ -31,23 +32,45 @@ public class Carrinho {
     }
 
     public void setProdutos(ArrayList<Produto> produtos) {
-        this.produtos = produtos;
-    }
-
-    public void addProdutos(ArrayList<Produto> produtos){
-        produtos.forEach(item->{
-            totalVenda += item.getV_venda();
-            produtos.add(item);
-        });
+        int indice = 0;
+        for (Produto produto : produtos) {
+            produto.setIndice(indice);
+            indice++;
+            totalVenda += produto.V_QTD();
+            produtos.add(produto);
+        }
     }
     
     public void addProduto(Produto produto){
-            totalVenda += produto.getV_venda();
-            produtos.add(produto);       
+        produto.setIndice(produtos.size());
+        totalVenda += produto.V_QTD();
+        this.produtos.add(produto);
+    }
+    
+    public void RemoveItem(int indice){
+        Produto produto = produtos.get(indice);
+        totalVenda -= produto.V_QTD();
+        this.produtos.remove(produto);
+    }
+    
+    public void AlinaLista(){
+        int indic = 0;
+        for (Produto produto : produtos) {
+            produto.setIndice(indic);
+            indic++;
+        }
+    }
+    
+    public Produto getProduto(int indice) {
+        return produtos.get(indice);
+    }
+    
+    public int getQTD_Produtos(){
+        return produtos.size();
     }
     
     public double getTotalVenda() {
-        return totalVenda;
+        return Formulas.Arredondando(totalVenda, 2);
     }
 
     public void setTotalVenda(double totalVenda) {
