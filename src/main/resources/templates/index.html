@@ -21,12 +21,12 @@
             
             <div class="ProdutoBox" th:each="Estoque : ${lista}">
                 <div class="Deliniado">
-                    <a th:href="@{'../produto?id_produto=' + ${Estoque.id_produto}}">
+                    <a th:href="@{'../produto/' + ${Estoque.id_produto}}">
                         <div class="boximg">
                             <img class="ProdutoImg" th:src="@{'/img/uploads/'+${Estoque.name_IMG}}">
                         </div>
                     </a>
-                    <a th:href="@{'../produto?id_produto=' + ${Estoque.id_produto}}">
+                    <a th:href="@{'../produto/' + ${Estoque.id_produto}}">
                         <div class="ProdutoTitolo">
                             <h2><strong th:text="${Estoque.nome}">Nome do produto</strong></h2>
                         </div>

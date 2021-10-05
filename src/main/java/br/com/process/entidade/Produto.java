@@ -29,14 +29,30 @@ public class Produto {
     public Produto() {
     }
 
+    public Produto(int id_produto) {
+        this.id_produto = id_produto;
+    }
+    
     public Produto(int id_produto, String nome, String marca, String descricao, int quantidade, double v_compra, double v_venda, String name_IMG, boolean status) {
         this.id_produto = id_produto;
         this.nome = nome;
         this.marca = marca;
         this.descricao = descricao;
-        this.quantidade = quantidade;
-        this.v_compra = v_compra;
-        this.v_venda = v_venda;
+        if (quantidade > 0) {
+            this.quantidade = quantidade;
+        }else{
+            throw new IllegalArgumentException("quantidade de produto inválida");
+        }
+        if (v_compra > 0) {
+            this.v_compra = v_compra;
+        }else{
+            throw new IllegalArgumentException("valor de compra inválido");
+        }
+        if (v_venda > v_compra) {
+            this.v_venda = v_venda;
+        }else{
+            throw new IllegalArgumentException("valor de venda inválido");
+        }
         this.name_IMG = name_IMG;
         this.status = status;
     }
@@ -69,7 +85,7 @@ public class Produto {
     
     public double getValorTotal(){
         return v_venda * quantidade;
-    }
+    }   
     
     public double getQuantidadeParcelaMaxima() {
         return QuantidadeParcelaMaxima;
@@ -152,7 +168,11 @@ public class Produto {
     }
 
     public void setQuantidade(int quantidade) {
-        this.quantidade = quantidade;
+        if (quantidade > 0) {
+            this.quantidade = quantidade;
+        }else{
+            throw new IllegalArgumentException("quantidade de produto inválida");
+        }
     }
 
     public double getV_compra() {
