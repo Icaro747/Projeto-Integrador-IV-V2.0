@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
-       <link rel="stylesheet" type="text/css" th:href="@{/styles/css/MainCss.css}"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/styles/css/MainCss.css}"/>
         <link rel="shortcut icon" th:href="@{img/newman.ico}" type="image/x-icon">
     </head>
-    
+
     <body>
-        
+
         <div th:replace="fragments/header :: body"></div>
-        
+
         <div class="ConteinerProdutos">
-            
+
             <div class="ProdutoBox" th:each="Estoque : ${lista}">
                 <div class="Deliniado">
                     <a th:href="@{'../produto?id_produto=' + ${Estoque.id_produto}}">
@@ -42,14 +47,18 @@
                     </div>
                 </div>
             </div>
-            
+
         </div>
+        <br>
         <div>
-            <div th:each="pagina : ${listaPagina}">
-                <a th:text="${pagina.paginas}" th:href="@{'/Pages/' + ${pagina.paginas}}">1</a>
-            </div>
-            
+            <ul class="pagination justify-content-center pagination-lg">
+                <div th:each="pagina : ${listaPagina}">
+                    <a  class="page-link" th:text="${pagina.paginas}" th:href="@{'/Pages/' + ${pagina.paginas}}">1</a>
+                </div>
+            </ul>
+
         </div>
+        <br>
         
     </body>
 </html>
