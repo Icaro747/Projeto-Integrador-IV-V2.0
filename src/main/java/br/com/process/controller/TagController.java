@@ -2,6 +2,7 @@ package br.com.process.controller;
 
 import br.com.process.DAO.TagDAO;
 import br.com.process.entidade.Tag;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -21,7 +22,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class TagController {
     
-    private final static String FOLDER_IMG_UPLOADED = "C://Users//Icaro//Documents//NetBeansProjects//PI//Projeto-Integrador-IV-V2.0//src//main//resources//static//img//tags//";
+    File directory = new File("");
+    String URL = "\\src\\main\\resources\\static\\img\\tags\\";
+    private final String FOLDER_IMG_UPLOADED = directory.getAbsolutePath() + "" + URL;
     
     @RequestMapping("/admin/CadastroTag")
     public String login(){
