@@ -44,6 +44,12 @@
             </div>
             
         </div>
+        <div>
+            <div th:each="pagina : ${listaPagina}">
+                <a th:text="${pagina.paginas}" th:href="@{'/Pages/' + ${pagina.paginas}}">1</a>
+            </div>
+            
+        </div>
         
     </body>
 </html>
