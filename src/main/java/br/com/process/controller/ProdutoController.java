@@ -4,7 +4,6 @@ import br.com.process.DAO.ProdutoDAO;
 import br.com.process.DAO.TagDAO;
 import br.com.process.entidade.Produto;
 import br.com.process.uteis.PropriedadeStatus;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -29,9 +28,7 @@ public class ProdutoController {
     /**
      * Deretorio da pasta de imagisa do produto
      */
-    File directory = new File("");
-    String URL = "\\src\\main\\resources\\static\\img\\uploads\\";
-    private final String FOLDER_IMG_UPLOADED = directory.getAbsolutePath() + "" + URL;
+    private final static String FOLDER_IMG_UPLOADED = "C://Users//Icaro//Documents//NetBeansProjects//PI//Projeto-Integrador-IV-V2.0//src//main//resources//static//img//uploads//";
 
     /**
      * 
