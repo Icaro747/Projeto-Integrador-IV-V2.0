@@ -203,27 +203,36 @@
     display: flex;
     justify-content: center;
 }
-
-
+.alinhamento-inputs-radio{
+    display: flex;
+    align-items: center;
+}
 .box-Imagem-produto{
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    align-content: center;  
+    align-content: center;
+    width: 520px
 }
-
+.Detalhe-produto{
+    width: 500px;
+}
 .box-Imagem-produto img{
    -webkit-transition: -webkit-transform .5s ease;
    transition: transform .5s ease;
+   width: 100%;
 }
-
+.text-produto-venta span,
+.text-produto-venta small{
+    font-size: xxx-large;;
+}
 .box-Imagem-produto:hover img{
    -webkit-transform: scale(1.1);
    transform: scale(1.1);
 }
 
 .quantidade_produto{
-    max-width: 80px;
+    width: 100%;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -246,11 +255,13 @@
     font-size: 14px;
 }
 .Preso{
-    color: #00a000;
+    color: var(--text-cor2);
     font: 700 20px "Open Sans",Arial,Helvetica,sans-serif;
     margin: 0 0 3px 0;
 }
-
+.preso-text-size{
+    font-size: xx-large;
+}
 .div-descricao{
     height: 50px;
     box-shadow: 0 0 1em gold;

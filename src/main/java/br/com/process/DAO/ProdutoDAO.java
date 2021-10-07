@@ -375,7 +375,7 @@ public class ProdutoDAO {
             conexao = Conexao.abrirConexao();
 
             if (status == PropriedadeStatus.Ativo) {
-                instrucaoSQL = conexao.prepareStatement("SELECT * FROM Produtos WHERE Statu = 1 limit ?,10");
+                instrucaoSQL = conexao.prepareStatement("SELECT * FROM Produtos WHERE Statu = 1 limit ?,12");
             } else {
                 instrucaoSQL = conexao.prepareStatement("SELECT * FROM Produtos WHERE Nome LIKE ?");
             }
