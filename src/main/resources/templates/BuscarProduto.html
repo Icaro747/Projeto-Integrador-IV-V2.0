@@ -2,7 +2,6 @@
 <html lang="pt-br">
     <head>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-        
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <link rel="stylesheet" type="text/css" th:href="@{/styles/css/MainCss.css}"/>
@@ -17,12 +16,12 @@
 
             <div class="ProdutoBox" th:each="Estoque : ${lista}">
                 <div class="Deliniado">
-                    <a th:href="@{'../produto?id_produto=' + ${Estoque.id_produto}}">
+                    <a th:href="@{'../produto/' + ${Estoque.id_produto}}">
                         <div class="boximg">
                             <img class="ProdutoImg" th:src="@{'/img/uploads/'+${Estoque.name_IMG}}">
                         </div>
                     </a>
-                    <a th:href="@{'../produto?id_produto=' + ${Estoque.id_produto}}">
+                    <a th:href="@{'../produto/' + ${Estoque.id_produto}}">
                         <div class="ProdutoTitolo">
                             <h2><strong th:text="${Estoque.nome}">Nome do produto</strong></h2>
                         </div>
