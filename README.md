@@ -21,6 +21,7 @@ CREATE TABLE Produtos(
 );
 
 CREATE TABLE Pruduto_Imagens(
+    ID_Imagen INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     name_img VARCHAR(150) NOT NULL,
     FK_Produto INT NOT NULL,
     FOREIGN KEY (FK_Produto) REFERENCES Produtos (ID_Produto)
