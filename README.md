@@ -17,8 +17,13 @@ CREATE TABLE Produtos(
     Quantidade int NOT NULL,
     V_compra DECIMAL(9,2) NOT NULL,
     V_venda DECIMAL(9,2) NOT NULL,
-    name_img VARCHAR(150) NOT NULL,
     Status BOOLEAN NOT NULL
+);
+
+CREATE TABLE Pruduto_Imagens(
+    name_img VARCHAR(150) NOT NULL,
+    FK_Produto INT NOT NULL,
+    FOREIGN KEY (FK_Produto) REFERENCES Produtos (ID_Produto)
 );
 
 CREATE TABLE Tags(
