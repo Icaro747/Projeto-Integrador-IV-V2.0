@@ -18,5 +18,6 @@ import lombok.ToString;
 public class Pagina {
 
     private int paginas;
-    private int pageatual;
+    private int pageAtual;
+    private int quantidadeItems;
 }

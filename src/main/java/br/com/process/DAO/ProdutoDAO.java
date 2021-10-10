@@ -2,6 +2,7 @@ package br.com.process.DAO;
 
 import br.com.process.conexao.Conexao;
 import br.com.process.entidade.Produto;
+import br.com.process.entidade.Pagina;
 import br.com.process.uteis.PropriedadeStatus;
 
 import java.sql.Connection;
@@ -194,10 +195,10 @@ public class ProdutoDAO {
      * método para pegar todos os dados da tabela Estoque no banco de dados.
      *
      * @param status
-     * @return Retorna uma <b>List</b> com todas os Produtos<br>
-     *         se nenhum Produto foram encontrado, retorna uma <b>List</b> vazia.
+     * @param pagina
+     * @return Retorna uma <b>List</b> com todas os Produtos<br> se nenhum Produto foram encontrado, retorna uma <b>List</b> vazia.
      */
-    public static List<Produto> getEstoque(PropriedadeStatus status) {
+    public static List<Produto> getEstoque(PropriedadeStatus status, Pagina pagina) {
 
         ResultSet rs = null;
         Connection conexao = null;
@@ -209,10 +210,13 @@ public class ProdutoDAO {
             conexao = Conexao.abrirConexao();
 
             if (status == PropriedadeStatus.Ativo) {
-                instrucaoSQL = conexao.prepareStatement("SELECT * FROM Produtos WHERE Status = 1");
+                instrucaoSQL = conexao.prepareStatement("SELECT * FROM Produtos WHERE Status = 1 LIMIT ?,?");
             } else {
-                instrucaoSQL = conexao.prepareStatement("SELECT * FROM Produtos");
+                instrucaoSQL = conexao.prepareStatement("SELECT * FROM Produtos LIMIT ?,?");
             }
+            
+            instrucaoSQL.setInt(1, pagina.getPageAtual());
+            instrucaoSQL.setInt(2, pagina.getQuantidadeItems());
 
             rs = instrucaoSQL.executeQuery();
 
@@ -306,7 +310,7 @@ public class ProdutoDAO {
             conexao = Conexao.abrirConexao();
 
             if (status == PropriedadeStatus.Ativo) {
-                instrucaoSQL = conexao.prepareStatement("SELECT * FROM Produtos WHERE Nome LIKE ? AND Statu = 1");
+                instrucaoSQL = conexao.prepareStatement("SELECT * FROM Produtos WHERE Nome LIKE ? AND Status = 1");
             } else {
                 instrucaoSQL = conexao.prepareStatement("SELECT * FROM Produtos WHERE Nome LIKE ?");
             }

@@ -15,7 +15,7 @@
             <div class="glide__track" data-glide-el="track">
                 <ul class="glide__slides">
                     <li class="glide__slide" th:each="tag : ${tags}">
-                        <img class="img-linhas" th:src="@{'/img/tags/' + ${tag.name_img}}" th:value="${tag.nome_tag}">
+                        <img class="img-linhas-destaque" th:src="@{'/img/tags/' + ${tag.name_img}}" th:value="${tag.nome_tag}">
                     </li>
                 </ul>
             </div>
@@ -43,13 +43,13 @@
         <script>
             const config = {
                 type: "carousel",
-                perView: 4,
+                perView: 3,
                 startAt: 0,
                 autoplay: 4000,
                 hoverpause: true,
                 breakpoints: {
                     1400:{
-                        perView: 4
+                        perView: 3
                     },
                     1024: {
                         perView: 2

@@ -1,4 +1,4 @@
-table{
+ table{
     min-width: max-content;
     width: 100%;
     border-collapse: collapse;
@@ -67,10 +67,11 @@ table td span{
     overflow-x: auto;
 }
 .BoxListaSize{
-    width: 80%;
+    width: 100%;
     margin: auto;
     min-height: 50vh;
     height: auto;
+    margin-top: 50px;
 }
 .btnDesativar{
     color: var(--Excluir);

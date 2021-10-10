@@ -145,4 +145,14 @@ public class Produto {
             throw new IllegalArgumentException("valor de venda inválido");
         }
     }
+    
+    @ToString(callSuper=true, includeFieldNames=true)
+    public static class Square{
+        private final int width, height;
+
+        public Square(int width, int height) {
+          this.width = width;
+          this.height = height;
+        }
+    }
 }
