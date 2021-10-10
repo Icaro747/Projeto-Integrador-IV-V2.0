@@ -11,7 +11,7 @@
         <div th:replace="fragments/header :: body"></div>
         <div class="ConteinerProdutos2">
             <div class="box-Imagem-produto">
-                <img th:src="@{'/img/uploads/'+${produto.name_IMG}}">
+                <div th:replace="fragments/CarouselProduto :: html"></div>
             </div>
             <div class="Detalhe-produto">
                 <form action="/carrinho" method="POST" >

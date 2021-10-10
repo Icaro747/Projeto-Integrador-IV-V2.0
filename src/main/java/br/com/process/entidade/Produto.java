@@ -1,230 +1,148 @@
 package br.com.process.entidade;
 
 import br.com.process.uteis.Formulas;
+
 import java.util.ArrayList;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  *
  * @author Icaro
  */
+@ToString
 public class Produto {
 
-    private int id_produto;
-    private String nome;
-    private String marca;
-    private String tamanho;
-    private String genero; 
-    private String descricao;
-    private int quantidade;
-    private double v_compra;
-    private double v_venda;
-    private String name_IMG;
-    private boolean status;
-    private int indice;
-    
+    @Getter @Setter private int id_produto;
+    @Getter @Setter private String nome;
+    @Getter @Setter private String marca;
+    @Getter private String tamanho;
+    @Getter @Setter private String genero;
+    @Getter @Setter private String descricao;
+    @Getter private int quantidade;
+    @Getter private double v_compra;
+    @Getter private double v_venda;
+    @Getter @Setter private String ImagemPrincipal;
+    @Getter @Setter private boolean status;
+    @Getter @Setter private int indice;
+    @Getter @Setter private int qtdImg;
+
     private final double ValorDescontoVista = 0.15;
     private final double ValorJuros = 0.05;
-    private final double QuantidadeParcelaMaxima = 3;
-    private ArrayList<Integer> tags = new ArrayList<>();
+    @Getter private final double QuantidadeParcelaMaxima = 3;
+    
+    @Getter @Setter private ArrayList<Integer> tags = new ArrayList<>();
 
     public Produto() {
     }
-
+    
+    /**
+     * Construtor
+     * @param id_produto ID do Produto
+     */
     public Produto(int id_produto) {
         this.id_produto = id_produto;
     }
-    
-    public Produto(int id_produto, String nome, String marca, String descricao, int quantidade, double v_compra, double v_venda, String name_IMG, boolean status) {
+
+    /**
+     * Construtor
+     * @param id_produto ID do Produto
+     * @param nome Nome do Produto
+     * @param marca Marca do Produto
+     * @param descricao Descrição do Produto
+     * @param quantidade Quatidade do Produto
+     * @param v_compra Valor de compra do Produto
+     * @param v_venda Valor de venda do Produto
+     * @param status Status do produto Ativo e desativado
+     */
+    public Produto(int id_produto, String nome, String marca, String descricao, int quantidade, double v_compra, double v_venda, boolean status) {
         this.id_produto = id_produto;
         this.nome = nome;
         this.marca = marca;
         this.descricao = descricao;
         if (quantidade > 0) {
             this.quantidade = quantidade;
-        }else{
+        } else {
             throw new IllegalArgumentException("quantidade de produto inválida");
         }
         if (v_compra > 0) {
             this.v_compra = v_compra;
-        }else{
+        } else {
             throw new IllegalArgumentException("valor de compra inválido");
         }
         if (v_venda > v_compra) {
             this.v_venda = v_venda;
-        }else{
+        } else {
             throw new IllegalArgumentException("valor de venda inválido");
         }
-        this.name_IMG = name_IMG;
         this.status = status;
     }
 
-    public int getIndice() {
-        return indice;
-    }
-
-    public void setIndice(int indice) {
-        this.indice = indice;
-    }
-    
     /**
      * Retorna O valor de venda x quantidade
-     * @return <b>double</b> V_venda * Quantidade
+     * @return <b>double</b> Valor de venda * Quantidade
      */
-    public double V_QTD(){
-        return getV_venda() * getQuantidade();
+    public double V_QTD() {
+        return v_venda * quantidade;
     }
-    
+
+    /**
+     * 
+     * @return Valor de venda - (Valor de venda *  porcentagem de desconto à vista)
+     */
     public double getV_vista() {
-        double V_vista = getV_venda() - (getV_venda() * getValorDescontoVista());
+        double V_vista = v_venda - (v_venda * ValorDescontoVista);
         return Formulas.Arredondando(V_vista, 2);
     }
 
     public double getV_juros3v() {
-        double V_juros3v = (getV_venda() + (getV_venda() * getValorJuros())) / getQuantidadeParcelaMaxima();
+        double V_juros3v = (v_venda + (v_venda * ValorJuros)) / ValorDescontoVista;
         return Formulas.Arredondando(V_juros3v, 2);
     }
-    
+
     public double getValorDescontoVista() {
-        return ValorDescontoVista;
+        return ValorDescontoVista * 100;
     }
 
     public double getValorJuros() {
-        return ValorJuros;
+        return ValorJuros * 100;
     }
 
-    public String getGenero() {
-        return genero;
-    }
-
-    public void setGenero(String genero) {
-        this.genero = genero;
-    }
-    
-    public double getValorTotal(){
+    public double getValorTotal() {
         return Formulas.Arredondando(v_venda * quantidade, 2);
-    }   
-    
-    public double getQuantidadeParcelaMaxima() {
-        return QuantidadeParcelaMaxima;
     }
     
-    public String getName_IMG() {
-        return name_IMG;
-    }
-
-    public void newName_IMG(String name_IMG) {
-        this.name_IMG = "Produto_IMG_" + name_IMG;
-    }
-
-    public void setName_IMG(String name_IMG) {
-        this.name_IMG = name_IMG;
-    }
-    
-    public ArrayList<Integer> getTags() {
-        return tags;
-    }
-
-    public void setTags(ArrayList<Integer> tags) {
-        this.tags = tags;
-    }
-    
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
-
-    public int getId_produto() {
-        return id_produto;
-    }
-
-    public void setId_produto(int id_produto) {
-        this.id_produto = id_produto;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getMarca() {
-        return marca;
-    }
-
-    public void setMarca(String marca) {
-        this.marca = marca;
-    }
-
-    public String getTamanho() {
-        return tamanho;
-    }
-
     public void setTamanho(String tamanho) {
-        if (tamanho.length()>2) {
+        if (tamanho.length() > 2) {
             throw new IllegalArgumentException("Quantidade de caracteres no campo tamanho inválido");
-        } else{
+        } else {
             this.tamanho = tamanho;
         }
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public int getQuantidade() {
-        return quantidade;
     }
 
     public void setQuantidade(int quantidade) {
         if (quantidade > 0) {
             this.quantidade = quantidade;
-        }else{
+        } else {
             throw new IllegalArgumentException("quantidade de produto inválida");
         }
-    }
-
-    public double getV_compra() {
-        return v_compra;
     }
 
     public void setV_compra(double v_compra) {
         if (v_compra > 0) {
             this.v_compra = v_compra;
-        }else{
+        } else {
             throw new IllegalArgumentException("valor de compra inválido");
         }
     }
 
-    public double getV_venda() {
-        return v_venda;
-    }
-
     public void setV_venda(double v_venda) {
-        if (v_venda > getV_compra()) {
+        if (v_venda > v_compra) {
             this.v_venda = v_venda;
-        }else{
+        } else {
             throw new IllegalArgumentException("valor de venda inválido");
         }
-    }
-
-    public boolean validarPrecoUnit() {
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("id: %d <br/> Nome: %s <br/> Marca: %s <br/> Tamanho: %s <br/>"
-                + " Descricao: %s <br/>Qtd: %d <br/> Valor de Compra: %f <br/>"
-                + "Valor de Venda: %f <br/> Status: %s",
-                id_produto, nome, marca, tamanho, descricao, quantidade, v_compra, v_venda, status);
     }
 }

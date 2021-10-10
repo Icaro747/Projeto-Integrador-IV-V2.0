@@ -6,7 +6,7 @@
     xmlns:form="http://form"
     xmlns:field="http://field">
     <head>
-        <title>Mensagem do Servidor</title>
+        <title>lista de Imagen</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" th:href="@{/styles/css/MainCss.css}"/>
@@ -14,13 +14,21 @@
     </head>
     <body>
         <div th:replace="fragments/header :: body"></div>
-        <div style="
-            display: flex;
-            align-items: center;
-            flex-direction: column;
-            margin-top: 10%;">
-            <h1>Mensagem do Servidor</h1>
-            <h2 th:text="${MSG}">mensagem</h2>
+        
+        <div class="ConteinerProdutos">
+            <div class="BoxListaSize doTtzZ">
+                <a class="addIMG">Adicionar nova imagem</a>
+                <div class="BoxListe">
+                    <table>
+                        <th>ID</th>
+                        <th>Imagem</th>
+                        <tr th:each="img : ${listaIMG}">
+                            <td th:text="${img.id}"></td>
+                            <td th:text="${img.name}"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
         </div>
     </body>
 </html>

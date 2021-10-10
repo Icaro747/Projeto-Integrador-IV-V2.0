@@ -1,9 +1,14 @@
 package br.com.process.controller;
 
+import br.com.process.DAO.ImagensDAO;
 import br.com.process.DAO.ProdutoDAO;
 import br.com.process.DAO.TagDAO;
 import br.com.process.entidade.Produto;
 import br.com.process.uteis.PropriedadeStatus;
+import java.util.List;
+
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,15 +17,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
  *
  * @author Icaro
  */
-@Controller
+@Controller @Slf4j
 public class init {
    
+    
     /**
      * 
      * @return 
      */
     @RequestMapping("login")
     public String login(){
+        log.info("EEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
         return "login";
     }
     
@@ -32,7 +39,11 @@ public class init {
     @RequestMapping("/")
     public String index(Model model){
         try {
-            model.addAttribute("lista", ProdutoDAO.getEstoque(PropriedadeStatus.Ativo));
+            List<Produto> Estoque = ProdutoDAO.getEstoque(PropriedadeStatus.Ativo);
+            Estoque.forEach(produto -> {
+                produto.setImagemPrincipal(ImagensDAO.getImagemPrincipal(produto));
+            });
+            model.addAttribute("lista", Estoque);
             model.addAttribute("tags", TagDAO.getTags());
         } catch (Exception e) {
             model.addAttribute("MSG", e.getMessage());

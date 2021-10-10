@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 
-<html lang="pt-br">
+<html 
+    lang="pt-br"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+    xmlns:form="http://form"
+    xmlns:field="http://field">
     <head>
          <title>New Man</title>
         <meta charset="UTF-8">
@@ -23,7 +29,7 @@
                 <div class="Deliniado">
                     <a th:href="@{'../produto/' + ${Estoque.id_produto}}">
                         <div class="boximg">
-                            <img class="ProdutoImg" th:src="@{'/img/uploads/'+${Estoque.name_IMG}}">
+                            <img class="ProdutoImg" th:src="@{'/img/uploads/'+${Estoque.ImagemPrincipal}}">
                         </div>
                     </a>
                     <a th:href="@{'../produto/' + ${Estoque.id_produto}}">

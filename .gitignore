@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# ignore IMG
+Produto_IMG*
+Tags_IMG*

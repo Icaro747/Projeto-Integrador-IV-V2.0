@@ -24,7 +24,7 @@
                         <th>ID Produto</th>
                         <th>Nome</th>
                         <th>Marca</th>
-                        <th>Tamanho</th>
+                        <th>QTD imagens</th>
                         <th>Quantidade</th>
                         <th>Valor compra</th>
                         <th>Valor venda</th>
@@ -33,7 +33,7 @@
                             <td th:text="${produto.id_produto}"></td>
                             <td th:text="${produto.nome}"></td>
                             <td th:text="${produto.marca}"></td>
-                            <td th:text="${produto.tamanho}"></td>
+                            <td th:text="${produto.qtdImg}"></td>
                             <td th:text="${produto.quantidade}"></td>
                             <td th:text="|R$ ${produto.v_compra}|"></td>
                             <td th:text="|R$ ${produto.v_venda}|"></td>
