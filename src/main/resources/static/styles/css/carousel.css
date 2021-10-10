@@ -12,8 +12,11 @@
     transition: 1s;
     transform: scale(0.85);
 }
-.img-linhas:hover{
-    transform: scale(1);
+.img-linhas-destaque{
+    width: 100%;
+    border-radius: 10%;
+    transition: 1s;
+    transform: scale(0.85);
 }
 .glide__bullet{
     background-color: rgba(74, 74, 74, 0.5);

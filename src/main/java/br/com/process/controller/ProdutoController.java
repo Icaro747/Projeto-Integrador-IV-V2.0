@@ -9,6 +9,7 @@ import br.com.process.uteis.PropriedadeStatus;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.stereotype.Controller;
@@ -60,29 +61,32 @@ public class ProdutoController {
     @RequestMapping(value = "/produto/{id}")
     public String produto(Model model, @PathVariable int id) {
         try {
+            log.info("iniciando busca por produto");
             Produto produto = new Produto(id);
-            model.addAttribute("imagens", ImagensDAO.getImgs(produto));
-            model.addAttribute("produto", ProdutoDAO.getProduto(produto));
-            return "produtos";
+            log.info("Produto ID:" + produto.getId_produto());
+            produto = ProdutoDAO.getProduto(produto);
+            if (produto.getNome()!=null) {
+                model.addAttribute("imagens", ImagensDAO.getImgs(produto));
+                model.addAttribute("produto", produto);
+                log.info("Produto encontrado");
+                log.info(produto.toString());
+                return "produtos";
+            }else{
+                model.addAttribute("MSG", "Produto não encontrado");
+                log.info("Produto não encontrado. ID do produto:"+id);
+            }
         } catch (Exception e) {
             model.addAttribute("MSG", e);
+            log.error("erro ao procurar um produto em específico ID do produto:"+id);
+            log.error(""+e);
         }
         return "mensagem";
     }
-
-    /**
-     * cadastro de produto
-     * 
-     * @param model
-     * @param produto
-     * @return
-     */
+    
     @PostMapping("/admin/CadastroProduto/add")
     public String add(Model model, Produto produto) {
         try {
-
             int resotadoDAO = ProdutoDAO.Adicionar(produto);
-
             if (resotadoDAO != -1) {
                 if (resotadoDAO != 0) {
                     produto.setId_produto(resotadoDAO);
@@ -100,19 +104,17 @@ public class ProdutoController {
         }
         return "mensagem";
     }
-
-    /**
-     *
-     * @param model
-     * @return
-     */
+    
     @RequestMapping("/admin/listaProduto")
     public String listaProduto(Model model) {
         try {
-            List<Produto> Estoque = ProdutoDAO.getEstoque(PropriedadeStatus.Desativa);
-            for (Produto produto : Estoque) {
+            Pagina pagina = new Pagina();
+            pagina.setPageAtual(0);
+            pagina.setQuantidadeItems(100);
+            List<Produto> Estoque = ProdutoDAO.getEstoque(PropriedadeStatus.Desativa, pagina);
+            Estoque.forEach(produto -> {
                 produto.setQtdImg(ProdutoDAO.QuantidadeImagensProduto(produto));
-            }
+            });
             model.addAttribute("listaProduto", Estoque);
             return "listaProduto";
         } catch (Exception e) {
@@ -120,57 +122,17 @@ public class ProdutoController {
             return "mensagem";
         }
     }
-
-    /**
-     *
-     * @param model
-     * @param produto
-     * @return
-     */
-    @RequestMapping("Desativar")
-    public String Desativar(Model model, Produto produto) {
-        try {
-            if (ProdutoDAO.MudancaStatus(produto, PropriedadeStatus.Desativa)) {
-                model.addAttribute("MSG", "Desativado com Sucesso");
-            } else {
-                model.addAttribute("MSG", "Erro ao Desativado");
-            }
-        } catch (Exception e) {
-            model.addAttribute("MSG", e);
-        }
-        return "mensagem";
-    }
-
-    /**
-     *
-     * @param model
-     * @param produto
-     * @return
-     */
-    @RequestMapping("Ativar")
-    public String Ativar(Model model, Produto produto) {
-        try {
-            if (ProdutoDAO.MudancaStatus(produto, PropriedadeStatus.Ativo)) {
-                model.addAttribute("MSG", "Ativar com Sucesso");
-            } else {
-                model.addAttribute("MSG", "Erro ao Ativar");
-            }
-        } catch (Exception e) {
-            model.addAttribute("MSG", e);
-        }
-        return "mensagem";
-    }
-
-    /**
-     *
-     * @param model
-     * @param produto
-     * @return
-     */
+    
     @RequestMapping("/admin/buscar")
     public String AdimBuscar(Model model, Produto produto) {
         try {
-            model.addAttribute("listaProduto", ProdutoDAO.BuscarProdutos(produto, PropriedadeStatus.Desativa));
+            log.info("iniciando busca por produtos");
+            List<Produto> Estoque = ProdutoDAO.BuscarProdutos(produto, PropriedadeStatus.Desativa);
+            log.info(Estoque.size() + " produtos encontrados");
+            Estoque.forEach(pro -> {
+                pro.setQtdImg(ProdutoDAO.QuantidadeImagensProduto(pro));
+            });
+            model.addAttribute("listaProduto", Estoque);
             return "listaProduto";
         } catch (Exception e) {
             model.addAttribute("MSG", e.getMessage());
@@ -179,21 +141,44 @@ public class ProdutoController {
             return "mensagem";
         }
     }
-
-    /**
-     *
-     * @param model
-     * @return
-     */
+    
+    @RequestMapping("Desativar")
+    public String Desativar(Model model, Produto produto) {
+        try {
+            if (ProdutoDAO.MudancaStatus(produto, PropriedadeStatus.Desativa)) {
+                return listaProduto(model);
+            } else {
+                model.addAttribute("MSG", "Erro ao Desativado");
+            }
+        } catch (Exception e) {
+            model.addAttribute("MSG", e);
+        }
+        return "mensagem";
+    }
+    
+    @RequestMapping("Ativar")
+    public String Ativar(Model model, Produto produto) {
+        try {
+            if (ProdutoDAO.MudancaStatus(produto, PropriedadeStatus.Ativo)) {
+                return listaProduto(model);
+            } else {
+                model.addAttribute("MSG", "Erro ao Ativar");
+            }
+        } catch (Exception e) {
+            model.addAttribute("MSG", e);
+        }
+        return "mensagem";
+    }
+    
     @RequestMapping("/Pages")
-    public String Buscar(Model model) {
+    public String Pagina(Model model) {
         try {
             model.addAttribute("lista", ProdutoDAO.ProdutoPagn(PropriedadeStatus.Ativo, 0));
             ArrayList<Pagina> paginas = new ArrayList<>();
             for (int i = 0; i < ProdutoDAO.QuantProd(); i++) {
                 if (i % 10 == 0) {
                     int result = i / 10 + 1;
-                    Pagina pagina = new Pagina(result, 0);
+                    Pagina pagina = new Pagina(result, 0,1000);
                     paginas.add(pagina);
                 }
             }
@@ -206,22 +191,16 @@ public class ProdutoController {
             return "mensagem";
         }
     }
-
-    /**
-     *
-     * @param model
-     * @param Id
-     * @return
-     */
+    
     @RequestMapping("/Pages/{Id}")
-    public String Pagina(Model model, @PathVariable int Id) {
+    public String Paginas(Model model, @PathVariable int Id) {
         try {
             model.addAttribute("lista", ProdutoDAO.ProdutoPagn(PropriedadeStatus.Ativo, Id - 1));
             ArrayList<Pagina> paginas = new ArrayList<>();
             for (int i = 0; i < ProdutoDAO.QuantProd(); i++) {
                 if (i % 10 == 0) {
                     int result = i / 10 + 1;
-                    Pagina pagina = new Pagina(result, Id);
+                    Pagina pagina = new Pagina(result, Id, 12);
                     paginas.add(pagina);
                 }
             }
