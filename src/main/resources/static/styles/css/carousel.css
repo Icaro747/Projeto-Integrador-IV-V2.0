@@ -3,14 +3,17 @@
     margin: auto;
     margin-bottom: 2%;
 }
+.glide-Produto{
+    width: 100%;
+    margin: auto;
+}
 .img-linhas {
-    width: 250px;
     border-radius: 10%;
     transition: 1s;
     transform: scale(0.85);
 }
 .img-linhas:hover{
-    transform: scale(1.1);
+    transform: scale(1);
 }
 .glide__bullet{
     background-color: rgba(74, 74, 74, 0.5);
@@ -26,7 +29,7 @@
     border-radius: 50%;
 }
 .glide__arrow:hover{
-    transform: scale(1.3);
+    transform: scale(1.0);
     border: 2px solid rgb(0, 0, 0);
 }
 .glide__arrow:active{
@@ -42,5 +45,12 @@
     right: -5em;
 }
 .glide__slides{
-    align-items: center;
+    text-align: center;
+}
+.glide__slide{
+    margin: auto;
+    height: 100%;
+}
+.glide__track{
+    height: 100%;
 }

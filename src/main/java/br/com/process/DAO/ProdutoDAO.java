@@ -3,6 +3,7 @@ package br.com.process.DAO;
 import br.com.process.conexao.Conexao;
 import br.com.process.entidade.Produto;
 import br.com.process.uteis.PropriedadeStatus;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,10 +21,9 @@ public class ProdutoDAO {
      * método para adicionar os dados do produto no banco de dados.
      *
      * @param produto Entidade a ser adicionar.
-     * @return <b>true</b> se a adicionar foi bem sucedida <b>false</b> se não
-     * for.
+     * @return <b>true</b> se a adicionar foi bem sucedida <b>false</b> se não for.
      */
-    public static boolean Adicionar(Produto produto) {
+    public static int Adicionar(Produto produto) {
 
         ResultSet rs = null;
         Connection conexao = null;
@@ -31,7 +31,7 @@ public class ProdutoDAO {
 
         try {
             conexao = Conexao.abrirConexao();
-            instrucaoSQL = conexao.prepareStatement("INSERT INTO Produtos (Nome, Marca, Descricao, Quantidade, V_compra, V_venda, name_img, Statu) VALUES (?,?,?,?,?,?,?,?)");
+            instrucaoSQL = conexao.prepareStatement("INSERT INTO Produtos (Nome, Marca, Descricao, Quantidade, V_compra, V_venda, Status) VALUES (?,?,?,?,?,?,?)");
 
             instrucaoSQL.setString(1, produto.getNome());
             instrucaoSQL.setString(2, produto.getMarca());
@@ -39,37 +39,41 @@ public class ProdutoDAO {
             instrucaoSQL.setInt(4, produto.getQuantidade());
             instrucaoSQL.setDouble(5, produto.getV_compra());
             instrucaoSQL.setDouble(6, produto.getV_venda());
-            instrucaoSQL.setString(7, produto.getName_IMG());
-            instrucaoSQL.setBoolean(8, produto.isStatus());
+            instrucaoSQL.setBoolean(7, produto.isStatus());
 
             int linhaAfetadas = instrucaoSQL.executeUpdate();
 
             /**
-             * Seu produto foi adicionar ao banco de dados com sucesso ele
-             * prossegue
+             * Seu produto foi adicionar ao banco de dados com sucesso ele prossegue
              */
             if (linhaAfetadas > 0) {
-
+                
                 /**
-                 * Produto tem 1 ou mais Tag?
+                 * pega o ID do último produto adicionado ao banco de dados
                  */
-                if (produto.getTags().size() >= 1) {
+                instrucaoSQL = conexao.prepareStatement("SELECT ID_Produto FROM Produtos ORDER BY ID_Produto DESC LIMIT 1");
+                rs = instrucaoSQL.executeQuery();
+
+                if (rs.next()) {
+
+                    produto.setId_produto(rs.getInt("ID_Produto"));
+
                     /**
-                     * pega o ID do último produto adicionado ao banco de dados
+                     * Produto tem 1 ou mais Tag?
                      */
-                    instrucaoSQL = conexao.prepareStatement("SELECT ID_Produto FROM Produtos ORDER BY ID_Produto DESC LIMIT 1");
-                    rs = instrucaoSQL.executeQuery();
-
-                    if (rs.next()) {
-
-                        produto.setId_produto(rs.getInt("ID_Produto"));
-
+                    if (produto.getTags().size() >= 1) {
                         linhaAfetadas = TagDAO.AdicionarRelacao(produto);
                     }
+                    
                 }
+
             }
 
-            return linhaAfetadas > 0;
+            if (linhaAfetadas > 0) {
+                return produto.getId_produto();
+            } else {
+                return -1;
+            }
 
         } catch (SQLException e) {
             throw new IllegalArgumentException(e.getMessage());
@@ -95,8 +99,7 @@ public class ProdutoDAO {
      *
      * @param produto Entidade identifica o produto a ser desativar.
      * @param status
-     * @return <b>true</b> se a desativar foi bem sucedida <b>false</b> se não
-     * for.
+     * @return <b>true</b> se a desativar foi bem sucedida <b>false</b> se não for.
      */
     public static boolean MudancaStatus(Produto produto, PropriedadeStatus status) {
 
@@ -107,9 +110,9 @@ public class ProdutoDAO {
             conexao = Conexao.abrirConexao();
 
             if (status == PropriedadeStatus.Ativo) {
-                instrucaoSQL = conexao.prepareStatement("UPDATE Produtos SET Statu = 1 WHERE ID_Produto = ?");
+                instrucaoSQL = conexao.prepareStatement("UPDATE Produtos SET Status = 1 WHERE ID_Produto = ?");
             } else {
-                instrucaoSQL = conexao.prepareStatement("UPDATE Produtos SET Statu = 0 WHERE ID_Produto = ?");
+                instrucaoSQL = conexao.prepareStatement("UPDATE Produtos SET Status = 0 WHERE ID_Produto = ?");
             }
 
             instrucaoSQL.setInt(1, produto.getId_produto());
@@ -136,11 +139,9 @@ public class ProdutoDAO {
      * método para atualizar os dados do produto.
      *
      * @param produto Entidade a ser atualizar e os demais dados.
-     * @param img
-     * @return <b>true</b> se a Atualizar foi bem sucedida <b>false</b> se não
-     * for.
+     * @return <b>true</b> se a Atualizar foi bem sucedida <b>false</b> se não for.
      */
-    public static boolean Atualizar(Produto produto, boolean img) {
+    public static boolean Atualizar(Produto produto) {
 
         Connection conexao = null;
         PreparedStatement instrucaoSQL = null;
@@ -148,16 +149,8 @@ public class ProdutoDAO {
         try {
             conexao = Conexao.abrirConexao();
 
-            if (img) {
-                instrucaoSQL = conexao.prepareStatement("UPDATE Produtos SET Nome = ?, Marca = ?, Descricao = ?, Quantidade = ?, V_compra = ?, V_venda = ?, name_img = ? WHERE ID_Produto = ?");
-
-                instrucaoSQL.setString(7, produto.getName_IMG());
-                instrucaoSQL.setInt(8, produto.getId_produto());
-            } else {
-                instrucaoSQL = conexao.prepareStatement("UPDATE Produtos SET Nome = ?, Marca = ?, Descricao = ?, Quantidade = ?, V_compra = ?, V_venda = ? WHERE ID_Produto = ?");
-
-                instrucaoSQL.setInt(7, produto.getId_produto());
-            }
+            instrucaoSQL = conexao.prepareStatement(
+                    "UPDATE Produtos SET Nome = ?, Marca = ?, Descricao = ?, Quantidade = ?, V_compra = ?, V_venda = ? WHERE ID_Produto = ?");
 
             instrucaoSQL.setString(1, produto.getNome());
             instrucaoSQL.setString(2, produto.getMarca());
@@ -165,6 +158,7 @@ public class ProdutoDAO {
             instrucaoSQL.setInt(4, produto.getQuantidade());
             instrucaoSQL.setDouble(5, produto.getV_compra());
             instrucaoSQL.setDouble(6, produto.getV_venda());
+            instrucaoSQL.setInt(7, produto.getId_produto());
 
             int linhaAfetadas = instrucaoSQL.executeUpdate();
 
@@ -200,8 +194,8 @@ public class ProdutoDAO {
      * método para pegar todos os dados da tabela Estoque no banco de dados.
      *
      * @param status
-     * @return Retorna uma <b>List</b> com todas os Produtos<br> se nenhum
-     * Produto foram encontrado, retorna uma <b>List</b> vazia.
+     * @return Retorna uma <b>List</b> com todas os Produtos<br>
+     *         se nenhum Produto foram encontrado, retorna uma <b>List</b> vazia.
      */
     public static List<Produto> getEstoque(PropriedadeStatus status) {
 
@@ -215,7 +209,7 @@ public class ProdutoDAO {
             conexao = Conexao.abrirConexao();
 
             if (status == PropriedadeStatus.Ativo) {
-                instrucaoSQL = conexao.prepareStatement("SELECT * FROM Produtos WHERE Statu = 1");
+                instrucaoSQL = conexao.prepareStatement("SELECT * FROM Produtos WHERE Status = 1");
             } else {
                 instrucaoSQL = conexao.prepareStatement("SELECT * FROM Produtos");
             }
@@ -230,13 +224,49 @@ public class ProdutoDAO {
                 int QTD = rs.getInt("Quantidade");
                 double V_compra = rs.getDouble("V_compra");
                 double V_venda = rs.getDouble("V_venda");
-                String IMG = rs.getString("name_img");
-                boolean Statu = rs.getBoolean("Statu");
+                boolean Statu = rs.getBoolean("Status");
 
-                Produto produto = new Produto(ID, Nome, Marca, Descricao, QTD, V_compra, V_venda, IMG, Statu);
+                Produto produto = new Produto(ID, Nome, Marca, Descricao, QTD, V_compra, V_venda, Statu);
                 Estoque.add(produto);
             }
             return Estoque;
+        } catch (SQLException e) {
+            throw new IllegalArgumentException(e.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (instrucaoSQL != null) {
+                    instrucaoSQL.close();
+                }
+                if (conexao != null) {
+                    conexao.close();
+                    Conexao.fecharConexao();
+                }
+            } catch (SQLException e) {
+            }
+        }
+    }
+    
+    public static int QuantidadeImagensProduto(Produto produto){
+        
+        ResultSet rs = null;
+        Connection conexao = null;
+        PreparedStatement instrucaoSQL = null;
+
+        try {
+            conexao = Conexao.abrirConexao();
+
+            instrucaoSQL = conexao.prepareStatement("select COUNT(*) as QtdImg from Pruduto_Imagens WHERE FK_Produto = ? group by FK_Produto;");
+            instrucaoSQL.setInt(1, produto.getId_produto());
+            rs = instrucaoSQL.executeQuery();
+            
+            if (rs.next()) {
+                return rs.getInt("QtdImg");
+            }else{
+                return 0;
+            }
         } catch (SQLException e) {
             throw new IllegalArgumentException(e.getMessage());
         } finally {
@@ -261,8 +291,8 @@ public class ProdutoDAO {
      *
      * @param Produto Entidade que referencia o Produto a ser buscado.
      * @param status
-     * @return Retorna uma <b>List</b> com todas os Produtos<br> se nenhum
-     * Produto for encontrado, retorna uma <b>List</b> vazia.
+     * @return Retorna uma <b>List</b> com todas os Produtos<br>
+     *         se nenhum Produto for encontrado, retorna uma <b>List</b> vazia.
      */
     public static List<Produto> BuscarProdutos(Produto Produto, PropriedadeStatus status) {
 
@@ -292,10 +322,9 @@ public class ProdutoDAO {
                 int QTD = rs.getInt("Quantidade");
                 double V_compra = rs.getDouble("V_compra");
                 double V_venda = rs.getDouble("V_venda");
-                String IMG = rs.getString("name_img");
-                boolean Status = rs.getBoolean("Statu");
+                boolean Status = rs.getBoolean("Status");
 
-                Produto produto = new Produto(ID, Nome, Marca, Descricao, QTD, V_compra, V_venda, IMG, Status);
+                Produto produto = new Produto(ID, Nome, Marca, Descricao, QTD, V_compra, V_venda, Status);
                 estoque.add(produto);
             }
             return estoque;
@@ -335,7 +364,6 @@ public class ProdutoDAO {
             if (rs.next()) {
                 produto.setNome(rs.getString("Nome"));
                 produto.setV_venda(rs.getDouble("V_venda"));
-                produto.setName_IMG(rs.getString("name_img"));
                 produto.setDescricao(rs.getString("Descricao"));
                 produto.setV_compra(rs.getDouble("V_compra"));
                 produto.setQuantidade(rs.getInt("Quantidade"));
@@ -379,9 +407,9 @@ public class ProdutoDAO {
             } else {
                 instrucaoSQL = conexao.prepareStatement("SELECT * FROM Produtos WHERE Nome LIKE ?");
             }
-            
+
             instrucaoSQL.setInt(1, numPage * 10);
-            
+
             rs = instrucaoSQL.executeQuery();
 
             while (rs.next()) {
@@ -392,10 +420,9 @@ public class ProdutoDAO {
                 int QTD = rs.getInt("Quantidade");
                 double V_compra = rs.getDouble("V_compra");
                 double V_venda = rs.getDouble("V_venda");
-                String IMG = rs.getString("name_img");
-                boolean Status = rs.getBoolean("Statu");
+                boolean Status = rs.getBoolean("Status");
 
-                Produto produto = new Produto(ID, Nome, Marca, Descricao, QTD, V_compra, V_venda, IMG, Status);
+                Produto produto = new Produto(ID, Nome, Marca, Descricao, QTD, V_compra, V_venda, Status);
                 estoque.add(produto);
             }
             return estoque;
@@ -416,7 +443,6 @@ public class ProdutoDAO {
             } catch (SQLException e) {
             }
         }
-
     }
 
     public static int QuantProd() {
@@ -460,6 +486,5 @@ public class ProdutoDAO {
             } catch (SQLException e) {
             }
         }
-
     }
 }
