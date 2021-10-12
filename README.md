@@ -13,7 +13,7 @@ CREATE TABLE Produtos(
     ID_Produto INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     Nome VARCHAR(150) NOT NULL,
     Marca VARCHAR(50) NOT NULL,
-    Descricao VARCHAR(150) NOT NULL,
+    Descricao VARCHAR(500) NOT NULL,
     Quantidade int NOT NULL,
     V_compra DECIMAL(9,2) NOT NULL,
     V_venda DECIMAL(9,2) NOT NULL,
