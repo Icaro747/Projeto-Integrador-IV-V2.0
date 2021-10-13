@@ -9,14 +9,21 @@ import br.com.process.uteis.PropriedadeStatus;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.validation.Valid;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  *
@@ -26,15 +33,41 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller @Slf4j
 public class ProdutoController {
 
-    /**
-     *
-     * @param model
-     * @return
-     */
-    @RequestMapping("/admin/CadastroProduto")
+    @GetMapping("/admin/CadastroProduto")
     public String cadastro(Model model) {
+        model.addAttribute("produto", new Produto());
         model.addAttribute("listTags", TagDAO.getTags());
         return "CadastroProduto";
+    }
+    
+    @PostMapping("/admin/CadastroProduto")
+    public String add(Model model, @Valid @ModelAttribute(value="produto") Produto produto, BindingResult result) {
+        log.info("Produto é válido:"+ !result.hasErrors());
+        if (!result.hasErrors()) {
+            try {
+                int resotadoDAO = ProdutoDAO.Adicionar(produto);
+                if (resotadoDAO != -1) {
+                    if (resotadoDAO != 0) {
+                        produto.setId_produto(resotadoDAO);
+                        model.addAttribute("produto", produto);
+                        return "NewImagemProduto";
+                    }else{
+                        log.error("Erro ao pegar ID do produto. ID do Produto Add:" + resotadoDAO);
+                        model.addAttribute("MSG", "Erro produto não encontrado");
+                    }
+                } else {
+                    log.error("Erro ao cadastrar produtos no banco de dados");
+                    model.addAttribute("MSG", "Erro ao Adicionar");
+                }
+            } catch (Exception e) {
+                log.error(""+e);
+                model.addAttribute("MSG", e.getMessage());
+            }
+            return "mensagem";
+        }else{
+            model.addAttribute("listTags", TagDAO.getTags());
+            return "CadastroProduto";
+        }
     }
 
     @RequestMapping("/admin/AtualizarProduto")
@@ -79,28 +112,6 @@ public class ProdutoController {
             model.addAttribute("MSG", e);
             log.error("erro ao procurar um produto em específico ID do produto:"+id);
             log.error(""+e);
-        }
-        return "mensagem";
-    }
-    
-    @PostMapping("/admin/CadastroProduto/add")
-    public String add(Model model, Produto produto) {
-        try {
-            int resotadoDAO = ProdutoDAO.Adicionar(produto);
-            if (resotadoDAO != -1) {
-                if (resotadoDAO != 0) {
-                    produto.setId_produto(resotadoDAO);
-                    model.addAttribute("produto", produto);
-                    return "NewImagemProduto";
-                }else{
-                    log.error("Erro produto não encontrado. ID do Produto Add:" + resotadoDAO);
-                    model.addAttribute("MSG", "Erro produto não encontrado");
-                }
-            } else {
-                model.addAttribute("MSG", "Erro ao Adicionar");
-            }
-        } catch (Exception e) {
-            model.addAttribute("MSG", e);
         }
         return "mensagem";
     }
@@ -212,5 +223,12 @@ public class ProdutoController {
             System.err.println(e);
             return "mensagem";
         }
+    }
+    
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public void onIllegaArgumentException(IllegalArgumentException npe){
+        log.error(npe.getMessage());
+        System.out.println("In onNullPointerException exception handler ");
     }
 }

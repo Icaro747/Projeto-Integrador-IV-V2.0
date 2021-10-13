@@ -4,6 +4,10 @@ import br.com.process.uteis.Formulas;
 
 import java.util.ArrayList;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -16,13 +20,21 @@ import lombok.ToString;
 public class Produto {
 
     @Getter @Setter private int id_produto;
+    @NotEmpty(message = "Nome vasio")
+    @Size(min = 3, max = 150, message = "Tamanho do campo inválido")
     @Getter @Setter private String nome;
+    @Size(min = 3, max = 50, message = "Tamanho do campo inválido")
     @Getter @Setter private String marca;
-    @Getter private String tamanho;
+    @Size(min = 1, max = 2, message = "Tamanho do campo inválido")
+    @Getter @Setter private String tamanho;
     @Getter @Setter private String genero;
+    @Size(min = 3, max = 500, message = "Tamanho do campo inválido")
     @Getter @Setter private String descricao;
-    @Getter private int quantidade;
-    @Getter private double v_compra;
+    @Min(value = 1, message = "Quantidade inválida")
+    @Getter @Setter private int quantidade;
+    @Min(value = 1, message = "Valor inválida")
+    @Getter @Setter private double v_compra;
+    @Min(value = 1, message = "Valor inválida")
     @Getter private double v_venda;
     @Getter @Setter private String ImagemPrincipal;
     @Getter @Setter private boolean status;
@@ -49,29 +61,21 @@ public class Produto {
     /**
      * Construtor
      * @param id_produto ID do Produto
-     * @param nome Nome do Produto
-     * @param marca Marca do Produto
-     * @param descricao Descrição do Produto
+     * @param nome       Nome do Produto
+     * @param marca      Marca do Produto
+     * @param descricao  Descrição do Produto
      * @param quantidade Quatidade do Produto
-     * @param v_compra Valor de compra do Produto
-     * @param v_venda Valor de venda do Produto
-     * @param status Status do produto Ativo e desativado
+     * @param v_compra   Valor de compra do Produto
+     * @param v_venda    Valor de venda do Produto
+     * @param status     Status do produto Ativo e desativado
      */
     public Produto(int id_produto, String nome, String marca, String descricao, int quantidade, double v_compra, double v_venda, boolean status) {
         this.id_produto = id_produto;
         this.nome = nome;
         this.marca = marca;
         this.descricao = descricao;
-        if (quantidade > 0) {
-            this.quantidade = quantidade;
-        } else {
-            throw new IllegalArgumentException("quantidade de produto inválida");
-        }
-        if (v_compra > 0) {
-            this.v_compra = v_compra;
-        } else {
-            throw new IllegalArgumentException("valor de compra inválido");
-        }
+        this.quantidade = quantidade;
+        this.v_compra = v_compra;
         if (v_venda > v_compra) {
             this.v_venda = v_venda;
         } else {
@@ -113,39 +117,15 @@ public class Produto {
     public double getValorTotal() {
         return Formulas.Arredondando(v_venda * quantidade, 2);
     }
-    
-    public void setTamanho(String tamanho) {
-        if (tamanho.length() > 2) {
-            throw new IllegalArgumentException("Quantidade de caracteres no campo tamanho inválido");
-        } else {
-            this.tamanho = tamanho;
-        }
-    }
-
-    public void setQuantidade(int quantidade) {
-        if (quantidade > 0) {
-            this.quantidade = quantidade;
-        } else {
-            throw new IllegalArgumentException("quantidade de produto inválida");
-        }
-    }
-
-    public void setV_compra(double v_compra) {
-        if (v_compra > 0) {
-            this.v_compra = v_compra;
-        } else {
-            throw new IllegalArgumentException("valor de compra inválido");
-        }
-    }
 
     public void setV_venda(double v_venda) {
         if (v_venda > v_compra) {
             this.v_venda = v_venda;
         } else {
-            throw new IllegalArgumentException("valor de venda inválido");
+            this.v_venda = 0;
         }
     }
-    
+
     @ToString(callSuper=true, includeFieldNames=true)
     public static class Square{
         private final int width, height;

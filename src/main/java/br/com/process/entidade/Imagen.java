@@ -14,7 +14,7 @@ import lombok.ToString;
 public class Imagen {
 
     @Getter @Setter private int id;
-    @Getter private String name;
+    @Getter @Setter private String name;
     @Getter @Setter private int id_produto;
 
     /**
@@ -27,43 +27,27 @@ public class Imagen {
 
     /**
      *
-     * @param id ID da Imagen
-     * @param name Nome da Imagen
+     * @param id         ID da Imagen
+     * @param name       Nome da Imagen
      * @param id_Produto ID do Produto
      */
     public Imagen(int id, String name, int id_Produto) {
         this.id = id;
-        if (id_Produto > 0) {
-            this.id_produto = id_Produto;
-        } else {
-            throw new IllegalArgumentException("ID de Produto inválido");
-        }
-        if (name != null) {
-            this.name = name;
-        } else {
-            throw new IllegalArgumentException("Imagen inválido");
-        }
+        this.id_produto = id_Produto;
+        this.name = name;
     }
 
     /**
      *
-     * @param name Nome da Imagen
+     * @param name       Nome da Imagen
      * @param id_Produto ID do Produto
      */
     public Imagen(String name, int id_Produto) {
-        if (id_Produto > 0) {
-            this.id_produto = id_Produto;
-        } else {
-            throw new IllegalArgumentException("ID de Produto inválido");
-        }
-        if (name != null) {
-            this.name = name;
-        } else {
-            throw new IllegalArgumentException("Imagen inválido");
-        }
+        this.id_produto = id_Produto;
+        this.name = name;
     }
 
-    public void setName(String name) {
+    public void NewName(String name) {
         this.name = "Produto_IMG_" + name;
     }
     

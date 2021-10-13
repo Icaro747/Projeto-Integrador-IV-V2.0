@@ -33,6 +33,7 @@ table td a{
     font-variant: all-small-caps;
     min-width: 30px;
     cursor: pointer;
+    user-select: none;
 }
 table td a:hover{
     color: var(--text-cor1);

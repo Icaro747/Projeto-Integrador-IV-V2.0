@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Produto</title>
         <meta charset="UTF-8">
@@ -71,7 +73,7 @@
                     <h2 class="text-descrition">Quantidade</h2>
                     <div class="quantidade_produto">
                         <button type="button" class="remove" id="menos" onclick="less()"> - </button><!-- Adicionar mais produto -->
-                        <input type="text" class="quantitySelect" value="1" data-mask="000" id="num"  name="quantidade"><!--Quantidade de Produto-->
+                        <input type="text" class="quantitySelect" value="1" data-mask="000" id="num" name="quantidade"><!--Quantidade de Produto-->
                         <button type="button" class="add" id="mais"  onclick="more()"> + </button><!-- Diminuir produto -->
                     </div>
                     <div class="hr"></div>
@@ -91,8 +93,10 @@
                 numero = 1;
                 
                 function less() {
-                  numero--;
-                  setValue(numero);
+                    if (numero != 1) {
+                        numero--;
+                        setValue(numero);
+                    }                  
                 }
 
                 function more() {

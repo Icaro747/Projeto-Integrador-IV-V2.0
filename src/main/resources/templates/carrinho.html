@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Carrinho</title>
         <meta charset="UTF-8">
@@ -26,9 +28,9 @@
                             <td th:text="${produto.tamanho}"></td>
                             <td>
                                 <span>
-                                    <a th:id="@{'/listaCarrinho/' + ${produto.indice} + '/-'}" th:onclick="|Confirmado('/listaCarrinho/${produto.indice}/-')|"> - </a>
+                                    <a th:onclick="|Confirmacao('/listaCarrinho/${produto.indice}/-','${produto.quantidade}','-')|"> - </a>
                                     <p th:text="${produto.quantidade}"></p>
-                                    <a th:id="@{'/listaCarrinho/' + ${produto.indice} + '/+'}" th:onclick="|Confirmado('/listaCarrinho/${produto.indice}/+')|"> + </a>
+                                    <a th:onclick="|Confirmacao('/listaCarrinho/${produto.indice}/+','${produto.quantidade}','+')|"> + </a>
                                 </span>
                             </td>
                             <td th:text="|R$ ${produto.v_venda}|"></td>
@@ -47,12 +49,6 @@
             </div>
         </div>
         
-        <script type="text/javascript">
-            function Confirmado(url){
-                $.ajax(url).done(function(){
-                    location.reload();
-                });
-            }
-        </script>
+        <script type="text/javascript" th:src="@{/styles/js/Carrinho.js}"></script>
     </body>
 </html>

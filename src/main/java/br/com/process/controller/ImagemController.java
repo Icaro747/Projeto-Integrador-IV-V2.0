@@ -9,9 +9,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  *
  * @author Icaro
  */
-@Controller
+@Controller @Slf4j
 public class ImagemController {
 
     private final String FOLDER_IMG_TAG = GerenciadorArquivo.CaminhoTag();
@@ -31,12 +33,12 @@ public class ImagemController {
 
 
     @PostMapping("/admin/CadastroProduto/NewImg")
-    public String newImgProduto(Model model, int id_produto, @RequestParam("img") MultipartFile file, RedirectAttributes redirectAttributes) {
+    public String newImgProduto(Model model, @ModelAttribute(value="imagen")Imagen imagen, @RequestParam("img") MultipartFile file, RedirectAttributes redirectAttributes) {
 
         try {
             if (!file.isEmpty()) {
-
-                Imagen imagen = new Imagen(file.getOriginalFilename(), id_produto);
+                log.info("ID Produto:"+imagen.getId());
+                imagen.NewName(file.getOriginalFilename());
 
                 if (ImagensDAO.Adicionar(imagen)) {
                     byte[] bytes = file.getBytes();
