@@ -1,5 +1,3 @@
-/*MENU HAMBGUER*/
-
 body,
 ul {
     margin: 0px;
@@ -90,18 +88,10 @@ header{
     width: 100%;
     border-radius: 40px 0px 0px 40px;
 }
-
-
-/*Cabeçalho Dois*/
-
 .header-2 {
     background-color: var(--cor-background);
     height: 40px;
 }
-
-
-/*Carrousel com as roupas*/
-
 .h1-nmarca {
     font-family: 'Montserrat', sans-serif;
     text-align: center;
@@ -153,13 +143,14 @@ header{
     background-color: transparent;
     cursor: pointer;
 }
-/*DESTAQUES*/
-
 .conteiner {
     display: flex;
     background-color: red;
 }
-
+.error-text{
+    color: red;
+    font-weight: 700;
+}
 .destaques {
     background-color: black;
     width: 20%;

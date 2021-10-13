@@ -4,7 +4,7 @@ import br.com.process.uteis.Formulas;
 
 import java.sql.Date;
 import java.util.ArrayList;
-
+import java.util.Collections;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -33,10 +33,16 @@ public class Carrinho {
         }
     }
     
-    public void addProduto(Produto produto){
+    public void AddNewProduto(Produto produto) {
         produto.setIndice(produtos.size());
         totalVenda += produto.V_QTD();
         this.produtos.add(produto);
+    }
+    
+    public void AddProduto(Produto produto){
+        totalVenda += produto.V_QTD();
+        this.produtos.add(produto);
+        OrderLista();
     }
     
     public void RemoveItem(int indice){
@@ -45,7 +51,13 @@ public class Carrinho {
         this.produtos.remove(produto);
     }
     
-    public void AlinaLista(){
+    public void OrderLista(){
+        Collections.sort (produtos, (Produto p1, Produto p2) -> {
+            return p1.getIndice() < p2.getIndice() ? -1 : (p1.getIndice() > p2.getIndice() ? +1 : 0);
+        });
+    }
+    
+    public void AlignLista() {
         int indic = 0;
         for (Produto produto : produtos) {
             produto.setIndice(indic);

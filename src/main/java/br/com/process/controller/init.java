@@ -5,7 +5,9 @@ import br.com.process.DAO.ProdutoDAO;
 import br.com.process.DAO.TagDAO;
 import br.com.process.entidade.Produto;
 import br.com.process.entidade.Pagina;
+import br.com.process.entidade.Tag;
 import br.com.process.uteis.PropriedadeStatus;
+
 import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
@@ -33,19 +35,25 @@ public class init {
             Pagina pagina = new Pagina();
             pagina.setPageAtual(0);
             pagina.setQuantidadeItems(16);
-            List<Produto> Estoque = ProdutoDAO.getEstoque(PropriedadeStatus.Ativo, pagina);
-            Estoque.forEach(produto -> {
-                produto.setImagemPrincipal(ImagensDAO.getImagemPrincipal(produto));
-            });
-            model.addAttribute("lista", Estoque);
-            model.addAttribute("tags", TagDAO.getTags());
-            return "index";
+            
+            List<Tag> Tags = TagDAO.getTags();
+            if (!Tags.isEmpty()) {
+                List<Produto> Estoque = ProdutoDAO.getEstoque(PropriedadeStatus.Ativo, pagina);
+                Estoque.forEach(produto -> {
+                    produto.setImagemPrincipal(ImagensDAO.getImagemPrincipal(produto));
+                });
+
+                model.addAttribute("lista", Estoque);
+                model.addAttribute("tags", Tags);
+                return "index";
+            }else{
+                model.addAttribute("MSG", "Não foi encontrada nenhuma tag cadastrada. favor cadastrar uma tag");
+            }
         } catch (Exception e) {
             model.addAttribute("MSG", e.getMessage());
-            System.err.println("------------------>>ERRO<<------------------");
-            System.err.println(e);
-            return "mensagem";
+            log.error(""+e);
         }
+        return "mensagem";
     }
     
     @RequestMapping("/BuscarProduto")
@@ -66,8 +74,7 @@ public class init {
             }
         } catch (Exception e) {
             model.addAttribute("MSG", e.getMessage());
-            System.err.println("------------------>>ERRO<<------------------");
-            System.err.println(e);
+            log.error(""+e);
         }
         return "mensagem";
     }
