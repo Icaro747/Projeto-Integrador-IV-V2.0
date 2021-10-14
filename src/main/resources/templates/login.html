@@ -13,7 +13,6 @@
         <link rel="shortcut icon" th:href="@{img/newman.ico}" type="image/x-icon">
         <title>Login</title>
     </head>
-
     <body>
         
         <div th:replace="fragments/header :: body"></div>
@@ -24,14 +23,14 @@
                     <div class="gAgEMf">
                         
                         <section class="wWWhb">
-                            <form action="">
+                            <form action="#" th:action="@{/login}" method="POST">
                                 <h2 class="subtitulo-login">Login</h2>
                                 <div class="form__div">
-                                    <input type="email" class="form__input" placeholder=" " required>
+                                    <input type="email" class="form__input" name="email" placeholder=" " required>
                                     <label class="form__label">Email</label>
                                 </div>
                                 <div class="form__div">
-                                    <input type="password" class="form__input" placeholder=" " required>
+                                    <input type="password" class="form__input" name="senha" placeholder=" " required>
                                     <label class="form__label">Senha</label>
                                 </div>
                                 <div class="button-cadastrar">

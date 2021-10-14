@@ -5,6 +5,7 @@ import br.com.process.uteis.Formulas;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,6 +14,7 @@ import lombok.ToString;
 /**
  *
  * @author Eduardo
+ * @author Icaro
  */
 @ToString
 @NoArgsConstructor
