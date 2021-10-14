@@ -1,5 +1,6 @@
 package br.com.process.entidade;
 
+import br.com.process.uteis.CPF;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
@@ -14,11 +15,10 @@ import lombok.ToString;
  * @author Icaro
  */
 @ToString
-@Getter
-@Setter
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Funcionario extends Use{
+public class Funcionario{
     
     private int id_funcionario;
     @NotEmpty(message = "Nome vasio")
@@ -33,8 +33,7 @@ public class Funcionario extends Use{
     @NotEmpty(message = "Senha vasio")
     @Size(min = 3, max = 200, message = "Tamanho do campo inválido")
     private String senha;
-    @NotEmpty(message = "CPF vasio")
-    @Size(min = 11, max = 11, message = "Tamanho do campo inválido")
+    @NotEmpty(message = "CPF válido")
     private String cpf;
     @NotEmpty(message = "Atuação vasio")
     @Size(min = 3, max = 50, message = "Tamanho do campo inválido")
@@ -43,28 +42,18 @@ public class Funcionario extends Use{
   
     /**
      * Construtor
-     * @param id_funcionario  ID do Funcionario
+     * @param id_funcionario ID do Funcionario
      */
     public Funcionario(int id_funcionario) {
         this.id_funcionario = id_funcionario;
     }
-
-    /**
-     * 
-     * @param id_funcionario ID do Funcionario
-     * @param atuacao        Atuação do Funcionario
-     * @param status         Status do Funcionario
-     * @param nome           Nome do Funcionario
-     * @param sobrenome      Sobrenome do Funcionario
-     * @param CPF            CPF do Funcionario
-     * @param email          Email do Funcionario
-     * @param senha          Senha do Funcionario
-     */
-    public Funcionario(int id_funcionario, String atuacao, boolean status, String nome, String sobrenome, String CPF, String email, String senha) {
-        super(nome, sobrenome, CPF, email, senha);
-        this.id_funcionario = id_funcionario;
-        this.atuacao = atuacao;
-        this.status = status;
+    
+    public void setCpf(String cpf) {
+        if (CPF.Validar_CPF(cpf.replaceAll("\\.","").replaceAll("-",""))) {
+            this.cpf = cpf;
+        }else{
+            this.cpf = "";
+        }
     }
     
 }

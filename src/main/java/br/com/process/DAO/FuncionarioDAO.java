@@ -7,12 +7,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  *
  * @author Icaro
  * @author Vinicius
  */
+@Slf4j
 public class FuncionarioDAO {
 
     public static boolean CheckFuncionario(Funcionario funcionario){
@@ -57,7 +59,6 @@ public class FuncionarioDAO {
 
         try {
             conexao = Conexao.abrirConexao();
-
             instrucaoSQL = conexao.prepareStatement("SELECT * FROM Funcionario WHERE Email = ?");
 
             instrucaoSQL.setString(1, funcionario.getEmail());
@@ -67,7 +68,7 @@ public class FuncionarioDAO {
                 funcionario.setNome(rs.getString("Nome"));
                 funcionario.setSobrenome(rs.getString("Sobrenome"));
                 funcionario.setSenha(rs.getString("Senha"));
-                funcionario.setCPF(rs.getString("CPF"));
+                funcionario.setCpf(rs.getString("CPF"));
                 funcionario.setAtuacao(rs.getString("Atuacao"));
                 funcionario.setStatus(rs.getBoolean("Status"));
             }
@@ -101,17 +102,17 @@ public class FuncionarioDAO {
 
         try {
             conexao = Conexao.abrirConexao();
-
             instrucaoSQL = conexao.prepareStatement("SELECT * FROM Funcionario WHERE ID_Funcionario = ?");
-
-            instrucaoSQL.setString(1, funcionario.getEmail());
+            
+            instrucaoSQL.setInt(1, funcionario.getId_funcionario());
             rs = instrucaoSQL.executeQuery();
 
             if (rs.next()) {
                 funcionario.setNome(rs.getString("Nome"));
                 funcionario.setSobrenome(rs.getString("Sobrenome"));
+                funcionario.setEmail(rs.getString("Email"));
                 funcionario.setSenha(rs.getString("Senha"));
-                funcionario.setCPF(rs.getString("CPF"));
+                funcionario.setCpf(rs.getString("CPF"));
                 funcionario.setAtuacao(rs.getString("Atuacao"));
                 funcionario.setStatus(rs.getBoolean("Status"));
             }
@@ -150,7 +151,7 @@ public class FuncionarioDAO {
             instrucaoSQL.setString(2, funcionario.getSobrenome());
             instrucaoSQL.setString(3, funcionario.getEmail());
             instrucaoSQL.setString(4, funcionario.getSenha());
-            instrucaoSQL.setString(5, funcionario.getCPF());
+            instrucaoSQL.setString(5, funcionario.getCpf());
             instrucaoSQL.setString(6, funcionario.getAtuacao());
             instrucaoSQL.setBoolean(7, funcionario.isStatus());
 
@@ -180,9 +181,7 @@ public class FuncionarioDAO {
 
         try {
             conexao = Conexao.abrirConexao();
-
-            instrucaoSQL = conexao.prepareStatement(
-                    "UPDATE Funcionario SET Nome = ?, Sobrenome = ?, Senha = ?, CPF = ?, Atuacao = ? WHERE ID_Funcionario = ?");
+            instrucaoSQL = conexao.prepareStatement("UPDATE Funcionario SET Nome = ?, Sobrenome = ?, Senha = ?, CPF = ?, Atuacao = ? WHERE ID_Funcionario = ?");
 
             instrucaoSQL.setString(1, funcionario.getNome());
             instrucaoSQL.setString(2, funcionario.getSobrenome());
@@ -196,6 +195,7 @@ public class FuncionarioDAO {
             return linhaAfetadas > 0;
 
         } catch (SQLException e) {
+            log.error("SQL ERROR "+e);
             throw new IllegalArgumentException(e.getMessage());            
         } finally {
             try {

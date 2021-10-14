@@ -1,63 +1,70 @@
 <!DOCTYPE html>
 <html lang="pt-br"
-      xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Atualizar de Funcionarios</title>
         <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <link rel="stylesheet" type="text/css" th:href="@{/styles/css/MainCss.css}"/>
-                <link rel="shortcut icon" th:href="@{img/newman.ico}" type="image/x-icon">
-                    </head>
-                    <body>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" th:href="@{/styles/css/MainCss.css}"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <link rel="shortcut icon" th:href="@{img/newman.ico}" type="image/x-icon">
+    </head>
+    <body>
 
-                        <div th:replace="fragments/header :: body"></div>
+        <div th:replace="fragments/header :: body"></div>
 
-                        <div class="hRtCnc">
-                            <div class="doTtzZ">
-                                <div class="cAQjTg">
-                                    <div class="gAgEMf">
+        <div class="hRtCnc">
+            <div class="doTtzZ">
+                <div class="cAQjTg">
+                    <div class="gAgEMf">
 
-                                        <section class="wWWhb">
-                                            <form action="./AtualizarFunc" th:action ="@{/admin/AtualizarFunc}" method="POST" th:object = "${funcionario}">
-                                                <h2 class="subtitulo-login">Atualizar do Funcionário</h2>
-                                                <input type="hidden" name="id_funcionario" th:field="*{id_funcionario}">
-                                                    <div class="form__div">
-                                                        <input type="text" class="form__input" name="nome" th:field="*{nome}" placeholder=" " required>
-                                                            <label class="form__label">Nome</label>
-                                                    </div>
-                                                    <p th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" th:class="'error-text'">something</p>
-                                                    <div class="form__div">
-                                                        <input type="text" class="form__input" name="sobrenome" th:field="*{sobrenome}" placeholder=" " required>
-                                                            <label class="form__label">Sobrenome</label>
-                                                    </div>
-                                                    <p th:if="${#fields.hasErrors('sobrenome')}" th:errors="*{sobrenome}" th:class="'error-text'">something</p>
-                                                    <div class="form__div">
-                                                        <input type="text" class="form__input" name="senha" th:field="*{senha}" placeholder=" " required>
-                                                            <label class="form__label">Senha</label>
-                                                    </div>
-                                                    <p th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}" th:class="'error-text'">something</p>
-                                                    <div class="form__div">
-                                                        <input type="text" class="form__input" name="cpf" th:field="*{cpf}" placeholder=" " required>
-                                                            <label class="form__label">CPF</label>
-                                                    </div>
-                                                    <p th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}" th:class="'error-text'">something</p>
-                                                    <div class="form__div">
-                                                        <input type="text" class="form__input" name="atuacao" th:field="*{atuacao}" placeholder=" " required>
-                                                            <label class="form__label">Atuação</label>
-                                                    </div>
-                                                    <p th:if="${#fields.hasErrors('atuacao')}" th:errors="*{atuacao}" th:class="'error-text'">something</p>
-
-                                                    <div class="button-cadastrar">
-                                                        <button type="submit" class="btn btn-destaque">Atualizar</button>
-                                                    </div>
-                                            </form>
-                                        </section>
-                                    </div>
+                        <section class="wWWhb">
+                            <form action="../AtualizarFuncionario" th:action ="@{/admin/AtualizarFuncionario}" onsubmit="return Confirmacao()" method="POST" th:object="${funcionario}">
+                                <h2 class="subtitulo-login">Atualizar do Funcionário</h2>
+                                <input type="hidden" name="id_funcionario" th:field="*{id_funcionario}">
+                                <input type="hidden" name="email" th:field="*{email}">
+                                <div class="form__div">
+                                    <input type="text" class="form__input" name="nome" th:field="*{nome}" placeholder=" ">
+                                    <label class="form__label">Nome</label>
                                 </div>
-                            </div>
-                        </div>
-
-
-                    </body>
+                                <p th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" th:class="'error-text'">something</p>
+                                <div class="form__div">
+                                    <input type="text" class="form__input" name="sobrenome" th:field="*{sobrenome}" placeholder=" ">
+                                    <label class="form__label">Sobrenome</label>
+                                </div>
+                                <p th:if="${#fields.hasErrors('sobrenome')}" th:errors="*{sobrenome}" th:class="'error-text'">something</p>
+                                <div class="form__div">
+                                    <input type="password" class="form__input" name="senha" th:field="*{senha}" placeholder=" " required id="Senha">
+                                    <label class="form__label">Senha</label>
+                                </div>
+                                <p th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}" th:class="'error-text'">something</p>
+                                <div class="form__div">
+                                    <input type="password" class="form__input" placeholder=" " required id="ConSenha">
+                                    <label class="form__label">Confirme a Senha</label>
+                                </div>
+                                <div class="form__div">
+                                    <input type="text" class="form__input" name="cpf" th:field="*{cpf}" placeholder=" " id="CPF">
+                                    <label class="form__label">CPF</label>
+                                </div>
+                                <p th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}" th:class="'error-text'">something</p>
+                                <div class="form__div">
+                                    <input type="text" class="form__input" name="atuacao" th:field="*{atuacao}" placeholder=" ">
+                                    <label class="form__label">Atuação</label>
+                                </div>
+                                <p th:if="${#fields.hasErrors('atuacao')}" th:errors="*{atuacao}" th:class="'error-text'">something</p>
+                                <div class="button-cadastrar">
+                                    <button type="submit" class="btn btn-destaque">Atualizar</button>
+                                </div>
+                            </form>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" th:src="@{/styles/js/Login.js}"></script>
+    </body>
 </html>
