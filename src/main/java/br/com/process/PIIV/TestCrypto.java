@@ -21,13 +21,13 @@ public class TestCrypto {
 //        System.out.println(fun.getSenha());
 //        System.out.println("--------------------------------------------------");
 //        cadatro(fun);
-//        Funcionario fun2 = FuncionarioDAO.getFuncionario(fun);
+//        Funcionario fun2 = FuncionarioDAO.getFuncionarioEmail(fun);
 //        System.out.println(fun2.getSenha());
 //        System.out.println("Validação:"+valida(fun,n1));
     }
     
     public static boolean valida(Funcionario fun, String senha){
-        Funcionario CheckFuncionario = FuncionarioDAO.getFuncionario(fun);
+        Funcionario CheckFuncionario = FuncionarioDAO.getFuncionarioEmail(fun);
         return Crypto.ValidaSenha(senha, CheckFuncionario.getSenha());
     }
     
