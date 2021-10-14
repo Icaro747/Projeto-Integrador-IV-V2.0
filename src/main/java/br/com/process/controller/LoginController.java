@@ -35,7 +35,7 @@ public class LoginController {
                 
                 if (FuncionarioDAO.CheckFuncionario(funcionario)) {
                     
-                    Funcionario CheckFuncionario = FuncionarioDAO.getFuncionario(funcionario);
+                    Funcionario CheckFuncionario = FuncionarioDAO.getFuncionarioEmail(funcionario);
                     if (Crypto.ValidaSenha(senha, CheckFuncionario.getSenha())) {
                         funcionario.setSenha("");
                         funcionario.setNome(CheckFuncionario.getNome());

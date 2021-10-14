@@ -2,10 +2,12 @@ package br.com.process.controller;
 
 import br.com.process.DAO.FuncionarioDAO;
 import br.com.process.entidade.Funcionario;
-import javax.validation.Valid;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Controller;
 
+import javax.validation.Valid;
+
+import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  *
- * @author Dell
+ * @author Vinicius
  */
 @Controller
 @Slf4j
@@ -25,7 +27,7 @@ public class FuncionarioController {
     public String telaAtualizar(Model model, @PathVariable int id) {
         try {
             Funcionario funcionario = new Funcionario(id);
-            model.addAttribute("funcionario", FuncionarioDAO.getFuncionario(funcionario));
+            model.addAttribute("funcionario", FuncionarioDAO.getFuncionarioId(funcionario));
             log.info("redirecionando pra tela de update funcionario");
             return "FuncionarioUpdate";
         } catch (Exception e) {
