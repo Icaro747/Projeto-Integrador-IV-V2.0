@@ -2,11 +2,16 @@ package br.com.process.DAO;
 
 import br.com.process.conexao.Conexao;
 import br.com.process.entidade.Funcionario;
+import br.com.process.entidade.Pagina;
+import br.com.process.uteis.PropriedadeStatus;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -211,5 +216,60 @@ public class FuncionarioDAO {
         }
                 
     }
-  
+    
+    
+    public static List<Funcionario> getUsuario(PropriedadeStatus status){
+        
+        ResultSet rs = null;
+        Connection conexao = null;
+        PreparedStatement instrucaoSQL = null;
+
+        List<Funcionario> Usuario = new ArrayList<>();
+
+        try {
+            conexao = Conexao.abrirConexao();
+
+            if (status == PropriedadeStatus.Ativo) {
+                instrucaoSQL = conexao.prepareStatement("SELECT * FROM Funcionario WHERE Statu = 1");
+            }else{
+                instrucaoSQL = conexao.prepareStatement("SELECT * FROM Funcionario");
+            }
+
+            rs = instrucaoSQL.executeQuery();
+
+            while(rs.next()){
+                int ID = rs.getInt("ID_Funcionario");
+                String Nome = rs.getString("Nome");
+                String Sobrenome = rs.getString("Sobrenome");
+                String Email = rs.getString("Email");
+                String Senha = rs.getString("Senha");
+                String CPF = rs.getString("CPF");
+                String Atuacao = rs.getString("Atuacao");
+                boolean Status = rs.getBoolean("Status");
+
+                Funcionario funcionario = new Funcionario(ID, Nome, Sobrenome, Email, Senha, CPF, Atuacao, Status);
+                Usuario.add(funcionario);
+            }
+            return Usuario;
+        } catch (SQLException e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }finally{
+            try {
+                if (rs!=null) {
+                    rs.close();
+                }
+                if (instrucaoSQL!=null) {
+                    instrucaoSQL.close();
+                }
+                if (conexao!=null) {
+                    conexao.close();
+                    Conexao.fecharConexao();
+                }
+            } catch (SQLException e) {
+            }
+        }
+    }
+        
 }
+  
+
