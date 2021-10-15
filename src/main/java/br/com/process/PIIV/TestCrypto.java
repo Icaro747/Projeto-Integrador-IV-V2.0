@@ -24,6 +24,10 @@ public class TestCrypto {
 //        Funcionario fun2 = FuncionarioDAO.getFuncionarioEmail(fun);
 //        System.out.println(fun2.getSenha());
 //        System.out.println("Validação:"+valida(fun,n1));
+
+        String a = "337.366-111";
+        a = a.replaceAll("\\.","").replaceAll("-","");
+        System.out.println(a);
     }
     
     public static boolean valida(Funcionario fun, String senha){

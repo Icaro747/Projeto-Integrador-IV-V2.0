@@ -6,8 +6,9 @@ import br.com.process.entidade.Funcionario;
 import br.com.process.entidade.Pagina;
 import br.com.process.entidade.Produto;
 import br.com.process.uteis.PropriedadeStatus;
-import java.util.List;
+import br.com.process.uteis.Crypto;
 
+import java.util.List;
 import javax.validation.Valid;
 
 import lombok.extern.slf4j.Slf4j;
@@ -24,27 +25,39 @@ import org.springframework.web.bind.annotation.RequestMapping;
  *
  * @author Vinicius
  */
-@Controller
-@Slf4j
+@Controller @Slf4j
 public class FuncionarioController {
 
     @RequestMapping(value = "/admin/AtualizarFuncionario/{id}")
     public String telaAtualizar(Model model, @PathVariable int id) {
         try {
             Funcionario funcionario = new Funcionario(id);
-            model.addAttribute("funcionario", FuncionarioDAO.getFuncionarioId(funcionario));
-            log.info("redirecionando pra tela de update funcionario");
-            return "FuncionarioUpdate";
+            funcionario = FuncionarioDAO.getFuncionarioId(funcionario);
+            log.info(funcionario.toString());
+            
+            if (funcionario.getNome() != null) {
+                funcionario.setSenha("");
+                model.addAttribute("funcionario", funcionario);
+                
+                log.info("redirecionando pra tela de update funcionario");
+                return "FuncionarioUpdate";
+            }else{
+                model.addAttribute("MSG", "Fsuncionário não encontrado");
+            }
         } catch (Exception e) {
             model.addAttribute("MSG", e);
         }
         return "mensagem";
     }
 
-    @PostMapping("/admin/AtualizarFunc")
+    @PostMapping("/admin/AtualizarFuncionario")
     public String Atualizar(Model model, @Valid @ModelAttribute(value = "funcionario") Funcionario funcionario, BindingResult result) {
         try {
-            if (true) {
+            log.info(funcionario.toString());
+            if (!result.hasErrors()) {
+                log.info("iniciando encriptação de senha");
+                funcionario.setSenha(Crypto.HashSenha(funcionario.getSenha()));
+                log.info("senha criptografada");
                 if (FuncionarioDAO.Atualizar(funcionario)) {
                     model.addAttribute("MSG", "Atualizar com Sucesso");
                 } else {
@@ -52,7 +65,7 @@ public class FuncionarioController {
                 }
             } else {
                 log.info("validar funcionario erro");
-                return "FuncionarioUpdate:All";
+                return "FuncionarioUpdate";
             }
         } catch (Exception e) {
             model.addAttribute("MSG", e);
