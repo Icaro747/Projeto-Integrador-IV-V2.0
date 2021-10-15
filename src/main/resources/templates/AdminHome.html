@@ -10,11 +10,11 @@
     <body>
         <div>Admin Home</div><br>
         <a href="#" th:if="${session.Use.Atuacao=='Admin'}">Cadastro de Funcionario</a><br>
-        <a href="#" th:if="${session.Use.Atuacao=='Admin'}">Lista do Funcionario</a><br><br>
+        <a href="/admin/listaFuncionario" th:if="${session.Use.Atuacao=='Admin'}">Lista do Funcionario</a><br>
+        <a th:href="@{'/admin/listaFuncionario/' + ${session.Use.Id_funcionario}}" th:if="${session.Use.Atuacao=='Admin'}">seu usuário</a><br><br>
         <a href="/admin/CadastroProduto" th:if="${session.Use.Atuacao=='Admin'}">Cadastro de Produto</a><br>
         <a href="/admin/listaProduto" >Lista do Produtos</a><br><br>
         <a href="/admin/CadastroTag" th:if="${session.Use.Atuacao=='Admin'}">Cadastro de Tag</a><br>
         <a href="/admin/listaTag">Lista de Tags</a>
-        
     </body>
 </html>

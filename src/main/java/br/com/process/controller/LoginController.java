@@ -32,23 +32,26 @@ public class LoginController {
             HttpSession session = request.getSession();
             
             if (splitted[1].equalsIgnoreCase("newman.com")) {
-                
                 if (FuncionarioDAO.CheckFuncionario(funcionario)) {
                     
                     Funcionario CheckFuncionario = FuncionarioDAO.getFuncionarioEmail(funcionario);
-                    if (Crypto.ValidaSenha(senha, CheckFuncionario.getSenha())) {
-                        funcionario.setSenha("");
-                        funcionario.setNome(CheckFuncionario.getNome());
-                        funcionario.setAtuacao(CheckFuncionario.getAtuacao());
-                        session.setAttribute("Use", funcionario);
-                        return "AdminHome";
+                    if (CheckFuncionario.isStatus()) {
+                        
+                        if (Crypto.ValidaSenha(senha, CheckFuncionario.getSenha())) {
+                            funcionario.setSenha("");
+                            funcionario.setNome(CheckFuncionario.getNome());
+                            funcionario.setAtuacao(CheckFuncionario.getAtuacao());
+                            session.setAttribute("Use", funcionario);
+                            return "AdminHome";
+                        }
+                    }else{
+                        model.addAttribute("MSG", "Conta desativada");
                     }
                 }
-                model.addAttribute("MSG", "senha ou login inválido");
+                model.addAttribute("MSG", "Senha ou login inválido");
             }else{
-                //cliente
+                //login com cliente
             }
-            
         } catch (Exception e) {
             model.addAttribute("MSG", e);
         }
