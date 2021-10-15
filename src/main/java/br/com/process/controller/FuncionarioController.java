@@ -1,7 +1,12 @@
 package br.com.process.controller;
 
 import br.com.process.DAO.FuncionarioDAO;
+import br.com.process.DAO.ProdutoDAO;
 import br.com.process.entidade.Funcionario;
+import br.com.process.entidade.Pagina;
+import br.com.process.entidade.Produto;
+import br.com.process.uteis.PropriedadeStatus;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -53,5 +58,12 @@ public class FuncionarioController {
             model.addAttribute("MSG", e);
         }
         return "mensagem";
+    }
+    
+    
+    @RequestMapping("/admin/listaFuncionario")
+    public String listaFuncionario (Model model){
+        model.addAttribute("listaFuncionario", FuncionarioDAO.getUsuario(PropriedadeStatus.Desativa));
+        return "listaFuncionario";
     }
 }

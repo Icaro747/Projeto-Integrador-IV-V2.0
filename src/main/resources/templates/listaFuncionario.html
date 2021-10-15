@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Lista de Funcionario</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" th:href="@{/styles/css/MainCss.css}"/>
+        <link rel="shortcut icon" th:href="@{img/newman.ico}" type="image/x-icon">
+    </head>
+ <div th:replace="fragments/header :: body"></div>
+        
+        <div class="ConteinerProdutos">
+            <div class="BoxListaSize doTtzZ">
+                <form action="/admin/buscar" method="POST">
+                    <div class="Buscarbox">
+                        <input class="Buscatext" type="text" name="nome">
+                        <button class="Buscabtn">Buscar</button>
+                    </div>
+                </form>
+                <div class="BoxListe">
+                    <table>
+                        <th>ID Funcionario</th>
+                        <th>Nome</th>
+                        <th>Sobrenome</th>
+                        <th>Email</th>
+                        <th>Senha</th>
+                        <th>CPF</th>
+                        <th>Atuacao</th>
+                        <th>Status</th>
+                        <tr th:each="funcionario : ${listaFuncionario}">
+                            <td th:text="${funcionario.id_funcionario}"></td>
+                            <td th:text="${funcionario.nome}"></td>
+                            <td th:text="${funcionario.sobrenome}"></td>
+                            <td th:text="${funcionario.email}"></td>
+                            <td th:text="${funcionario.senha}"></td>
+                            <td th:text="${funcionario.cpf}"></td>
+                            <td th:text="${funcionario.atuacao}"></td>
+                            <td th:text="${funcionario.status}"></td>
+                            <td><a >Atualizar</a></td>
+                            <td>
+                                <a class="btnDesativar">Desativar</a>
+                                <a class="btnAtivar">Ativar</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
