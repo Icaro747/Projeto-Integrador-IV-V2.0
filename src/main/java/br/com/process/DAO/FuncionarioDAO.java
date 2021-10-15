@@ -2,7 +2,6 @@ package br.com.process.DAO;
 
 import br.com.process.conexao.Conexao;
 import br.com.process.entidade.Funcionario;
-import br.com.process.entidade.Pagina;
 import br.com.process.uteis.PropriedadeStatus;
 
 import java.sql.Connection;
@@ -70,6 +69,7 @@ public class FuncionarioDAO {
             rs = instrucaoSQL.executeQuery();
 
             if (rs.next()) {
+                funcionario.setId_funcionario(rs.getInt("ID_Funcionario"));
                 funcionario.setNome(rs.getString("Nome"));
                 funcionario.setSobrenome(rs.getString("Sobrenome"));
                 funcionario.setSenha(rs.getString("Senha"));
@@ -113,6 +113,7 @@ public class FuncionarioDAO {
             rs = instrucaoSQL.executeQuery();
 
             if (rs.next()) {
+                funcionario.setId_funcionario(rs.getInt("ID_Funcionario"));
                 funcionario.setNome(rs.getString("Nome"));
                 funcionario.setSobrenome(rs.getString("Sobrenome"));
                 funcionario.setEmail(rs.getString("Email"));
@@ -214,11 +215,10 @@ public class FuncionarioDAO {
             } catch (SQLException e) {
             }
         }
-                
     }
     
     
-    public static List<Funcionario> getUsuario(PropriedadeStatus status){
+    public static List<Funcionario> getUsuarios(PropriedadeStatus status){
         
         ResultSet rs = null;
         Connection conexao = null;
@@ -242,12 +242,11 @@ public class FuncionarioDAO {
                 String Nome = rs.getString("Nome");
                 String Sobrenome = rs.getString("Sobrenome");
                 String Email = rs.getString("Email");
-                String Senha = rs.getString("Senha");
                 String CPF = rs.getString("CPF");
                 String Atuacao = rs.getString("Atuacao");
                 boolean Status = rs.getBoolean("Status");
 
-                Funcionario funcionario = new Funcionario(ID, Nome, Sobrenome, Email, Senha, CPF, Atuacao, Status);
+                Funcionario funcionario = new Funcionario(ID, Nome, Sobrenome, Email, "", CPF, Atuacao, Status);
                 Usuario.add(funcionario);
             }
             return Usuario;
@@ -269,7 +268,45 @@ public class FuncionarioDAO {
             }
         }
     }
-        
-}
-  
+    
+    /**
+     * Método para desativar um produto no banco de dados.
+     * @param funcionario entidade que identifica o funcionário que mudará o status.
+     * @param status
+     * @return <b>true</b> se a desativar foi bem sucedida <b>false</b> se não for.
+     */
+    public static boolean MudancaStatus(Funcionario funcionario, PropriedadeStatus status) {
 
+        Connection conexao = null;
+        PreparedStatement instrucaoSQL = null;
+
+        try {
+            conexao = Conexao.abrirConexao();
+
+            if (status == PropriedadeStatus.Ativo) {
+                instrucaoSQL = conexao.prepareStatement("UPDATE Funcionario SET Status = 1 WHERE ID_Funcionario = ?");
+            } else {
+                instrucaoSQL = conexao.prepareStatement("UPDATE Funcionario SET Status = 0 WHERE ID_Funcionario = ?");
+            }
+
+            instrucaoSQL.setInt(1, funcionario.getId_funcionario());
+
+            int linhaAfetadas = instrucaoSQL.executeUpdate();
+            return linhaAfetadas > 0;
+        } catch (SQLException e) {
+            throw new IllegalArgumentException(e.getMessage());
+        } finally {
+            try {
+                if (instrucaoSQL != null) {
+                    instrucaoSQL.close();
+                }
+                if (conexao != null) {
+                    conexao.close();
+                    Conexao.fecharConexao();
+                }
+            } catch (SQLException e) {
+            }
+        }
+    }
+    
+}

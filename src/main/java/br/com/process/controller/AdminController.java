@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -14,14 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author Icaro
  */
 @Controller
+@RequestMapping("/admin")
 public class AdminController {
     
-    @RequestMapping("admin")
-    public String admin(Model model, HttpServletRequest request){
+    @RequestMapping("/*")
+    public String RestrictedArea(Model model, HttpServletRequest request){
         try {
-            HttpSession session = request.getSession();
-            Funcionario fun = (Funcionario) session.getAttribute("Use");
-            if (fun != null) {
+            if (RestrictedAreaAccess(request.getSession())) {
                 return "AdminHome";
             }else{
                 model.addAttribute("MSG", "página restrita");
@@ -30,5 +30,15 @@ public class AdminController {
             model.addAttribute("MSG", e);
         }
         return "mensagem";
+    }
+    
+    @GetMapping("")
+    public String HomeAdmin(Model model, HttpServletRequest request){
+        return RestrictedArea(model, request);
+    }
+    
+    public static boolean RestrictedAreaAccess(HttpSession session){
+        Funcionario fun = (Funcionario) session.getAttribute("Use");
+        return fun != null;
     }
 }

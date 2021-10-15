@@ -1,14 +1,12 @@
 package br.com.process.controller;
 
 import br.com.process.DAO.FuncionarioDAO;
-import br.com.process.DAO.ProdutoDAO;
 import br.com.process.entidade.Funcionario;
-import br.com.process.entidade.Pagina;
-import br.com.process.entidade.Produto;
 import br.com.process.uteis.PropriedadeStatus;
 import br.com.process.uteis.Crypto;
-
+import java.util.ArrayList;
 import java.util.List;
+
 import javax.validation.Valid;
 
 import lombok.extern.slf4j.Slf4j;
@@ -73,10 +71,57 @@ public class FuncionarioController {
         return "mensagem";
     }
     
-    
     @RequestMapping("/admin/listaFuncionario")
     public String listaFuncionario (Model model){
-        model.addAttribute("listaFuncionario", FuncionarioDAO.getUsuario(PropriedadeStatus.Desativa));
+        model.addAttribute("listaFuncionario", FuncionarioDAO.getUsuarios(PropriedadeStatus.Desativa));
         return "listaFuncionario";
+    }
+    
+    @RequestMapping(value = "/admin/listaFuncionario/{id}")
+    public String listaUse (Model model, @PathVariable int id){
+        try {
+            Funcionario funcionario = new Funcionario(id);
+            List<Funcionario> Use = new ArrayList<>();
+            Use.add(FuncionarioDAO.getFuncionarioId(funcionario));
+            model.addAttribute("listaFuncionario", Use);
+            model.addAttribute("eu", true);
+            return "listaFuncionario";
+        } catch (Exception e) {
+            log.error(""+e);
+            model.addAttribute("MSG", e.getMessage());
+        }
+        return "mensagem";
+    }
+    
+    @RequestMapping(value = "/admin/Desativar/{id}")
+    public String Desativar(Model model, @PathVariable int id){
+        Funcionario funcionario = new Funcionario(id);
+        try {
+            if (FuncionarioDAO.MudancaStatus(funcionario, PropriedadeStatus.Desativa)) {
+                return listaFuncionario(model);
+            }else{
+                model.addAttribute("MSG", "Erro ao Desativado");
+            }
+        } catch (Exception e) {
+            log.error(""+e);
+            model.addAttribute("MSG", e.getMessage());
+        }
+        return "mensagem";
+    }
+    
+    @RequestMapping(value = "/admin/Ativar/{id}")
+    public String Ativar(Model model, @PathVariable int id){
+        Funcionario funcionario = new Funcionario(id);
+        try {
+            if (FuncionarioDAO.MudancaStatus(funcionario, PropriedadeStatus.Ativo)) {
+                return listaFuncionario(model);
+            }else{
+                model.addAttribute("MSG", "Erro ao Ativar");
+            }
+        } catch (Exception e) {
+            log.error(""+e);
+            model.addAttribute("MSG", e.getMessage());
+        }
+        return "mensagem";
     }
 }

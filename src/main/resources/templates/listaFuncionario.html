@@ -1,10 +1,7 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>
+<html lang="pt-br"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Lista de Funcionario</title>
         <meta charset="UTF-8">
@@ -12,39 +9,33 @@ and open the template in the editor.
         <link rel="stylesheet" type="text/css" th:href="@{/styles/css/MainCss.css}"/>
         <link rel="shortcut icon" th:href="@{img/newman.ico}" type="image/x-icon">
     </head>
- <div th:replace="fragments/header :: body"></div>
+    <body>
+        <div th:replace="fragments/header :: body"></div>
         
         <div class="ConteinerProdutos">
             <div class="BoxListaSize doTtzZ">
-                <form action="/admin/buscar" method="POST">
-                    <div class="Buscarbox">
-                        <input class="Buscatext" type="text" name="nome">
-                        <button class="Buscabtn">Buscar</button>
-                    </div>
-                </form>
                 <div class="BoxListe">
                     <table>
-                        <th>ID Funcionario</th>
                         <th>Nome</th>
                         <th>Sobrenome</th>
                         <th>Email</th>
-                        <th>Senha</th>
-                        <th>CPF</th>
-                        <th>Atuacao</th>
+                        <th>Grupo</th>
                         <th>Status</th>
                         <tr th:each="funcionario : ${listaFuncionario}">
-                            <td th:text="${funcionario.id_funcionario}"></td>
                             <td th:text="${funcionario.nome}"></td>
                             <td th:text="${funcionario.sobrenome}"></td>
                             <td th:text="${funcionario.email}"></td>
-                            <td th:text="${funcionario.senha}"></td>
-                            <td th:text="${funcionario.cpf}"></td>
                             <td th:text="${funcionario.atuacao}"></td>
-                            <td th:text="${funcionario.status}"></td>
-                            <td><a >Atualizar</a></td>
-                            <td>
-                                <a class="btnDesativar">Desativar</a>
-                                <a class="btnAtivar">Ativar</a>
+                            
+                            <td th:if="${funcionario.status}">Ativo</td>
+                            <td th:unless="${funcionario.status}">Desativo</td>
+                            
+                            <!-- th:if="${eu} or ${session.Use.Atuacao=='Admin'}" -->
+                            <td th:if="${eu}"><a th:href="@{'/admin/AtualizarFuncionario/' + ${funcionario.Id_funcionario}}">Atualizar</a></td>
+                            
+                            <td th:if="${session.Use.Atuacao=='Admin'}" th:unless="${eu}">
+                                <a th:if="${funcionario.status}" th:href="@{'/admin/Desativar/' + ${funcionario.id_funcionario}}" class="btnDesativar">Desativar</a>
+                                <a th:unless="${funcionario.status}" th:href="@{'/admin/Ativar/' + ${funcionario.id_funcionario}}" class="btnAtivar">Ativar</a>
                             </td>
                         </tr>
                     </table>
