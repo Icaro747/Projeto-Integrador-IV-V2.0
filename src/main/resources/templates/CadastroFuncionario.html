@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" th:href="@{/styles/css/MainCss.css}"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <link rel="shortcut icon" th:href="@{img/newman.ico}" type="image/x-icon">
+        <title>Cadastro Funcionário</title>
+    </head>
+<body>
+        
+    <div th:replace="fragments/header :: body"></div>
+           
+    <div class="hRtCnc">
+        <div class="doTtzZ">
+            <div class="cAQjTg">
+                <div class="gAgEMf">
+                    
+                    <section class="wWWhb">
+                        <form action="./CadastroFuncionario/add" method="POST" enctype="multipart/form-data">
+                            <h2 class="subtitulo-login">Criar Funcionário</h2>
+                            <div class="form__div">
+                                <input type="text" class="form__input" name="nome" placeholder=" " required>
+                                <label class="form__label">Nome</label>
+                            </div>
+                            <div class="form__div">
+                                <input type="text" class="form__input" name="sobrenome" placeholder=" " required>
+                                <label class="form__label">Sobrenome</label>
+                            </div>
+                            <div class="form__div">
+                                <input type="email" class="form__input" name="email" placeholder=" " required>
+                                <label class="form__label">Email</label>
+                            </div>
+                            <div class="form__div">
+                                <input type="password" class="form__input" name="senha" placeholder=" " required id="Senha">
+                                <label class="form__label">Senha</label>
+                            </div>
+                            <div class="form__div">
+                                <input type="password" class="form__input" placeholder="" required id="ConSenha">
+                                <label class="form__label">Confirme a Senha</label>
+                            </div>
+                            <div class="form__div">
+                                <input type="text" class="form__input" name="cpf" placeholder="" required id="CPF">
+                                <label class="form__label">CPF</label>
+                            </div>
+                            <div class="form__div">                                
+                                <select class="form__input" name="atuacao" id="Atuacao">
+                                    <option selected hidden value="">Atuação</option>
+                                    <option value="Admin">Administrador</option>                                    
+                                    <option value="Estoquista">Estoquista</option>
+                                </select>
+                            </div>
+                            <div class="button-cadastrar">
+                                <button type="submit" class="btn btn-simples">Cadastrar</button>
+                            </div>
+                        </form>
+                    </section>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="text/javascript" th:src="@{/styles/js/Funcionario.js}"></script>
+</body>
+</html>

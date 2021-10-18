@@ -20,7 +20,7 @@ import lombok.ToString;
 public class Produto {
 
     @Getter @Setter private int id_produto;
-    @NotEmpty(message = "Nome vasio")
+    @NotEmpty(message = "Nome vazio")
     @Size(min = 3, max = 150, message = "Tamanho do campo inválido")
     @Getter @Setter private String nome;
     @Size(min = 3, max = 50, message = "Tamanho do campo inválido")
