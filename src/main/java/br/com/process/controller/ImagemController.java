@@ -32,7 +32,6 @@ public class ImagemController {
     private final String FOLDER_IMG_TAG = GerenciadorArquivo.CaminhoTag();
     private final String FOLDER_IMG_PRODUTO = "C://Users//Icaro//Documents//NetBeansProjects//PI//Projeto-Integrador-IV-V2.0//src//main//resources//static//img//uploads//";
 
-
     @PostMapping("/admin/CadastroProduto/NewImg")
     public String newImgProduto(Model model, @ModelAttribute(value="imagen")Imagen imagen, @RequestParam("img") MultipartFile file, RedirectAttributes redirectAttributes) {
 
@@ -54,7 +53,8 @@ public class ImagemController {
                 model.addAttribute("MSG", "imagen não foi encontrado");
             }
         } catch (IOException e) {
-            model.addAttribute("MSG", e);
+            log.error(""+e);
+            model.addAttribute("MSG", e.getMessage());
         }
         return "mensagem";
 

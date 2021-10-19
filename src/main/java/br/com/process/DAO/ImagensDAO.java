@@ -46,10 +46,7 @@ public class ImagensDAO {
                 if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }
-                if (conexao != null) {
-                    conexao.close();
-                    Conexao.fecharConexao();
-                }
+                Conexao.fecharConexao();
             } catch (SQLException e) {
             }
         }
@@ -95,10 +92,7 @@ public class ImagensDAO {
                 if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }
-                if (conexao != null) {
-                    conexao.close();
-                    Conexao.fecharConexao();
-                }
+                Conexao.fecharConexao();
             } catch (SQLException e) {
             }
         }
@@ -144,10 +138,7 @@ public class ImagensDAO {
                 if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }
-                if (conexao != null) {
-                    conexao.close();
-                    Conexao.fecharConexao();
-                }
+                Conexao.fecharConexao();
             } catch (SQLException e) {
             }
         }
@@ -190,10 +181,7 @@ public class ImagensDAO {
                 if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }
-                if (conexao != null) {
-                    conexao.close();
-                    Conexao.fecharConexao();
-                }
+                Conexao.fecharConexao();
             } catch (SQLException e) {
             }
         }
@@ -221,10 +209,7 @@ public class ImagensDAO {
                 if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }
-                if (conexao != null) {
-                    conexao.close();
-                    Conexao.fecharConexao();
-                }
+                Conexao.fecharConexao();
             } catch (SQLException e) {
             }
         }

@@ -53,7 +53,44 @@ public class LoginController {
                 //login com cliente
             }
         } catch (Exception e) {
-            model.addAttribute("MSG", e);
+            log.error(""+e);
+            model.addAttribute("MSG", e.getMessage());
+        }
+        return "mensagem";
+    }
+    
+    @GetMapping("/login/fun")
+    public String TelaLoginFucionario(){
+        return "LoginFuncionario";
+    }
+    
+    @PostMapping("/login/fun")
+    public String LoginFucionario(Model model, @Valid @ModelAttribute(value="funcionario") Funcionario funcionario, BindingResult result, HttpServletRequest request){
+        String senha = funcionario.getSenha();
+        try {
+            HttpSession session = request.getSession();
+            
+            if (FuncionarioDAO.CheckFuncionario(funcionario)) {
+
+                Funcionario CheckFuncionario = FuncionarioDAO.getFuncionarioEmail(funcionario);
+                if (CheckFuncionario.isStatus()) {
+
+                    if (Crypto.ValidaSenha(senha, CheckFuncionario.getSenha())) {
+                        funcionario.setSenha("");
+                        funcionario.setNome(CheckFuncionario.getNome());
+                        funcionario.setAtuacao(CheckFuncionario.getAtuacao());
+                        session.setAttribute("Use", funcionario);
+                        return "AdminHome";
+                    }
+                }else{
+                    model.addAttribute("MSG", "Conta desativada");
+                }
+            }
+            model.addAttribute("MSG", "Senha ou login inválido");
+            
+        } catch (Exception e) {
+            log.error(""+e);
+            model.addAttribute("MSG", e.getMessage());
         }
         return "mensagem";
     }
