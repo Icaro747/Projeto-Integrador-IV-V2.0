@@ -31,6 +31,7 @@
     transition: .5s;
     padding-left: 15px;
     border: black solid 2px;
+    color: var(--secundaria);
 }
 
 .form__label {
@@ -58,10 +59,12 @@
     left: .8rem;
     font-weight: 500;
     z-index: 10;
+    color: var(--secundaria);
 }
 
 .form__input:focus {
     border: 2px solid var(--secundaria);
+    color: var(--secundaria);
 }
 
 .BoxInputsRadio{
