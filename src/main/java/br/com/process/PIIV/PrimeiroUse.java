@@ -8,13 +8,12 @@ import br.com.process.uteis.Crypto;
  *
  * @author Icaro
  */
-public class TestCrypto {
+public class PrimeiroUse {
     public static void main(String[] args) {
-//        Funcionario fun = new Funcionario(5, "Admin", true, "Icaro", "Sousa", "337", "icaro1@newman.com", "icaro");
-//        
-//        ///cadatro(fun);
-//        //System.out.println("Test de Senha");
-//        //System.out.println(valida(fun));
+        Funcionario fun = new Funcionario(5, "Icaro", "Sousa", "icaro@newman.com", "icaro", "33736621841", "Admin", true);
+        fun.setSenha(Crypto.HashSenha(fun.getSenha()));
+        cadatro(fun);
+//        System.out.println("Test de Senha");
 //        System.out.println("senha:"+fun.getSenha());
 //        String n1 = fun.getSenha();
 //        fun.setSenha(Crypto.HashSenha(fun.getSenha()));
@@ -25,9 +24,9 @@ public class TestCrypto {
 //        System.out.println(fun2.getSenha());
 //        System.out.println("Validação:"+valida(fun,n1));
 
-        String a = "337.366-111";
-        a = a.replaceAll("\\.","").replaceAll("-","");
-        System.out.println(a);
+//        String a = "337.366-111";
+//        a = a.replaceAll("\\.","").replaceAll("-","");
+//        System.out.println(a);
     }
     
     public static boolean valida(Funcionario fun, String senha){
