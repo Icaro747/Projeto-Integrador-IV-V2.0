@@ -21,21 +21,21 @@ import lombok.ToString;
 public class Funcionario{
     
     private int id_funcionario;
-    @NotEmpty(message = "Nome vasio")
+    @NotEmpty(message = "Nome vazio")
     @Size(min = 3, max = 50, message = "Tamanho do campo inválido")
     private String nome;
-    @NotEmpty(message = "Sobrenome vasio")
+    @NotEmpty(message = "Sobrenome vazio")
     @Size(min = 3, max = 100, message = "Tamanho do campo inválido")
     private String sobrenome;
-    @NotEmpty(message = "Email vasio")
+    @NotEmpty(message = "Email vazio")
     @Size(min = 3, max = 100, message = "Tamanho do campo inválido")
     private String email;
-    @NotEmpty(message = "Senha vasio")
+    @NotEmpty(message = "Senha vazio")
     @Size(min = 3, max = 200, message = "Tamanho do campo inválido")
     private String senha;
     @NotEmpty(message = "CPF válido")
     private String cpf;
-    @NotEmpty(message = "Atuação vasio")
+    @NotEmpty(message = "Atuação vazio")
     @Size(min = 3, max = 50, message = "Tamanho do campo inválido")
     private String atuacao;
     private boolean status;
