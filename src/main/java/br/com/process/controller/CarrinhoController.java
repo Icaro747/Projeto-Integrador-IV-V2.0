@@ -4,8 +4,11 @@ import br.com.process.entidade.Carrinho;
 import br.com.process.entidade.Produto;
 
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author Dell
  * @author Icaro
  */
-@Controller
+@Controller @Slf4j
 public class CarrinhoController {
     
     @RequestMapping("/carrinho")
@@ -37,7 +40,8 @@ public class CarrinhoController {
             }
             return "redirect";
         } catch (Exception e) {
-            model.addAttribute("MSG", e);
+            log.error(""+e);
+            model.addAttribute("MSG", e.getMessage());
             return "mensagem";
         }
     }
@@ -56,7 +60,8 @@ public class CarrinhoController {
                 model.addAttribute("MSG", "Ops!!\nSeu Carrinho está Vazio :(");
             }    
         } catch (Exception e) {
-            model.addAttribute("MSG", e);
+            log.error(""+e);
+            model.addAttribute("MSG", e.getMessage());
         }
         return "mensagem";
     }
@@ -77,7 +82,8 @@ public class CarrinhoController {
             
             return "redirect";
         } catch (Exception e) {
-            model.addAttribute("MSG", e);
+            log.error(""+e);
+            model.addAttribute("MSG", e.getMessage());
         }
         return "mensagem";
     }
@@ -105,7 +111,8 @@ public class CarrinhoController {
             
             return true;
         } catch (Exception e) {
-            model.addAttribute("MSG", e);
+            log.error(""+e);
+            model.addAttribute("MSG", e.getMessage());
         }
         return false;
     }

@@ -86,10 +86,7 @@ public class ProdutoDAO {
                 if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }
-                if (conexao != null) {
-                    conexao.close();
-                    Conexao.fecharConexao();
-                }
+                Conexao.fecharConexao();
             } catch (SQLException e) {
             }
         }
@@ -127,10 +124,7 @@ public class ProdutoDAO {
                 if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }
-                if (conexao != null) {
-                    conexao.close();
-                    Conexao.fecharConexao();
-                }
+                Conexao.fecharConexao();
             } catch (SQLException e) {
             }
         }
@@ -182,10 +176,7 @@ public class ProdutoDAO {
                 if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }
-                if (conexao != null) {
-                    conexao.close();
-                    Conexao.fecharConexao();
-                }
+                Conexao.fecharConexao();
             } catch (SQLException e) {
             }
         }
@@ -244,10 +235,7 @@ public class ProdutoDAO {
                 if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }
-                if (conexao != null) {
-                    conexao.close();
-                    Conexao.fecharConexao();
-                }
+                Conexao.fecharConexao();
             } catch (SQLException e) {
             }
         }
@@ -281,10 +269,7 @@ public class ProdutoDAO {
                 if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }
-                if (conexao != null) {
-                    conexao.close();
-                    Conexao.fecharConexao();
-                }
+                Conexao.fecharConexao();
             } catch (SQLException e) {
             }
         }
@@ -342,10 +327,7 @@ public class ProdutoDAO {
                 if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }
-                if (conexao != null) {
-                    conexao.close();
-                    Conexao.fecharConexao();
-                }
+                Conexao.fecharConexao();
             } catch (SQLException e) {
             }
         }
@@ -386,10 +368,7 @@ public class ProdutoDAO {
                 if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }
-                if (conexao != null) {
-                    conexao.close();
-                    Conexao.fecharConexao();
-                }
+                Conexao.fecharConexao();
             } catch (SQLException e) {
             }
         }
@@ -440,10 +419,7 @@ public class ProdutoDAO {
                 if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }
-                if (conexao != null) {
-                    conexao.close();
-                    Conexao.fecharConexao();
-                }
+                Conexao.fecharConexao();
             } catch (SQLException e) {
             }
         }
@@ -462,19 +438,14 @@ public class ProdutoDAO {
             rs = instrucaoSQL.executeQuery();
 
             if (rs.next()) {
-
                 int quantidade = rs.getInt("Produtos");
                 return quantidade;
-
             } else {
-
                 return -1;
             }
 
         } catch (SQLException e) {
-
             throw new IllegalArgumentException(e.getMessage());
-
         } finally {
             try {
                 if (rs != null) {
@@ -483,10 +454,7 @@ public class ProdutoDAO {
                 if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }
-                if (conexao != null) {
-                    conexao.close();
-                    Conexao.fecharConexao();
-                }
+                Conexao.fecharConexao();
             } catch (SQLException e) {
             }
         }

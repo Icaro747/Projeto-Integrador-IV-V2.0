@@ -44,7 +44,8 @@ public class FuncionarioController {
                 model.addAttribute("MSG", "Fsuncionário não encontrado");
             }
         } catch (Exception e) {
-            model.addAttribute("MSG", e);
+            log.error(""+e);
+            model.addAttribute("MSG", e.getMessage());
         }
         return "mensagem";
     }
@@ -67,7 +68,8 @@ public class FuncionarioController {
                 return "FuncionarioUpdate";
             }
         } catch (Exception e) {
-            model.addAttribute("MSG", e);
+            log.error(""+e);
+            model.addAttribute("MSG", e.getMessage());
         }
         return "mensagem";
     }

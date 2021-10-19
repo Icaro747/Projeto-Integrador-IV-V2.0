@@ -26,7 +26,7 @@ public class init {
    
     @GetMapping("/login")
     public String login(){
-        log.info("EEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+        log.info("redirecionamento para ninguém");
         return "login";
     }
     

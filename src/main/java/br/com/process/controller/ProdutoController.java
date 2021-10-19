@@ -9,6 +9,7 @@ import br.com.process.uteis.PropriedadeStatus;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.validation.Valid;
 
 import lombok.extern.slf4j.Slf4j;
@@ -86,7 +87,8 @@ public class ProdutoController {
                 model.addAttribute("MSG", "Erro ao Atualizar");
             }
         } catch (Exception e) {
-            model.addAttribute("MSG", e);
+            log.error(""+e);
+            model.addAttribute("MSG", e.getMessage());
         }
         return "mensagem";
     }
@@ -129,7 +131,8 @@ public class ProdutoController {
             model.addAttribute("listaProduto", Estoque);
             return "listaProduto";
         } catch (Exception e) {
-            model.addAttribute("MSG", e);
+            log.error(""+e);
+            model.addAttribute("MSG", e.getMessage());
             return "mensagem";
         }
     }
@@ -146,9 +149,8 @@ public class ProdutoController {
             model.addAttribute("listaProduto", Estoque);
             return "listaProduto";
         } catch (Exception e) {
+            log.error(""+e);
             model.addAttribute("MSG", e.getMessage());
-            System.err.println("------------------>>ERRO<<------------------");
-            System.err.println(e);
             return "mensagem";
         }
     }
@@ -162,7 +164,8 @@ public class ProdutoController {
                 model.addAttribute("MSG", "Erro ao Desativado");
             }
         } catch (Exception e) {
-            model.addAttribute("MSG", e);
+            log.error(""+e);
+            model.addAttribute("MSG", e.getMessage());
         }
         return "mensagem";
     }
@@ -176,7 +179,8 @@ public class ProdutoController {
                 model.addAttribute("MSG", "Erro ao Ativar");
             }
         } catch (Exception e) {
-            model.addAttribute("MSG", e);
+            log.error(""+e);
+            model.addAttribute("MSG", e.getMessage());
         }
         return "mensagem";
     }
@@ -196,9 +200,8 @@ public class ProdutoController {
             model.addAttribute("listaPagina", paginas);
             return "BuscarProduto";
         } catch (Exception e) {
+            log.error(""+e);
             model.addAttribute("MSG", e.getMessage());
-            System.err.println("------------------>>ERRO<<------------------");
-            System.err.println(e);
             return "mensagem";
         }
     }
@@ -218,17 +221,9 @@ public class ProdutoController {
             model.addAttribute("listaPagina", paginas);
             return "BuscarProduto";
         } catch (Exception e) {
+            log.error(""+e);
             model.addAttribute("MSG", e.getMessage());
-            System.err.println("------------------>>ERRO<<------------------");
-            System.err.println(e);
             return "mensagem";
         }
-    }
-    
-    @ExceptionHandler(IllegalArgumentException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public void onIllegaArgumentException(IllegalArgumentException npe){
-        log.error(npe.getMessage());
-        System.out.println("In onNullPointerException exception handler ");
     }
 }

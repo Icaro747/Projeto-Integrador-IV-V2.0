@@ -46,10 +46,7 @@ public class FuncionarioDAO {
                 if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }
-                if (conexao != null) {
-                    conexao.close();
-                    Conexao.fecharConexao();
-                }
+                Conexao.fecharConexao();
             } catch (SQLException e) {
             }
         }
@@ -90,10 +87,7 @@ public class FuncionarioDAO {
                 if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }
-                if (conexao != null) {
-                    conexao.close();
-                    Conexao.fecharConexao();
-                }
+                Conexao.fecharConexao();
             } catch (SQLException e) {
             }
         }
@@ -135,10 +129,7 @@ public class FuncionarioDAO {
                 if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }
-                if (conexao != null) {
-                    conexao.close();
-                    Conexao.fecharConexao();
-                }
+                Conexao.fecharConexao();
             } catch (SQLException e) {
             }
         }
@@ -170,10 +161,7 @@ public class FuncionarioDAO {
                 if (instrucaoSQL!=null) {
                     instrucaoSQL.close();
                 }
-                if (conexao!=null) {
-                    conexao.close();
-                    Conexao.fecharConexao();  
-                }
+                Conexao.fecharConexao();
             } catch (SQLException e) {
             }
         }
@@ -208,10 +196,7 @@ public class FuncionarioDAO {
                 if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }
-                if (conexao != null) {
-                    conexao.close();
-                    Conexao.fecharConexao();
-                }
+                Conexao.fecharConexao();
             } catch (SQLException e) {
             }
         }
@@ -260,10 +245,7 @@ public class FuncionarioDAO {
                 if (instrucaoSQL!=null) {
                     instrucaoSQL.close();
                 }
-                if (conexao!=null) {
-                    conexao.close();
-                    Conexao.fecharConexao();
-                }
+                Conexao.fecharConexao();
             } catch (SQLException e) {
             }
         }
@@ -300,13 +282,9 @@ public class FuncionarioDAO {
                 if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }
-                if (conexao != null) {
-                    conexao.close();
-                    Conexao.fecharConexao();
-                }
+                Conexao.fecharConexao();
             } catch (SQLException e) {
             }
         }
     }
-    
 }
