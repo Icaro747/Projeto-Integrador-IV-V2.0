@@ -149,7 +149,7 @@ public class FuncionarioDAO {
         Connection conexao = null;
         PreparedStatement instrucaoSQL = null;
         
-        try{
+        try{    
             conexao = Conexao.abrirConexao();
             instrucaoSQL = conexao.prepareStatement("INSERT INTO Funcionario (Nome, Sobrenome, Email, Senha, CPF, Atuacao, Status) VALUES (?,?,?,?,?,?,?)");
 
@@ -159,7 +159,7 @@ public class FuncionarioDAO {
             instrucaoSQL.setString(4, funcionario.getSenha());
             instrucaoSQL.setString(5, funcionario.getCpf());
             instrucaoSQL.setString(6, funcionario.getAtuacao());
-            instrucaoSQL.setBoolean(7, funcionario.isStatus());
+            instrucaoSQL.setBoolean(7, true);
 
             int linhaAfetadas = instrucaoSQL.executeUpdate();
             return linhaAfetadas > 0;
