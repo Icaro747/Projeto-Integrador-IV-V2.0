@@ -1,6 +1,7 @@
 package br.com.process.controller;
 
 import br.com.process.DAO.FuncionarioDAO;
+import br.com.process.DAO.TagDAO;
 import br.com.process.entidade.Funcionario;
 import br.com.process.uteis.PropriedadeStatus;
 import br.com.process.uteis.Crypto;
@@ -124,4 +125,31 @@ public class FuncionarioController {
         }
         return "mensagem";
     }
+    
+    /**
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping("/admin/CadastroFuncionario")
+    public String cadastro(Model model) {
+        model.addAttribute("tags", TagDAO.getTags());
+        return "CadastroFuncionario";
+    }
+    
+    @PostMapping("/admin/CadastroFuncionario/add")
+    public String add(Model model, Funcionario funcionario) {
+        try {
+            boolean resotadoDAO = FuncionarioDAO.Adicionar(funcionario);
+            if (resotadoDAO) {
+                model.addAttribute("MSG", "Funcionario ao Adicionado com Sucesso!");
+            }else {
+                model.addAttribute("MSG", "Erro ao Adicionar");
+            }
+        } catch (Exception e){
+            log.error(""+e);
+            model.addAttribute("MSG", e.getMessage());
+        }
+        return "mensagem";
+    }    
 }
