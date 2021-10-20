@@ -9,7 +9,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CPF {
     
-    public static boolean Validar_CPF(String cpf){
+    /**
+     * Método de validar CPF.
+     * @param cpf CPF.
+     * @return <b>true</b> Se o CPF for valido <b>false</b> Se o CPF não for valido.
+     */
+    public static boolean Validar_CPF(String cpf) throws Exception{
         try {
             int CPF[] = new int[11];
             int mul[] = {11,10,9,8,7,6,5,4,3,2};
@@ -52,10 +57,10 @@ public class CPF {
             }
         } catch (NumberFormatException e) {
             log.error("letra ou um caractere especial no CPF");
-            return false;
+            throw new Exception("letra ou um caractere especial no CPF");
         } catch (ArrayIndexOutOfBoundsException e) {
             log.error("Tamanho do CPF inválido");
-            return false;
+            throw new Exception("Tamanho do CPF inválido");
         }
     }
     
