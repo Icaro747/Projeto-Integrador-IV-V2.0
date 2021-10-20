@@ -128,22 +128,16 @@ public class FuncionarioController {
         return "mensagem";
     }
     
-    /**
-     *
-     * @param model
-     * @return
-     */
     @RequestMapping("/admin/CadastroFuncionario")
     public String cadastro(Model model) {
-        model.addAttribute("tags", TagDAO.getTags());
         return "CadastroFuncionario";
     }
     
     @PostMapping("/admin/CadastroFuncionario/add")
     public String add(Model model, Funcionario funcionario) {
         try {
-            boolean resotadoDAO = FuncionarioDAO.Adicionar(funcionario);
-            if (resotadoDAO) {
+            funcionario.setSenha(Crypto.HashSenha(funcionario.getSenha()));
+            if (FuncionarioDAO.Adicionar(funcionario)) {
                 model.addAttribute("MSG", "Funcionario ao Adicionado com Sucesso!");
             }else {
                 model.addAttribute("MSG", "Erro ao Adicionar");
