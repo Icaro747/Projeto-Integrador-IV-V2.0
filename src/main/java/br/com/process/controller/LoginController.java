@@ -42,7 +42,7 @@ public class LoginController {
                             funcionario.setNome(CheckFuncionario.getNome());
                             funcionario.setAtuacao(CheckFuncionario.getAtuacao());
                             session.setAttribute("Use", funcionario);
-                            return "AdminHome";
+                            return "adminHome";
                         }
                     }else{
                         model.addAttribute("MSG", "Conta desativada");
@@ -61,7 +61,7 @@ public class LoginController {
     
     @GetMapping("/login/fun")
     public String TelaLoginFucionario(){
-        return "LoginFuncionario";
+        return "loginFuncionario";
     }
     
     @PostMapping("/login/fun")
@@ -80,7 +80,7 @@ public class LoginController {
                         funcionario.setNome(CheckFuncionario.getNome());
                         funcionario.setAtuacao(CheckFuncionario.getAtuacao());
                         session.setAttribute("Use", funcionario);
-                        return "AdminHome";
+                        return "adminHome";
                     }
                 }else{
                     model.addAttribute("MSG", "Conta desativada");

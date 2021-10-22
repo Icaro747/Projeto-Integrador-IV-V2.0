@@ -49,17 +49,13 @@ public class Funcionario{
     }
     
     public void setCpf(String cpf) {
-        try{
-        if (CPF.Validar_CPF(cpf.replaceAll("\\.","").replaceAll("-",""))) {
-            this.cpf = cpf;
-        }else{
-            this.cpf = "";
-        }
-        }
-        catch (Exception e ){
-            
-                    System.out.println("Nao foi possível abrir o arquivo para leitura");
-
+        try {
+            if (CPF.Validar_CPF(cpf.replaceAll("\\.","").replaceAll("-",""))) {
+                this.cpf = cpf;
+            }else{
+                this.cpf = "";
+            }
+        } catch (Exception e) {
         }
     }
     

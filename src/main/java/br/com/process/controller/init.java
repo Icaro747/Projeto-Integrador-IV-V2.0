@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class init {
    
     @GetMapping("/login")
-    public String login(){
+    public String Login(){
         log.info("redirecionamento para ninguém");
         return "login";
     }
@@ -37,7 +37,7 @@ public class init {
             pagina.setPageAtual(0);
             pagina.setQuantidadeItems(16);
             
-            List<Tag> Tags = TagDAO.getTags();
+            List<Tag> Tags = TagDAO.GetTags();
             if (!Tags.isEmpty()) {
                 List<Produto> Estoque = ProdutoDAO.getEstoque(PropriedadeStatus.Ativo, pagina);
                 Estoque.forEach(produto -> {
@@ -69,7 +69,7 @@ public class init {
                     pro.setImagemPrincipal(ImagensDAO.getImagemPrincipal(pro));
                 });
                 model.addAttribute("lista", Estoque);
-                return "BuscarProduto";
+                return "buscarProduto";
             }else{
                 model.addAttribute("MSG", "Nenhum produto foi encontrado");
             }
