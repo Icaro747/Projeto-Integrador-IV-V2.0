@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+  <div th:replace="fragments/header :: body"></div>
+
+        <div class="hRtCnc">
+            <div class="doTtzZ">
+                <div class="cAQjTg">
+                    <div class="gAgEMf">
+
+                        <section class="wWWhb">
+                            <form action="" >
+                                <h2 class="subtitulo-login">Atualizar do Funcionário</h2>
+                                <!--<input type="hidden" name="id_cliente" th:field="*{id_cliente}">
+                                <input type="hidden" name="email" th:field="*{email}">-->
+                                <div class="form__div">
+                                    <input type="text" class="form__input" name="nome" th:field="*{nome}" placeholder=" ">
+                                    <label class="form__label">Nome</label>
+                                </div>
+                                <p th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" th:class="'error-text'">something</p>
+                                <div class="form__div">
+                                    <input type="text" class="form__input" name="sobrenome" th:field="*{sobrenome}" placeholder=" ">
+                                    <label class="form__label">Sobrenome</label>
+                                </div>
+                                <p th:if="${#fields.hasErrors('sobrenome')}" th:errors="*{sobrenome}" th:class="'error-text'">something</p>
+                                <div class="form__div">
+                                    <input type="email" class="form__input" name="email" th:field="*{email}" placeholder=" " required id="email">
+                                    <label class="form__label">E-mail</label>
+                                </div>
+                                <p th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}" th:class="'error-text'">something</p>
+                                <div class="form__div">
+                                    <input type="password" class="form__input" placeholder=" " required id="senha">
+                                    <label class="form__label">Senha</label>
+                                </div>
+                                <div class="form__div">
+                                    <input type="text" class="form__input" name="cpf" th:field="*{cpf}" placeholder=" " id="CPF">
+                                    <label class="form__label">CPF</label>
+                                </div>
+                                <p th:if="${#fields.hasErrors('atuacao')}" th:errors="*{atuacao}" th:class="'error-text'">something</p>
+                                <div class="button-cadastrar">
+                                    <button type="submit" class="btn btn-destaque">Atualizar</button>
+                                </div>
+                            </form>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" th:src="@{/styles/js/Cliente.js}"></script>
+    </body>
+</html>

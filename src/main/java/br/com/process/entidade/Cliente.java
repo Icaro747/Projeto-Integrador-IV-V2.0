@@ -1,26 +1,21 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package br.com.process.entidade;
 
 import br.com.process.uteis.CPF;
+import ch.qos.logback.core.net.server.Client;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-
 /**
- * @author Vinicius
- * @author Icaro
+ *
+ * @author JoaoDantas
  */
-@ToString
-@Getter @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-public class Funcionario{
-    
-    private int id_funcionario;
+public class Cliente {
+    private int id_cliente;
     @NotEmpty(message = "Nome vazio")
     @Size(min = 3, max = 50, message = "Tamanho do campo inválido")
     private String nome;
@@ -35,17 +30,14 @@ public class Funcionario{
     private String senha;
     @NotEmpty(message = "CPF válido")
     private String cpf;
-    @NotEmpty(message = "Atuação vazio")
-    @Size(min = 3, max = 50, message = "Tamanho do campo inválido")
-    private String atuacao;
-    private boolean status;
+
   
     /**
      * Construtor
-     * @param id_funcionario ID do Funcionario
+     * @param id_cliente ID do Cliente
      */
-    public Funcionario(int id_funcionario) {
-        this.id_funcionario = id_funcionario;
+    public Cliente (int id_cliente) {
+        this.id_cliente = id_cliente;;
     }
     
     public void setCpf(String cpf) {
@@ -62,5 +54,4 @@ public class Funcionario{
 
         }
     }
-    
 }
