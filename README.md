@@ -51,4 +51,26 @@ CREATE TABLE Funcionario (
     Status BOOLEAN NOT NULL
 );
 
+CREATE TABLE Cliente (
+    ID_Cliente INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    Nome VARCHAR(50) NOT NULL,
+    Sobrenome VARCHAR(100) NOT NULL,
+    Email VARCHAR(100) NOT NULL,
+    Senha VARCHAR(200) NOT NULL,
+    CPF VARCHAR(14) NOT NULL
+);
+
+CREATE TABLE Enderecos (
+    ID_Endereco INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    CEP VARCHAR(9) NOT NULL,
+    Endereco VARCHAR(100) NOT NULL,
+    Numero VARCHAR(5) NOT NULL,
+    Complemento VARCHAR(50) ,
+    Bairro VARCHAR(50) NOT NULL,
+    Cidade VARCHAR(50) NOT NULL,
+    Estado  VARCHAR(2) NOT NULL,
+    FK_Cliente INT NOT NULL,
+    FOREIGN KEY (FK_Cliente) REFERENCES Produtos (ID_Cliente)
+);
+
 ```
