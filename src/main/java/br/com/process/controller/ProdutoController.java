@@ -14,17 +14,14 @@ import javax.validation.Valid;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  *
@@ -35,14 +32,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class ProdutoController {
 
     @GetMapping("/admin/CadastroProduto")
-    public String cadastro(Model model) {
+    public String Cadastro(Model model) {
         model.addAttribute("produto", new Produto());
-        model.addAttribute("listTags", TagDAO.getTags());
-        return "CadastroProduto";
+        model.addAttribute("listTags", TagDAO.GetTags());
+        return "cadastroProduto";
     }
     
     @PostMapping("/admin/CadastroProduto")
-    public String add(Model model, @Valid @ModelAttribute(value="produto") Produto produto, BindingResult result) {
+    public String Add(Model model, @Valid @ModelAttribute(value="produto") Produto produto, BindingResult result) {
         log.info("Produto é válido:"+ !result.hasErrors());
         if (!result.hasErrors()) {
             try {
@@ -51,7 +48,7 @@ public class ProdutoController {
                     if (resotadoDAO != 0) {
                         produto.setId_produto(resotadoDAO);
                         model.addAttribute("produto", produto);
-                        return "NewImagemProduto";
+                        return "newImagemProduto";
                     }else{
                         log.error("Erro ao pegar ID do produto. ID do Produto Add:" + resotadoDAO);
                         model.addAttribute("MSG", "Erro produto não encontrado");
@@ -66,16 +63,16 @@ public class ProdutoController {
             }
             return "mensagem";
         }else{
-            model.addAttribute("listTags", TagDAO.getTags());
-            return "CadastroProduto";
+            model.addAttribute("listTags", TagDAO.GetTags());
+            return "cadastroProduto";
         }
     }
 
     @RequestMapping("/admin/AtualizarProduto")
-    public String teleAtualizar(Model model, Produto produto) {
-        model.addAttribute("listTags", TagDAO.getTags());
+    public String TeleAtualizar(Model model, Produto produto) {
+        model.addAttribute("listTags", TagDAO.GetTags());
         model.addAttribute("Produto", ProdutoDAO.getProduto(produto));
-        return "AtualizarProduto";
+        return "atualizarProduto";
     }
 
     @PostMapping("/Atualizar")
@@ -94,7 +91,7 @@ public class ProdutoController {
     }
 
     @RequestMapping(value = "/produto/{id}")
-    public String produto(Model model, @PathVariable int id) {
+    public String DetalhesProduto(Model model, @PathVariable int id) {
         try {
             log.info("iniciando busca por produto");
             Produto produto = new Produto(id);
@@ -105,7 +102,7 @@ public class ProdutoController {
                 model.addAttribute("produto", produto);
                 log.info("Produto encontrado");
                 log.info(produto.toString());
-                return "produtos";
+                return "produto";
             }else{
                 model.addAttribute("MSG", "Produto não encontrado");
                 log.info("Produto não encontrado. ID do produto:"+id);
@@ -119,7 +116,7 @@ public class ProdutoController {
     }
     
     @RequestMapping("/admin/listaProduto")
-    public String listaProduto(Model model) {
+    public String ListaProduto(Model model) {
         try {
             Pagina pagina = new Pagina();
             pagina.setPageAtual(0);
@@ -159,7 +156,7 @@ public class ProdutoController {
     public String Desativar(Model model, Produto produto) {
         try {
             if (ProdutoDAO.MudancaStatus(produto, PropriedadeStatus.Desativa)) {
-                return listaProduto(model);
+                return ListaProduto(model);
             } else {
                 model.addAttribute("MSG", "Erro ao Desativado");
             }
@@ -174,7 +171,7 @@ public class ProdutoController {
     public String Ativar(Model model, Produto produto) {
         try {
             if (ProdutoDAO.MudancaStatus(produto, PropriedadeStatus.Ativo)) {
-                return listaProduto(model);
+                return ListaProduto(model);
             } else {
                 model.addAttribute("MSG", "Erro ao Ativar");
             }
@@ -198,7 +195,7 @@ public class ProdutoController {
                 }
             }
             model.addAttribute("listaPagina", paginas);
-            return "BuscarProduto";
+            return "buscarProduto";
         } catch (Exception e) {
             log.error(""+e);
             model.addAttribute("MSG", e.getMessage());
@@ -219,7 +216,7 @@ public class ProdutoController {
                 }
             }
             model.addAttribute("listaPagina", paginas);
-            return "BuscarProduto";
+            return "buscarProduto";
         } catch (Exception e) {
             log.error(""+e);
             model.addAttribute("MSG", e.getMessage());

@@ -1,10 +1,10 @@
 package br.com.process.controller;
 
 import br.com.process.DAO.FuncionarioDAO;
-import br.com.process.DAO.TagDAO;
 import br.com.process.entidade.Funcionario;
 import br.com.process.uteis.PropriedadeStatus;
 import br.com.process.uteis.Crypto;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class FuncionarioController {
 
     @RequestMapping(value = "/admin/AtualizarFuncionario/{id}")
-    public String telaAtualizar(Model model, @PathVariable int id) {
+    public String TelaAtualizar(Model model, @PathVariable int id) {
         try {
             Funcionario funcionario = new Funcionario(id);
             funcionario = FuncionarioDAO.getFuncionarioId(funcionario);
@@ -39,7 +39,7 @@ public class FuncionarioController {
                 model.addAttribute("funcionario", funcionario);
                 
                 log.info("redirecionando pra tela de update funcionario");
-                return "FuncionarioUpdate";
+                return "updateFuncionario";
             }else{
                 model.addAttribute("MSG", "Fsuncionário não encontrado");
             }
@@ -65,7 +65,7 @@ public class FuncionarioController {
                 }
             } else {
                 log.info("validar funcionario erro");
-                return "FuncionarioUpdate";
+                return "updateFuncionario";
             }
         } catch (Exception e) {
             log.error(""+e);
@@ -75,13 +75,13 @@ public class FuncionarioController {
     }
     
     @RequestMapping("/admin/listaFuncionario")
-    public String listaFuncionario (Model model){
+    public String ListaFuncionario (Model model){
         model.addAttribute("listaFuncionario", FuncionarioDAO.getUsuarios(PropriedadeStatus.Desativa));
         return "listaFuncionario";
     }
     
     @RequestMapping(value = "/admin/listaFuncionario/{id}")
-    public String listaUse (Model model, @PathVariable int id){
+    public String ListaUse (Model model, @PathVariable int id){
         try {
             Funcionario funcionario = new Funcionario(id);
             List<Funcionario> Use = new ArrayList<>();
@@ -101,7 +101,7 @@ public class FuncionarioController {
         Funcionario funcionario = new Funcionario(id);
         try {
             if (FuncionarioDAO.MudancaStatus(funcionario, PropriedadeStatus.Desativa)) {
-                return listaFuncionario(model);
+                return ListaFuncionario(model);
             }else{
                 model.addAttribute("MSG", "Erro ao Desativado");
             }
@@ -117,7 +117,7 @@ public class FuncionarioController {
         Funcionario funcionario = new Funcionario(id);
         try {
             if (FuncionarioDAO.MudancaStatus(funcionario, PropriedadeStatus.Ativo)) {
-                return listaFuncionario(model);
+                return ListaFuncionario(model);
             }else{
                 model.addAttribute("MSG", "Erro ao Ativar");
             }
@@ -129,12 +129,12 @@ public class FuncionarioController {
     }
     
     @RequestMapping("/admin/CadastroFuncionario")
-    public String cadastro(Model model) {
-        return "CadastroFuncionario";
+    public String Cadastro(Model model) {
+        return "cadastroFuncionario";
     }
     
     @PostMapping("/admin/CadastroFuncionario/add")
-    public String add(Model model, Funcionario funcionario) {
+    public String Add(Model model, Funcionario funcionario) {
         try {
             funcionario.setSenha(Crypto.HashSenha(funcionario.getSenha()));
             if (FuncionarioDAO.Adicionar(funcionario)) {
