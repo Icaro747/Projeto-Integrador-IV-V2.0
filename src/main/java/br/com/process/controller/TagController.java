@@ -26,11 +26,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller @Slf4j
 public class TagController {
     
-    private final static String FOLDER_IMG_UPLOADED = "C://Users//Icaro//Documents//NetBeansProjects//PI//Projeto-Integrador-IV-V2.0//src//main//resources//static//img//tags//";
+    private final static String FOLDER_IMG_UPLOADED = "C://Users//Uffa.DESKTOP-OVIM3N3//Documents//senac//Projeto-Integrador-IV-V2.0//src//main//resources//static//img//tags//";
     
     @RequestMapping("/admin/CadastroTag")
-    public String login(){
-        return "CadastroTag";
+    public String Login(){
+        return "cadastroTag";
     }
     
     @PostMapping("/NewTag")
@@ -57,7 +57,7 @@ public class TagController {
     @RequestMapping("/admin/listaTag")
     public String Tags(Model model){
         try {
-            model.addAttribute("listaTags", TagDAO.getTags());
+            model.addAttribute("listaTags", TagDAO.GetTags());
         } catch (Exception e) {
             log.error(""+e);
             model.addAttribute("MSG", e.getMessage());

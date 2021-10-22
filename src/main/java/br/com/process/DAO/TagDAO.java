@@ -50,7 +50,7 @@ public class TagDAO {
     * método para pegar todos os dados da tabela Tasg no banco de dados.
     * @return Retorna uma <b>List</b> com todas os Tags<br> se nenhum Tag foram encontrado, retorna uma <b>List</b> vazia.
     */
-    public static List<Tag> getTags(){
+    public static List<Tag> GetTags(){
         
         ResultSet rs = null;
         Connection conexao = null;

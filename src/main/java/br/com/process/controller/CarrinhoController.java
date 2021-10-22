@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class CarrinhoController {
     
     @RequestMapping("/carrinho")
-    public String carrinho (Model model, HttpServletRequest request, Produto produto){
+    public String Carrinho (Model model, HttpServletRequest request, Produto produto){
         try {
             HttpSession session = request.getSession();
             
@@ -47,7 +47,7 @@ public class CarrinhoController {
     }
     
     @RequestMapping("/listaCarrinho")
-    public String listaCarrinho (Model model, HttpServletRequest request){
+    public String ListaCarrinho (Model model, HttpServletRequest request){
         try {
             HttpSession session = request.getSession();
             
