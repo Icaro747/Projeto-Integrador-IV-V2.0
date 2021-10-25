@@ -70,7 +70,7 @@ CREATE TABLE Enderecos (
     Cidade VARCHAR(50) NOT NULL,
     Estado  VARCHAR(2) NOT NULL,
     FK_Cliente INT NOT NULL,
-    FOREIGN KEY (FK_Cliente) REFERENCES Produtos (ID_Cliente)
+    FOREIGN KEY (FK_Cliente) REFERENCES Cliente (ID_Cliente)
 );
 
 ```
