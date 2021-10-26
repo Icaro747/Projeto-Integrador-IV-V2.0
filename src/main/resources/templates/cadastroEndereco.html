@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Novo Endereço</title>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" th:href="@{/styles/css/MainCss.css}"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <link rel="shortcut icon" th:href="@{img/newman.ico}" type="image/x-icon">
+    </head>
+    <body>
+        <div th:replace="fragments/header :: body"></div>
+        <div class="hRtCnc">
+            <div class="doTtzZ">
+                <div class="cAQjTg">
+                    <div class="gAgEMf">
+                        <section class="wWWhb">
+                            <form action="#" th:action="@{/CadastroEndereco}" th:object="${Endereco}" method="POST">
+                                <h2 class="subtitulo-login">Novo Endereço</h2>
+                                <div class="form__div">
+                                    <input type="text" class="form__input" name="cep" th:field="*{cep}" placeholder=" " id="CEP" onblur="pesquisacep()"/>
+                                    <label class="form__label">CEP</label>
+                                </div>
+                                <p th:if="${#fields.hasErrors('cep')}" th:errors="*{cep}" th:class="'error-text'">something</p>
+                                <div class="form__div">
+                                    <input type="text" class="form__input" name="endereco" th:field="*{endereco}" placeholder=" " id="rua" readonly/>
+                                    <label class="form__label">Endereço</label>
+                                </div>
+                                <p th:if="${#fields.hasErrors('endereco')}" th:errors="*{endereco}" th:class="'error-text'">something</p>
+                                <div class="form__div">
+                                    <input type="number" class="form__input" name="numero" th:field="*{numero}" placeholder=" "/>
+                                    <label class="form__label">Número</label>
+                                </div>
+                                <p th:if="${#fields.hasErrors('numero')}" th:errors="*{numero}" th:class="'error-text'">something</p>
+                                <div class="form__div">
+                                    <input type="text" class="form__input" name="complemento" th:field="*{complemento}" placeholder=" "/>
+                                    <label class="form__label">Complemento</label>
+                                </div>
+                                <p th:if="${#fields.hasErrors('complemento')}" th:errors="*{complemento}" th:class="'error-text'">something</p>
+                                <div class="form__div">
+                                    <input type="text" class="form__input" name="bairro" th:field="*{bairro}" placeholder=" " id="bairro" readonly/>
+                                    <label class="form__label">Bairro</label>
+                                </div>
+                                <p th:if="${#fields.hasErrors('bairro')}" th:errors="*{bairro}" th:class="'error-text'">something</p>
+                                <div class="form__div">
+                                    <input type="text" class="form__input" name="cidade" th:field="*{cidade}" placeholder=" " id="cidade" readonly/>
+                                    <label class="form__label">Cidade</label>
+                                </div>
+                                <p th:if="${#fields.hasErrors('cidade')}" th:errors="*{cidade}" th:class="'error-text'">something</p>
+                                <div class="form__div">
+                                    <input type="text" class="form__input" name="estado" th:field="*{estado}" placeholder=" " id="uf" readonly/>
+                                    <label class="form__label">Estado</label>
+                                </div>
+                                <p th:if="${#fields.hasErrors('estado')}" th:errors="*{estado}" th:class="'error-text'">something</p>
+                                <div class="button-cadastrar">
+                                    <button type="submit" class="btn btn-destaque">Cadastrar</button>
+                                </div>
+                            </form>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" th:src="@{/styles/js/BuscaCep.js}"></script>
+    </body>
+</html>

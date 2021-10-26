@@ -1,0 +1,135 @@
+package br.com.process.DAO;
+
+import br.com.process.conexao.Conexao;
+import br.com.process.entidade.Cliente;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import lombok.extern.slf4j.Slf4j;
+
+/**
+ *
+ * @author Icaro
+ */
+@Slf4j
+public class ClienteDAO {
+    
+    public static int Adicionar(Cliente cliente){
+        
+        ResultSet rs = null;
+        Connection conexao = null;
+        PreparedStatement instrucaoSQL = null;
+        
+        try{
+            conexao = Conexao.abrirConexao();
+            instrucaoSQL = conexao.prepareStatement("INSERT INTO Cliente (Nome, Sobrenome, Email, Senha, CPF, nasimeto, sexo) VALUES (?,?,?,?,?,?,?)");
+            
+            instrucaoSQL.setString(1, cliente.getNome());
+            instrucaoSQL.setString(2, cliente.getSobrenome());
+            instrucaoSQL.setString(3, cliente.getEmail());
+            instrucaoSQL.setString(4, cliente.getSenha());
+            instrucaoSQL.setString(5, cliente.getCpf());
+            instrucaoSQL.setDate(6, cliente.getNascimento());
+            instrucaoSQL.setString(7, cliente.getSexo());
+            
+            int linhaAfetadas = instrucaoSQL.executeUpdate();
+            if (linhaAfetadas > 0){
+                
+                instrucaoSQL = conexao.prepareStatement("SELECT ID_Cliente FROM Cliente ORDER BY ID_Cliente DESC LIMIT 1");
+                rs = instrucaoSQL.executeQuery();
+                
+                if (rs.next()) {
+                    return rs.getInt("ID_Cliente");
+                }
+            }
+            return -1;
+        }catch (SQLException e){
+            log.error(""+e);
+            throw new IllegalArgumentException("Erro no banco de dados");
+        }finally{
+             try {
+                 if (rs != null) {
+                    rs.close();
+                }
+                if (instrucaoSQL != null) {
+                    instrucaoSQL.close();
+                }
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
+            } catch (SQLException e) {
+            }
+        }
+    }
+    
+    public static boolean CheckEmail(Cliente cliente){
+        
+        ResultSet rs = null;
+        Connection conexao = null;
+        PreparedStatement instrucaoSQL = null;
+        
+        try {
+            conexao = Conexao.abrirConexao();
+            instrucaoSQL = conexao.prepareStatement("SELECT * FROM Cliente WHERE Email = ?");
+            
+            instrucaoSQL.setString(1, cliente.getEmail());
+            rs = instrucaoSQL.executeQuery();
+            
+            return rs.next();
+            
+        } catch (SQLException e) {
+            log.error(""+e);
+            throw new IllegalArgumentException("Erro no banco de dados");
+        } finally{
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (instrucaoSQL != null) {
+                    instrucaoSQL.close();
+                }
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
+            } catch (SQLException e) {
+            }
+        }
+    }
+    
+    public static boolean CheckCPF(Cliente cliente){
+        
+        ResultSet rs = null;
+        Connection conexao = null;
+        PreparedStatement instrucaoSQL = null;
+        
+        try {
+            conexao = Conexao.abrirConexao();
+            instrucaoSQL = conexao.prepareStatement("SELECT * FROM Cliente WHERE CPF = ?");
+            
+            instrucaoSQL.setString(1, cliente.getCpf());
+            rs = instrucaoSQL.executeQuery();
+            
+            return rs.next();
+            
+        } catch (SQLException e) {
+            log.error(""+e);
+            throw new IllegalArgumentException("Erro no banco de dados");
+        } finally{
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (instrucaoSQL != null) {
+                    instrucaoSQL.close();
+                }
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
+            } catch (SQLException e) {
+            }
+        }
+    }
+}

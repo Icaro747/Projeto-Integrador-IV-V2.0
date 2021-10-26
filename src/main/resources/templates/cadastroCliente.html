@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Cadastro de Cliente</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" th:href="@{/styles/css/MainCss.css}"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <link rel="shortcut icon" th:href="@{img/newman.ico}" type="image/x-icon">
+    </head>
+    <body>
+        <div th:replace="fragments/header :: body"></div>
+
+        <div class="hRtCnc">
+            <div class="doTtzZ">
+                <div class="cAQjTg">
+                    <div class="gAgEMf">
+                        <section class="wWWhb">
+                            
+                            <form action="#" th:action="@{/CadastroCliente}" th:object="${cliente}" method="POST" onsubmit="return ConfirmacaoCadasto()">
+                                <h2 class="subtitulo-login">Cadastro Produto</h2>
+                                <div class="form__div">
+                                    <input type="text" class="form__input" name="nome" th:field="*{nome}" placeholder=" ">
+                                    <label class="form__label">Nome</label>
+                                </div>
+                                <p th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" th:class="'error-text'">something</p>
+                                <div class="form__div">
+                                    <input type="text" class="form__input" name="sobrenome" th:field="*{sobrenome}" placeholder=" ">
+                                    <label class="form__label">Sobrenome</label>
+                                </div>
+                                <p th:if="${#fields.hasErrors('sobrenome')}" th:errors="*{sobrenome}" th:class="'error-text'">something</p>
+                                <div class="form__div">
+                                    <input type="email" class="form__input" name="email" th:field="*{email}" placeholder=" ">
+                                    <label class="form__label">E-mail</label>
+                                </div>
+                                <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" th:class="'error-text'">something</p>
+                                <div class="form__div">
+                                    <input type="password" class="form__input" name="senha" th:field="*{senha}" placeholder=" " id="Senha">
+                                    <label class="form__label">Senha</label>
+                                </div>
+                                <p th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}" th:class="'error-text'">something</p>
+                                <div class="form__div">
+                                    <input type="password" class="form__input decimal" placeholder=" " id="ConSenha">
+                                    <label class="form__label">Confirmar Senha</label>
+                                </div>
+                                <div class="form__div">
+                                    <input type="text" class="form__input decimal" name="cpf" th:field="*{cpf}" placeholder=" " id="CPF">
+                                    <label class="form__label">CPF</label>
+                                </div>
+                                <p th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}" th:class="'error-text'">something</p>
+                                <div class="form__div">
+                                    <input type="date" class="form__input" name="nascimento" th:field="*{nascimento}" autocomplete="off" placeholder=" " required>
+                                    <label class="form__label">Data de nasimento</label>
+                                </div>
+                                <p th:if="${#fields.hasErrors('nascimento')}" th:errors="*{nascimento}" th:class="'error-text'">something</p>
+                                <div class="form__div">                                
+                                    <select class="form__input" name="sexo" id="Sexo">
+                                        <option selected hidden value="">Sexo</option>
+                                        <option value="M">Mascolino</option>                                    
+                                        <option value="F">Feminino</option>
+                                    </select>
+                                </div>
+                                <p th:if="${#fields.hasErrors('sexo')}" th:errors="*{sexo}" th:class="'error-text'">something</p>
+                                <div class="button-cadastrar">
+                                    <button type="submit" class="btn btn-destaque">Cadastrar</button>
+                                </div>
+                            </form>
+                            <script type="text/javascript" th:src="@{/styles/js/Login.js}"></script>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

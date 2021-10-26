@@ -37,7 +37,8 @@ public class FuncionarioDAO {
 
             return rs.next();
         } catch (SQLException e) {
-            throw new IllegalArgumentException(e.getMessage());
+            log.error(""+e);
+            throw new IllegalArgumentException("Erro no banco de dados");
         } finally {
             try {
                 if (rs != null) {
@@ -46,7 +47,9 @@ public class FuncionarioDAO {
                 if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }
-                Conexao.fecharConexao();
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
             } catch (SQLException e) {
             }
         }
@@ -78,7 +81,8 @@ public class FuncionarioDAO {
             return funcionario;
 
         } catch (SQLException e) {
-            throw new IllegalArgumentException(e.getMessage());
+            log.error(""+e);
+            throw new IllegalArgumentException("Erro no banco de dados");
         } finally {
             try {
                 if (rs != null) {
@@ -87,7 +91,9 @@ public class FuncionarioDAO {
                 if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }
-                Conexao.fecharConexao();
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
             } catch (SQLException e) {
             }
         }
@@ -120,7 +126,8 @@ public class FuncionarioDAO {
             return funcionario;
 
         } catch (SQLException e) {
-            throw new IllegalArgumentException(e.getMessage());
+            log.error(""+e);
+            throw new IllegalArgumentException("Erro no banco de dados");
         } finally {
             try {
                 if (rs != null) {
@@ -129,7 +136,9 @@ public class FuncionarioDAO {
                 if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }
-                Conexao.fecharConexao();
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
             } catch (SQLException e) {
             }
         }
@@ -155,13 +164,16 @@ public class FuncionarioDAO {
             int linhaAfetadas = instrucaoSQL.executeUpdate();
             return linhaAfetadas > 0;
         } catch (SQLException e){
-            throw new IllegalArgumentException(e.getMessage());
+            log.error(""+e);
+            throw new IllegalArgumentException("Erro no banco de dados");
         }finally{
             try {
                 if (instrucaoSQL!=null) {
                     instrucaoSQL.close();
                 }
-                Conexao.fecharConexao();
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
             } catch (SQLException e) {
             }
         }
@@ -189,14 +201,16 @@ public class FuncionarioDAO {
             return linhaAfetadas > 0;
 
         } catch (SQLException e) {
-            log.error("SQL ERROR "+e);
-            throw new IllegalArgumentException(e.getMessage());            
+            log.error(""+e);
+            throw new IllegalArgumentException("Erro no banco de dados");     
         } finally {
             try {
                 if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }
-                Conexao.fecharConexao();
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
             } catch (SQLException e) {
             }
         }
@@ -236,7 +250,8 @@ public class FuncionarioDAO {
             }
             return Usuario;
         } catch (SQLException e) {
-            throw new IllegalArgumentException(e.getMessage());
+            log.error(""+e);
+            throw new IllegalArgumentException("Erro no banco de dados");
         }finally{
             try {
                 if (rs!=null) {
@@ -245,7 +260,9 @@ public class FuncionarioDAO {
                 if (instrucaoSQL!=null) {
                     instrucaoSQL.close();
                 }
-                Conexao.fecharConexao();
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
             } catch (SQLException e) {
             }
         }
@@ -276,13 +293,16 @@ public class FuncionarioDAO {
             int linhaAfetadas = instrucaoSQL.executeUpdate();
             return linhaAfetadas > 0;
         } catch (SQLException e) {
-            throw new IllegalArgumentException(e.getMessage());
+            log.error(""+e);
+            throw new IllegalArgumentException("Erro no banco de dados");
         } finally {
             try {
                 if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }
-                Conexao.fecharConexao();
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
             } catch (SQLException e) {
             }
         }

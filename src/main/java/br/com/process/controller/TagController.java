@@ -57,7 +57,7 @@ public class TagController {
     @RequestMapping("/admin/listaTag")
     public String Tags(Model model){
         try {
-            model.addAttribute("listaTags", TagDAO.GetTags());
+            model.addAttribute("listaTags", TagDAO.getTags());
         } catch (Exception e) {
             log.error(""+e);
             model.addAttribute("MSG", e.getMessage());
