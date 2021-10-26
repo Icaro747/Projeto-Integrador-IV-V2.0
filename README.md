@@ -57,7 +57,9 @@ CREATE TABLE Cliente (
     Sobrenome VARCHAR(100) NOT NULL,
     Email VARCHAR(100) NOT NULL,
     Senha VARCHAR(200) NOT NULL,
-    CPF VARCHAR(14) NOT NULL
+    CPF VARCHAR(14) NOT NULL,
+    nasimeto DATE NOT NULL,
+    genero VARCHAR(1) NOT NULL
 );
 
 CREATE TABLE Enderecos (
