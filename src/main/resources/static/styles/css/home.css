@@ -1,0 +1,13 @@
+.home{
+    list-style: none;
+}
+.home li{
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 25%;
+    float: left;
+    position: relative;
+    min-height: 1px;
+    display: list-item;
+    text-align: -webkit-match-parent;
+}

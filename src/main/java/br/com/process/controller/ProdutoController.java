@@ -34,7 +34,7 @@ public class ProdutoController {
     @GetMapping("/admin/CadastroProduto")
     public String Cadastro(Model model) {
         model.addAttribute("produto", new Produto());
-        model.addAttribute("listTags", TagDAO.GetTags());
+        model.addAttribute("listTags", TagDAO.getTags());
         return "cadastroProduto";
     }
     
@@ -63,14 +63,14 @@ public class ProdutoController {
             }
             return "mensagem";
         }else{
-            model.addAttribute("listTags", TagDAO.GetTags());
+            model.addAttribute("listTags", TagDAO.getTags());
             return "cadastroProduto";
         }
     }
 
     @RequestMapping("/admin/AtualizarProduto")
     public String TeleAtualizar(Model model, Produto produto) {
-        model.addAttribute("listTags", TagDAO.GetTags());
+        model.addAttribute("listTags", TagDAO.getTags());
         model.addAttribute("Produto", ProdutoDAO.getProduto(produto));
         return "atualizarProduto";
     }

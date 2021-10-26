@@ -11,10 +11,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  *
  * @author Icaro
  */
+@Slf4j
 public class ImagensDAO {
 
     /**
@@ -40,13 +43,16 @@ public class ImagensDAO {
             return linhaAfetadas > 0;
 
         } catch (SQLException e) {
-            throw new IllegalArgumentException("Erro no banco de dados\n" + e.getMessage());
+            log.error(""+e);
+            throw new IllegalArgumentException("Erro no banco de dados");
         } finally {
             try {
                 if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }
-                Conexao.fecharConexao();
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
             } catch (SQLException e) {
             }
         }
@@ -83,7 +89,8 @@ public class ImagensDAO {
             }
             return imgs;
         } catch (SQLException e) {
-            throw new IllegalArgumentException("Erro no banco de dados\n" + e.getMessage());
+            log.error(""+e);
+            throw new IllegalArgumentException("Erro no banco de dados");
         } finally {
             try {
                 if (rs != null) {
@@ -92,7 +99,9 @@ public class ImagensDAO {
                 if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }
-                Conexao.fecharConexao();
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
             } catch (SQLException e) {
             }
         }
@@ -129,7 +138,8 @@ public class ImagensDAO {
             }
             return imgs;
         } catch (SQLException e) {
-            throw new IllegalArgumentException("Erro no banco de dados\n" + e.getMessage());
+            log.error(""+e);
+            throw new IllegalArgumentException("Erro no banco de dados");
         } finally {
             try {
                 if (rs != null) {
@@ -138,7 +148,9 @@ public class ImagensDAO {
                 if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }
-                Conexao.fecharConexao();
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
             } catch (SQLException e) {
             }
         }
@@ -172,7 +184,8 @@ public class ImagensDAO {
             return Nome;
             
         } catch (SQLException e) {
-            throw new IllegalArgumentException("Erro no banco de dados\n" + e.getMessage());
+            log.error(""+e);
+            throw new IllegalArgumentException("Erro no banco de dados");
         } finally {
             try {
                 if (rs != null) {
@@ -181,7 +194,9 @@ public class ImagensDAO {
                 if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }
-                Conexao.fecharConexao();
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
             } catch (SQLException e) {
             }
         }
@@ -203,13 +218,16 @@ public class ImagensDAO {
             return linhaAfetadas > 0;
 
         } catch (SQLException e) {
-            throw new IllegalArgumentException("Erro no banco de dados\n" + e.getMessage());
+            log.error(""+e);
+            throw new IllegalArgumentException("Erro no banco de dados");
         } finally {
             try {
                 if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }
-                Conexao.fecharConexao();
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
             } catch (SQLException e) {
             }
         }

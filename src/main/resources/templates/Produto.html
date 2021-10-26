@@ -3,11 +3,11 @@
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>Produto</title>
+        <title>NewMan <samp th:text="${produto.nome}"></samp></title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" th:href="@{/styles/css/MainCss.css}"/>
-        <link rel="shortcut icon" th:href="@{img/newman.ico}" type="image/x-icon">
+        <link rel="shortcut icon" th:href="@{/img/newman.ico}" type="image/x-icon">
     </head>
     <body>
         <div th:replace="fragments/header :: body"></div>

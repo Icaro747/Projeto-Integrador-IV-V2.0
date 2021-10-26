@@ -11,10 +11,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  *
  * @author Icaro
  */
+@Slf4j
 public class TagDAO {
     
     public static boolean Adicionar(Tag tag){
@@ -34,13 +37,16 @@ public class TagDAO {
             return linhaAfetadas > 0;
             
         } catch (SQLException e){
-            throw new IllegalArgumentException(e.getMessage());
+            log.error(""+e);
+            throw new IllegalArgumentException("Erro no banco de dados");
         } finally {
             try {
                 if (instrucaoSQL!=null) {
                     instrucaoSQL.close();
                 }
-                Conexao.fecharConexao();
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
             } catch (SQLException e) {
             }
         }
@@ -50,7 +56,7 @@ public class TagDAO {
     * método para pegar todos os dados da tabela Tasg no banco de dados.
     * @return Retorna uma <b>List</b> com todas os Tags<br> se nenhum Tag foram encontrado, retorna uma <b>List</b> vazia.
     */
-    public static List<Tag> GetTags(){
+    public static List<Tag> getTags(){
         
         ResultSet rs = null;
         Connection conexao = null;
@@ -73,8 +79,8 @@ public class TagDAO {
             }
             return Tags;
         } catch (SQLException e) {
-            System.err.println(e);
-            throw new IllegalArgumentException(e.getMessage());
+            log.error(""+e);
+            throw new IllegalArgumentException("Erro no banco de dados");
         } finally {
             try {
                 if (rs!=null) {
@@ -83,7 +89,9 @@ public class TagDAO {
                 if (instrucaoSQL!=null) {
                     instrucaoSQL.close();
                 }
-                Conexao.fecharConexao();
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
             } catch (SQLException e) {
             }
         }
@@ -111,13 +119,16 @@ public class TagDAO {
             return linhaAfetadas;
             
         } catch (SQLException e) {
-            throw new IllegalArgumentException(e.getMessage());
+            log.error(""+e);
+            throw new IllegalArgumentException("Erro no banco de dados");
         } finally {
             try {
                 if (instrucaoSQL!=null) {
                     instrucaoSQL.close();
                 }
-                Conexao.fecharConexao();
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
             } catch (SQLException e) {
             }
         }
@@ -139,13 +150,16 @@ public class TagDAO {
             return linhaAfetadas > 0;
             
         } catch (SQLException e) {
-            throw new IllegalArgumentException(e.getMessage());
+            log.error(""+e);
+            throw new IllegalArgumentException("Erro no banco de dados");
         } finally {
             try {
                 if (instrucaoSQL!=null) {
                     instrucaoSQL.close();
                 }
-                Conexao.fecharConexao();
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
             } catch (SQLException e) {
             }
         }
@@ -173,13 +187,16 @@ public class TagDAO {
             return linhaAfetadas > 0;
             
         } catch (SQLException e) {
-            throw new IllegalArgumentException(e.getMessage());
+            log.error(""+e);
+            throw new IllegalArgumentException("Erro no banco de dados");
         } finally {
             try {
                 if (instrucaoSQL!=null) {
                     instrucaoSQL.close();
                 }
-                Conexao.fecharConexao();
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
             } catch (SQLException e) {
             }
         }

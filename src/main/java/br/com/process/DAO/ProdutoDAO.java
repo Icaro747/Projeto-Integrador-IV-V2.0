@@ -12,10 +12,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  *
  * @author Icaro
  */
+@Slf4j
 public class ProdutoDAO {
 
     /**
@@ -77,7 +80,8 @@ public class ProdutoDAO {
             }
 
         } catch (SQLException e) {
-            throw new IllegalArgumentException(e.getMessage());
+            log.error(""+e);
+            throw new IllegalArgumentException("Erro no banco de dados");
         } finally {
             try {
                 if (rs != null) {
@@ -86,7 +90,9 @@ public class ProdutoDAO {
                 if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }
-                Conexao.fecharConexao();
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
             } catch (SQLException e) {
             }
         }
@@ -118,13 +124,16 @@ public class ProdutoDAO {
             int linhaAfetadas = instrucaoSQL.executeUpdate();
             return linhaAfetadas > 0;
         } catch (SQLException e) {
-            throw new IllegalArgumentException(e.getMessage());
+            log.error(""+e);
+            throw new IllegalArgumentException("Erro no banco de dados");
         } finally {
             try {
                 if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }
-                Conexao.fecharConexao();
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
             } catch (SQLException e) {
             }
         }
@@ -170,13 +179,16 @@ public class ProdutoDAO {
             return linhaAfetadas > 0;
 
         } catch (SQLException e) {
-            throw new IllegalArgumentException(e.getMessage());
+            log.error(""+e);
+            throw new IllegalArgumentException("Erro no banco de dados");
         } finally {
             try {
                 if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }
-                Conexao.fecharConexao();
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
             } catch (SQLException e) {
             }
         }
@@ -226,7 +238,8 @@ public class ProdutoDAO {
             }
             return Estoque;
         } catch (SQLException e) {
-            throw new IllegalArgumentException(e.getMessage());
+            log.error(""+e);
+            throw new IllegalArgumentException("Erro no banco de dados");
         } finally {
             try {
                 if (rs != null) {
@@ -235,7 +248,9 @@ public class ProdutoDAO {
                 if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }
-                Conexao.fecharConexao();
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
             } catch (SQLException e) {
             }
         }
@@ -260,7 +275,8 @@ public class ProdutoDAO {
                 return 0;
             }
         } catch (SQLException e) {
-            throw new IllegalArgumentException(e.getMessage());
+            log.error(""+e);
+            throw new IllegalArgumentException("Erro no banco de dados");
         } finally {
             try {
                 if (rs != null) {
@@ -269,7 +285,9 @@ public class ProdutoDAO {
                 if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }
-                Conexao.fecharConexao();
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
             } catch (SQLException e) {
             }
         }
@@ -318,7 +336,8 @@ public class ProdutoDAO {
             }
             return estoque;
         } catch (SQLException e) {
-            throw new IllegalArgumentException(e.getMessage());
+            log.error(""+e);
+            throw new IllegalArgumentException("Erro no banco de dados");
         } finally {
             try {
                 if (rs != null) {
@@ -327,7 +346,9 @@ public class ProdutoDAO {
                 if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }
-                Conexao.fecharConexao();
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
             } catch (SQLException e) {
             }
         }
@@ -359,7 +380,8 @@ public class ProdutoDAO {
             return produto;
 
         } catch (SQLException e) {
-            throw new IllegalArgumentException(e.getMessage());
+            log.error(""+e);
+            throw new IllegalArgumentException("Erro no banco de dados");
         } finally {
             try {
                 if (rs != null) {
@@ -368,7 +390,9 @@ public class ProdutoDAO {
                 if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }
-                Conexao.fecharConexao();
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
             } catch (SQLException e) {
             }
         }
@@ -410,7 +434,8 @@ public class ProdutoDAO {
             }
             return estoque;
         } catch (SQLException e) {
-            throw new IllegalArgumentException(e.getMessage());
+            log.error(""+e);
+            throw new IllegalArgumentException("Erro no banco de dados");
         } finally {
             try {
                 if (rs != null) {
@@ -419,7 +444,9 @@ public class ProdutoDAO {
                 if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }
-                Conexao.fecharConexao();
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
             } catch (SQLException e) {
             }
         }
@@ -445,7 +472,8 @@ public class ProdutoDAO {
             }
 
         } catch (SQLException e) {
-            throw new IllegalArgumentException(e.getMessage());
+            log.error(""+e);
+            throw new IllegalArgumentException("Erro no banco de dados");
         } finally {
             try {
                 if (rs != null) {
@@ -454,7 +482,9 @@ public class ProdutoDAO {
                 if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }
-                Conexao.fecharConexao();
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
             } catch (SQLException e) {
             }
         }

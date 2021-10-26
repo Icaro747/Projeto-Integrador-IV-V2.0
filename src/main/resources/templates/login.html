@@ -22,7 +22,7 @@
                 <div class="cAQjTg">
                     <div class="gAgEMf">
                         
-                        <section class="wWWhb">
+                        <section class="wWWhb login">
                             <form action="#" th:action="@{/login}" method="POST">
                                 <h2 class="subtitulo-login">Login</h2>
                                 <div class="form__div">
@@ -42,27 +42,42 @@
                         <div class="divisorio"></div>
 
                         <section class="wWWhb">
-                            <form action="" onsubmit="return Confirmacao()">
+                            <form action="#" th:action="@{/CadastroCliente}" method="POST" onsubmit="return ConfirmacaoCadasto()">
                                 <h2 class="subtitulo-login">criar conta</h2>
                                 <div class="form__div">
-                                    <input type="email" class="form__input" name="email" autocomplete="off" placeholder=" " required>
+                                    <input type="text" class="form__input" name="nome" placeholder=" " required>
+                                    <label class="form__label">Nome</label>
+                                </div>
+                                <div class="form__div">
+                                    <input type="text" class="form__input" name="sobrenome" placeholder=" " required>
+                                    <label class="form__label">Sobrenome</label>
+                                </div>
+                                <div class="form__div">
+                                    <input type="email" class="form__input" name="email" placeholder=" " required>
                                     <label class="form__label">Email</label>
                                 </div>
                                 <div class="form__div">
-                                    <input type="password" class="form__input" name="Senha" autocomplete="off" placeholder=" " required id="Senha">
+                                    <input type="password" class="form__input" name="senha" placeholder=" " required id="Senha">
                                     <label class="form__label">Senha</label>
                                 </div>
                                 <div class="form__div">
-                                    <input type="password" class="form__input" name="ConfirmeSenha" autocomplete="off" placeholder=" " required id="ConSenha">
+                                    <input type="password" class="form__input" name="ConfirmeSenha" placeholder=" " required id="ConSenha">
                                     <label class="form__label">Confirme a Senha</label>
                                 </div>
                                 <div class="form__div">
-                                    <input type="text" class="form__input" name="CPF" autocomplete="off" placeholder=" " required id="CPF">
+                                    <input type="text" class="form__input" name="cpf" placeholder=" " required id="CPF">
                                     <label class="form__label">CPF</label>
                                 </div>
                                 <div class="form__div">
-                                    <input type="text" class="form__input" name="CEP" autocomplete="off" placeholder=" " required id="CEP">
-                                    <label class="form__label">CEP</label>
+                                    <input type="date" class="form__input" name="nascimento" placeholder=" " required>
+                                    <label class="form__label">Data de nasimento</label>
+                                </div>
+                                <div class="form__div">                                
+                                    <select class="form__input" name="sexo" id="Sexo">
+                                        <option selected hidden value="">Sexo</option>
+                                        <option value="M">Mascolino</option>                                    
+                                        <option value="F">Feminino</option>
+                                    </select>
                                 </div>
                                 <div class="button-cadastrar">
                                     <button type="submit" class="btn btn-simples">Cadastra</button>

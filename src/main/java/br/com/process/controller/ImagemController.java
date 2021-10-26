@@ -34,7 +34,6 @@ public class ImagemController {
 
     @PostMapping("/admin/CadastroProduto/NewImg")
     public String NewImgProduto(Model model, @ModelAttribute(value="imagen")Imagen imagen, @RequestParam("img") MultipartFile file, RedirectAttributes redirectAttributes) {
-
         try {
             if (!file.isEmpty()) {
                 log.info("ID Produto:"+imagen.getId());
@@ -57,7 +56,6 @@ public class ImagemController {
             model.addAttribute("MSG", e.getMessage());
         }
         return "mensagem";
-
     }
     
     @RequestMapping("/admin/CadastroProduto/MaisIMG")

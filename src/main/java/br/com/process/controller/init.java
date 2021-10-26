@@ -37,7 +37,7 @@ public class init {
             pagina.setPageAtual(0);
             pagina.setQuantidadeItems(16);
             
-            List<Tag> Tags = TagDAO.GetTags();
+            List<Tag> Tags = TagDAO.getTags();
             if (!Tags.isEmpty()) {
                 List<Produto> Estoque = ProdutoDAO.getEstoque(PropriedadeStatus.Ativo, pagina);
                 Estoque.forEach(produto -> {

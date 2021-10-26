@@ -42,7 +42,7 @@ public class LoginController {
                             funcionario.setNome(CheckFuncionario.getNome());
                             funcionario.setAtuacao(CheckFuncionario.getAtuacao());
                             session.setAttribute("Use", funcionario);
-                            return "adminHome";
+                            return "homeAdmin";
                         }
                     }else{
                         model.addAttribute("MSG", "Conta desativada");
@@ -80,7 +80,7 @@ public class LoginController {
                         funcionario.setNome(CheckFuncionario.getNome());
                         funcionario.setAtuacao(CheckFuncionario.getAtuacao());
                         session.setAttribute("Use", funcionario);
-                        return "adminHome";
+                        return "homeAdmin";
                     }
                 }else{
                     model.addAttribute("MSG", "Conta desativada");
