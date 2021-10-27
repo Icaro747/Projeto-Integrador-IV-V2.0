@@ -132,4 +132,47 @@ public class ClienteDAO {
             }
         }
     }
+    
+    public static boolean Atualizar(Cliente cliente) {
+        Connection conexao = null;
+        PreparedStatement instrucaoSQL = null;
+        
+        
+        try{
+            conexao = Conexao.abrirConexao();
+            instrucaoSQL = conexao.prepareStatement("UPDATE Cliente SET Nome = ?,Sobrenome = ?,Email = ? ,CPF = ?,Nascimento = ?,Sexo = ? WHERE ID_Cliente = ?");
+            
+            instrucaoSQL.setString(1,cliente.getNome());
+            instrucaoSQL.setString(2,cliente.getSobrenome());
+            instrucaoSQL.setString(3,cliente.getEmail());
+            instrucaoSQL.setString(4,cliente.getCpf());
+            instrucaoSQL.setDate(5,cliente.getNascimento());
+            instrucaoSQL.setString(6,cliente.getSexo());
+            instrucaoSQL.setInt(6,cliente.getId_cliente());
+        
+        
+            int linhaAfetadas = instrucaoSQL.executeUpdate();
+            
+            return  linhaAfetadas > 0;   
+       }catch(SQLException e ){
+           
+           log.error(""+e);
+           throw  new IllegalArgumentException("Erro no banco de dados");
+       }finally{
+            try{
+                if(instrucaoSQL != null){
+                    instrucaoSQL.close();
+                }
+                if(conexao != null){
+                    Conexao.fecharConexao();
+                }
+            } catch(SQLException e){
+                
+            }
+        }
+    }
+
+    /*public static Cliente getClienteId(Cliente cliente) {
+        
+    }*/
 }

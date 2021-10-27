@@ -5,6 +5,8 @@ import br.com.process.DAO.EnderecoDAO;
 import br.com.process.entidade.Cliente;
 import br.com.process.entidade.Endereco;
 import br.com.process.uteis.Crypto;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -17,7 +19,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  *
@@ -25,6 +29,32 @@ import org.springframework.web.bind.annotation.PostMapping;
  */
 @Controller @Slf4j
 public class ClienteController {
+    
+    
+    @RequestMapping(value = "admin/AtualizarCliente/{id}")
+    public String TelaAtualizar ( Model model,@PathVariable int id){
+        try{
+            Cliente cliente = new Cliente(id);    
+            cliente = ClienteDAO.getClienteId(cliente);
+            log.info(cliente.toString());
+            
+            if(cliente.getNome() != null){
+                cliente.setSenha("");
+                model.addAttribute("cliente",cliente);
+                
+                log.info("redirecionando pra tela de update funcionario");
+                return "updateCliente";
+                
+            }else{
+                model.addAttribute("MSG","Cliente não encontrado");
+            }
+        }catch (Exception e){
+            log.error(""+e);
+            model.addAttribute("MSG",e.getMessage());
+        }
+        
+        return  "mensagem";
+    }
     
     @PostMapping("/CadastroCliente")
     public String Cadatro(Model model, @Valid @ModelAttribute(value = "cliente") Cliente cliente, BindingResult result, HttpServletRequest request){
