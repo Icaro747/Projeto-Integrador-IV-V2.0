@@ -2,7 +2,6 @@ package br.com.process.DAO;
 
 import br.com.process.conexao.Conexao;
 import br.com.process.entidade.Cliente;
-import java.nio.file.Paths;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -173,7 +172,7 @@ public class ClienteDAO {
         }
     }
 
-    public static Cliente getClienteId(Cliente cliente) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    /*public static Cliente getClienteId(Cliente cliente) {
+        
+    }*/
 }
