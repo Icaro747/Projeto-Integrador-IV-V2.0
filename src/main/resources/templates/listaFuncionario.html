@@ -30,8 +30,7 @@
                             <td th:if="${funcionario.status}">Ativo</td>
                             <td th:unless="${funcionario.status}">Desativo</td>
                             
-                            <!-- th:if="${eu} or ${session.Use.Atuacao=='Admin'}" -->
-                            <td th:if="${eu}"><a th:href="@{'/admin/AtualizarFuncionario/' + ${funcionario.Id_funcionario}}">Atualizar</a></td>
+                            <td th:if="${eu} or ${session.Use.Atuacao=='Admin'}" ><a th:href="@{'/admin/AtualizarFuncionario/' + ${funcionario.Id_funcionario}}">Atualizar</a></td>
                             
                             <td th:if="${session.Use.Atuacao=='Admin'}" th:unless="${eu}">
                                 <a th:if="${funcionario.status}" th:href="@{'/admin/Desativar/' + ${funcionario.id_funcionario}}" class="btnDesativar">Desativar</a>

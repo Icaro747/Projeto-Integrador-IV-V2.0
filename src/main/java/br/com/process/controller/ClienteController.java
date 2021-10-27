@@ -5,8 +5,6 @@ import br.com.process.DAO.EnderecoDAO;
 import br.com.process.entidade.Cliente;
 import br.com.process.entidade.Endereco;
 import br.com.process.uteis.Crypto;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -30,11 +28,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller @Slf4j
 public class ClienteController {
     
-    
-    @RequestMapping(value = "admin/AtualizarCliente/{id}")
+    /*@RequestMapping(value = "admin/AtualizarCliente/{id}")
     public String TelaAtualizar ( Model model,@PathVariable int id){
         try{
-            Cliente cliente = new Cliente(id);    
+            Cliente cliente = new Cliente(id);
             cliente = ClienteDAO.getClienteId(cliente);
             log.info(cliente.toString());
             
@@ -52,9 +49,8 @@ public class ClienteController {
             log.error(""+e);
             model.addAttribute("MSG",e.getMessage());
         }
-        
         return  "mensagem";
-    }
+    }*/
     
     @PostMapping("/CadastroCliente")
     public String Cadatro(Model model, @Valid @ModelAttribute(value = "cliente") Cliente cliente, BindingResult result, HttpServletRequest request){
