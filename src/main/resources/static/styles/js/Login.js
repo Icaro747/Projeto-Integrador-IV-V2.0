@@ -28,7 +28,7 @@ function ConfirmacaoCadasto() {
         if (Senha === ConSenha) {
             if (Sexo !== '' || Sexo !== null) {
                 URL += `/${CPF}/${Email}`;
-                fetch(URL, { method: 'GET' }).then(response => {
+                fetch(URL, {method: 'GET'}).then(response => {
                     response.json().then(data => {
                         if (data.sucesso) {
                             return true;
@@ -49,14 +49,14 @@ function ConfirmacaoCadasto() {
             msg = "As senhas não estão iguais!";
         }
     } catch (e) {
-        console.log({ e });
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: msg,
-            confirmButtonColor: '#0262dc'
-        });
+        console.log({e});
     }
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: msg,
+        confirmButtonColor: '#0262dc'
+    });
     return false;
 }
 
