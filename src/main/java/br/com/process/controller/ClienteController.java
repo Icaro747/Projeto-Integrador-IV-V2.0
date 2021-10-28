@@ -10,8 +10,7 @@ import br.com.process.entidade.Endereco;
 import br.com.process.entidade.Funcionario;
 import br.com.process.entidade.Produto;
 import br.com.process.uteis.Crypto;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
+import br.com.process.uteis.RestrictedAreaAccess;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -35,9 +34,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller @Slf4j
 public class ClienteController {
     
-    
-        @RequestMapping(value = "/AtualizarCliente/{id}")
-        public String TelaAtualizar(Model model, @PathVariable int id) {
+    @RequestMapping(value = "/AtualizarCliente/{id}")
+    public String TelaAtualizar(Model model, @PathVariable int id) {
         try {
             Cliente cliente = new Cliente (id);
             cliente = ClienteDAO.getClienteId(cliente);
@@ -112,7 +110,7 @@ public class ClienteController {
                 Cliente cliente1 = (Cliente) session.getAttribute("Use");
                 if (!result.hasErrors()) {
                     if (EnderecoDAO.Adicionar(endereco, cliente1)) {
-                        return Home();
+                        return Home(model, request);
                     }else{
                         model.addAttribute("MSG", "Falhia ao cadatra");
                     }
@@ -136,8 +134,19 @@ public class ClienteController {
         return "cadastroCliente";
     }
     
-    @GetMapping("/home")
-    public String Home(){
-        return "homeCliente";
+    @GetMapping({"/home","/home/*"})
+    public String Home(Model model, HttpServletRequest request){
+        try {
+            if (RestrictedAreaAccess.Cliente(request.getSession())) {
+                return "homeCliente";
+            }else{
+                return "login";
+            }
+        } catch (Exception e) {
+            log.error(""+e);
+            model.addAttribute("MSG", e.getMessage());
+            return "mensagem";
+        }
+        
     }
 }
