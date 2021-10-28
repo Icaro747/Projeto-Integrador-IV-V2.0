@@ -24,12 +24,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller @Slf4j
 public class init {
    
-    @GetMapping("/login")
-    public String Login(){
-        log.info("redirecionamento para ninguém");
-        return "login";
-    }
-    
     @RequestMapping("/")
     public String index(Model model){
         try {

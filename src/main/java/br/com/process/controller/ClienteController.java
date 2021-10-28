@@ -5,6 +5,7 @@ import br.com.process.DAO.EnderecoDAO;
 import br.com.process.entidade.Cliente;
 import br.com.process.entidade.Endereco;
 import br.com.process.uteis.Crypto;
+import br.com.process.uteis.RestrictedAreaAccess;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -103,7 +104,7 @@ public class ClienteController {
                 Cliente cliente1 = (Cliente) session.getAttribute("Use");
                 if (!result.hasErrors()) {
                     if (EnderecoDAO.Adicionar(endereco, cliente1)) {
-                        return Home();
+                        return Home(model, request);
                     }else{
                         model.addAttribute("MSG", "Falhia ao cadatra");
                     }
@@ -127,8 +128,19 @@ public class ClienteController {
         return "cadastroCliente";
     }
     
-    @GetMapping("/home")
-    public String Home(){
-        return "homeCliente";
+    @GetMapping({"/home","/home/*"})
+    public String Home(Model model, HttpServletRequest request){
+        try {
+            if (RestrictedAreaAccess.Cliente(request.getSession())) {
+                return "homeCliente";
+            }else{
+                return "login";
+            }
+        } catch (Exception e) {
+            log.error(""+e);
+            model.addAttribute("MSG", e.getMessage());
+            return "mensagem";
+        }
+        
     }
 }
