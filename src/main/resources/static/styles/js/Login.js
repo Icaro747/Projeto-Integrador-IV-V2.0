@@ -49,7 +49,7 @@ function ConfirmacaoCadasto() {
             msg = "As senhas não estão iguais!";
         }
     } catch (e) {
-        console.log({e});
+        console.error({e});
     }
     Swal.fire({
         icon: 'error',
