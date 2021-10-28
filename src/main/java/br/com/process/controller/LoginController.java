@@ -30,7 +30,7 @@ public class LoginController {
     
     @GetMapping("/login")
     public String Login(Model model, HttpServletRequest request){
-        try {
+        try {//
             if (RestrictedAreaAccess.Cliente(request.getSession())) {
                 return "homeCliente";
             } else if (RestrictedAreaAccess.Funcionario(request.getSession())) {
