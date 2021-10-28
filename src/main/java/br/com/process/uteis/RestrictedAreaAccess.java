@@ -6,17 +6,26 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author Uffa
+ * @author Icaro
  */
 public class RestrictedAreaAccess {
-    
-    public static boolean Funcionario(HttpSession session){
-        Funcionario fun = (Funcionario) session.getAttribute("Use");
-        return fun != null;
+
+    public static boolean Funcionario(HttpSession session) {
+        try {
+            Funcionario fun = (Funcionario) session.getAttribute("Use");
+            return fun != null;
+        } catch (Exception e) {
+            return false;
+        }
+
     }
-    
-    public static boolean Cliente(HttpSession session){
-        Cliente cli = (Cliente) session.getAttribute("Use");
-        return cli != null;
+
+    public static boolean Cliente(HttpSession session) {
+        try {
+            Cliente cli = (Cliente) session.getAttribute("Use");
+            return cli != null;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
