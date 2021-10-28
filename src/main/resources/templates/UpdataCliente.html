@@ -4,7 +4,10 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
-<html>
+<html
+    lang="pt-br"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
     <head>
          <title>Atualizar Cliente</title>
         <meta charset="UTF-8">
@@ -24,7 +27,7 @@ and open the template in the editor.
                 <div class="cAQjTg">
                     <div class="gAgEMf">
                         <section class="wWWhb">
-                            <form action="../AtualizarCliente" th:action ="@{/admin/AtualizarCliente}" onsubmit="return Confirmacao()" method="POST" th:object="${funcionario}">
+                            <form action="../AtualizarCliente" th:action ="@{/AtualizarCliente}" onsubmit="return Confirmacao()" method="POST" th:object="${cliente}">
                                 <h2 class="subtitulo-login">Atualizar Cliente</h2><!-- titulo -->
                                 <input type="hidden" name="id_cliente" th:field="*{id_cliente}">
                                 <input type="hidden" name="email" th:field="*{email}">

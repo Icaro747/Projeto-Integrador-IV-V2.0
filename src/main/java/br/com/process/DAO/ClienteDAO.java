@@ -2,6 +2,7 @@ package br.com.process.DAO;
 
 import br.com.process.conexao.Conexao;
 import br.com.process.entidade.Cliente;
+import br.com.process.entidade.Funcionario;
 import java.nio.file.Paths;
 
 import java.sql.Connection;
@@ -141,7 +142,7 @@ public class ClienteDAO {
         
         try{
             conexao = Conexao.abrirConexao();
-            instrucaoSQL = conexao.prepareStatement("UPDATE Cliente SET Nome = ?,Sobrenome = ?,Email = ? ,CPF = ?,Nascimento = ?,Sexo = ? WHERE ID_Cliente = ?");
+            instrucaoSQL = conexao.prepareStatement("UPDATE Cliente SET Nome = ?,Sobrenome = ?,Email = ? ,CPF = ?,Nasimento = ?,Sexo = ? WHERE ID_Cliente = ?");
             
             instrucaoSQL.setString(1,cliente.getNome());
             instrucaoSQL.setString(2,cliente.getSobrenome());
@@ -150,7 +151,6 @@ public class ClienteDAO {
             instrucaoSQL.setDate(5,cliente.getNascimento());
             instrucaoSQL.setString(6,cliente.getSexo());
             instrucaoSQL.setInt(6,cliente.getId_cliente());
-        
         
             int linhaAfetadas = instrucaoSQL.executeUpdate();
             
@@ -171,9 +171,52 @@ public class ClienteDAO {
                 
             }
         }
+        
     }
+        
+        public static Cliente getClienteId(Cliente cliente){
+        
+        ResultSet rs = null;
+        Connection conexao = null;
+        PreparedStatement instrucaoSQL = null;
 
-    public static Cliente getClienteId(Cliente cliente) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            conexao = Conexao.abrirConexao();
+            instrucaoSQL = conexao.prepareStatement("SELECT * FROM Cliente WHERE ID_Cliente = ?");
+            
+            instrucaoSQL.setInt(1, cliente.getId_cliente());
+            rs = instrucaoSQL.executeQuery();
+
+            if (rs.next()) {
+                cliente.setId_cliente(rs.getInt("ID_Cliente"));
+                cliente.setNome(rs.getString("Nome"));
+                cliente.setSobrenome(rs.getString("Sobrenome"));
+                cliente.setEmail(rs.getString("Email"));
+                cliente.setSenha(rs.getString("Senha"));
+                cliente.setCpf(rs.getString("CPF"));
+                cliente.setNascimento(rs.getDate("Nascimento"));
+                cliente.setSexo(rs.getString("Sexo"));
+            }
+
+            return cliente;
+
+        } catch (SQLException e) {
+            log.error(""+e);
+            throw new IllegalArgumentException("Erro no banco de dados");
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (instrucaoSQL != null) {
+                    instrucaoSQL.close();
+                }
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
+            } catch (SQLException e) {
+            }
+        }
     }
+       
 }

@@ -2,8 +2,13 @@ package br.com.process.controller;
 
 import br.com.process.DAO.ClienteDAO;
 import br.com.process.DAO.EnderecoDAO;
+import br.com.process.DAO.FuncionarioDAO;
+import br.com.process.DAO.ProdutoDAO;
+import br.com.process.DAO.TagDAO;
 import br.com.process.entidade.Cliente;
 import br.com.process.entidade.Endereco;
+import br.com.process.entidade.Funcionario;
+import br.com.process.entidade.Produto;
 import br.com.process.uteis.Crypto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -31,30 +36,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ClienteController {
     
     
-    @RequestMapping(value = "admin/AtualizarCliente/{id}")
-    public String TelaAtualizar ( Model model,@PathVariable int id){
-        try{
-            Cliente cliente = new Cliente(id);    
+        @RequestMapping(value = "/AtualizarCliente/{id}")
+        public String TelaAtualizar(Model model, @PathVariable int id) {
+        try {
+            Cliente cliente = new Cliente (id);
             cliente = ClienteDAO.getClienteId(cliente);
             log.info(cliente.toString());
             
-            if(cliente.getNome() != null){
+            if (cliente.getNome() != null) {
                 cliente.setSenha("");
-                model.addAttribute("cliente",cliente);
+                model.addAttribute("funcionario", cliente);
                 
-                log.info("redirecionando pra tela de update funcionario");
+                log.info("redirecionando pra tela de update cliente");
                 return "updateCliente";
-                
             }else{
-                model.addAttribute("MSG","Cliente não encontrado");
+                model.addAttribute("MSG", "Cliente não encontrado");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error(""+e);
-            model.addAttribute("MSG",e.getMessage());
+            model.addAttribute("MSG", e.getMessage());
         }
-        
-        return  "mensagem";
+        return "mensagem";
     }
+    
+    
     
     @PostMapping("/CadastroCliente")
     public String Cadatro(Model model, @Valid @ModelAttribute(value = "cliente") Cliente cliente, BindingResult result, HttpServletRequest request){
