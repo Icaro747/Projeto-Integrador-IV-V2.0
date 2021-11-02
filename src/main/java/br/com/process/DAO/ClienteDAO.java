@@ -213,7 +213,7 @@ public class ClienteDAO {
 
         try {
             conexao = Conexao.abrirConexao();
-            instrucaoSQL = conexao.prepareStatement("UPDATE Cliente SET Nome = ?,Sobrenome = ?,Email = ? ,CPF = ?,Nasimeto = ?,Sexo = ? WHERE ID_Cliente = ?");
+            instrucaoSQL = conexao.prepareStatement("UPDATE Cliente SET Nome = ?, Sobrenome = ?, Email = ?, CPF = ?, Nasimeto = ?, Sexo = ? WHERE ID_Cliente = ?");
 
             instrucaoSQL.setString(1, cliente.getNome());
             instrucaoSQL.setString(2, cliente.getSobrenome());
@@ -243,7 +243,6 @@ public class ClienteDAO {
 
             }
         }
-
     }
 
     public static boolean AtualizarSenha(Cliente cliente) {
@@ -251,23 +250,15 @@ public class ClienteDAO {
         PreparedStatement instrucaoSQL = null;
         try {
             conexao = Conexao.abrirConexao();
-            instrucaoSQL = conexao.prepareStatement("UPDATE Cliente SET Nome = ?,Sobrenome = ?,Email = ? ,Senha = ? ,CPF = ?,Nasimeto = ?,Sexo = ? WHERE ID_Cliente = ?");
+            instrucaoSQL = conexao.prepareStatement("UPDATE Cliente SET Senha = ? WHERE ID_Cliente = ?");
 
-            instrucaoSQL.setString(1, cliente.getNome());
-            instrucaoSQL.setString(2, cliente.getSobrenome());
-            instrucaoSQL.setString(3, cliente.getEmail());
-            instrucaoSQL.setString(4, cliente.getSenha());
-            instrucaoSQL.setString(5, cliente.getCpf());
-            instrucaoSQL.setDate(6, cliente.getNascimento());
-            instrucaoSQL.setString(7, cliente.getSexo());
-            instrucaoSQL.setInt(8, cliente.getId_cliente());
+            instrucaoSQL.setString(1, cliente.getSenha());
+            instrucaoSQL.setInt(2, cliente.getId_cliente());
 
             int linhaAfetadas = instrucaoSQL.executeUpdate();
 
             return linhaAfetadas > 0;
-
         } catch (SQLException e) {
-
             log.error("" + e);
             throw new IllegalArgumentException("Erro no banco de dados");
         } finally {
@@ -282,9 +273,7 @@ public class ClienteDAO {
 
             }
         }
-
     }
-
 
     public static Cliente getClienteId(Cliente cliente) {
 
