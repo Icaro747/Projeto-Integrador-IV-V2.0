@@ -5,6 +5,7 @@ import br.com.process.DAO.EnderecoDAO;
 import br.com.process.entidade.Cliente;
 import br.com.process.entidade.Endereco;
 import br.com.process.uteis.Crypto;
+import br.com.process.uteis.PropriedadeStatus;
 import br.com.process.uteis.RestrictedAreaAccess;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 /**
@@ -203,5 +205,37 @@ public class ClienteController {
             model.addAttribute("MSG", e.getMessage());
             return "mensagem";
         }
+    }
+    
+    @GetMapping("/home/Endereco/Ativar/{id}")
+    public String Ativar(Model model, @PathVariable int id, HttpServletRequest request){
+        Endereco endereco = new Endereco(id);
+        try {
+            if (EnderecoDAO.MudancaStatus(endereco, PropriedadeStatus.Ativo)) {
+                return listaEndereco(model, request);
+            }else{
+                model.addAttribute("MSG", "Erro ao Ativar");
+            }
+        } catch (Exception e) {
+            log.error(""+e);
+            model.addAttribute("MSG", e.getMessage());
+        }
+        return "mensagem";
+    }
+    
+    @GetMapping("/home/Endereco/Desativar/{id}")
+    public String Desativar(Model model, @PathVariable int id, HttpServletRequest request){
+        Endereco endereco = new Endereco(id);
+        try {
+            if (EnderecoDAO.MudancaStatus(endereco, PropriedadeStatus.Desativa)) {
+                return listaEndereco(model, request);
+            }else{
+                model.addAttribute("MSG", "Erro ao Desativar");
+            }
+        } catch (Exception e) {
+            log.error(""+e);
+            model.addAttribute("MSG", e.getMessage());
+        }
+        return "mensagem";
     }
 }

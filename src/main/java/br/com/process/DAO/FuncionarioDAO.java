@@ -268,7 +268,7 @@ public class FuncionarioDAO {
     }
     
     /**
-     * Método para desativar um produto no banco de dados.
+     * Método para desativar um Funcionario no banco de dados.
      * @param funcionario entidade que identifica o funcionário que mudará o status.
      * @param status
      * @return <b>true</b> se a desativar foi bem sucedida <b>false</b> se não for.

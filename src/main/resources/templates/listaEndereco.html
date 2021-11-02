@@ -3,7 +3,7 @@
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>TODO supply a title</title>
+        <title>lista endereços</title>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="stylesheet" type="text/css" th:href="@{/styles/css/MainCss.css}"/>
@@ -23,6 +23,7 @@
                         <th>Bairro</th>
                         <th>Cidade</th>
                         <th>Estado</th>
+                        <th>Prioridade</th>
                         <th>Status</th>
                         <tr th:each="Endereco : ${lista}">
                             <td th:text="${Endereco.cep}"></td>
@@ -35,8 +36,17 @@
                             
                             <td th:if="${Endereco.principalStatus}">Principal</td>
                             <td th:unless="${Endereco.principalStatus}">Secundário</td>
-                            <td th:unless="${Endereco.principalStatus}"><a href="#">Principal</a></td>
-                            <td><a th:href="@{'#' + ${Endereco.id_Endereco}}" class="btnDesativar">Excluir</a></td>
+                            
+                            <td th:unless="${Endereco.desativado}">Ativo</td>
+                            <td th:if="${Endereco.desativado}">Desativo</td>
+                            
+                            <td th:if="${Endereco.principalStatus}"></td>
+                            <td th:unless="${Endereco.principalStatus}"><a th:href="@{'' + ${Endereco.id_Endereco}}">Principal</a></td>
+                            
+                            <td>
+                                <a th:unless="${Endereco.desativado}" th:href="@{'/home/Endereco/Desativar/' + ${Endereco.id_Endereco}}" class="btnDesativar">Excluir</a>
+                                <a th:if="${Endereco.desativado}" th:href="@{'/home/Endereco/Ativar/' + ${Endereco.id_Endereco}}" class="btnAtivar">Ativar</a>
+                            </td>
                         </tr>
                     </table>
                 </div>

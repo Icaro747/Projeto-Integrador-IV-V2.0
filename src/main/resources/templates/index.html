@@ -1,18 +1,14 @@
 <!DOCTYPE html>
-<html lang="pt-br"
-    xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-br">
     <head>
-         <title>New Man</title>
+        <title>New Man</title>
+        <link rel="shortcut icon" th:href="@{/img/newman.ico}" type="image/x-icon">
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" th:href="@{/styles/css/MainCss.css}"/>
-        <link rel="shortcut icon" th:href="@{img/newman.ico}" type="image/x-icon">
     </head>
-
     <body>
-
         <div th:replace="fragments/header :: body"></div>
         <div class="ConteinerProdutos">
             <div th:replace="fragments/Carousel :: html"></div>
@@ -43,7 +39,6 @@
                                 <span>3x</span>
                                 <small> de R$</small>
                                 <span th:text="${Estoque.v_juros3v}">${Math.round((Produto.v_venda/3)* 100)/100}</span>
-                                <!--<small> sem juros</small>-->
                             </div>
                         </div>
                     </div>
