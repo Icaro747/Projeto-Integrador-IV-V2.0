@@ -1,98 +1,92 @@
 <!DOCTYPE html>
-<html
-  lang="pt-br"
-  xmlns="http://www.w3.org/1999/xhtml"
-  xmlns:th="http://www.thymeleaf.org"
->
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      th:href="@{/styles/css/MainCss.css}"
-    />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="shortcut icon" th:href="@{img/newman.ico}" type="image/x-icon" />
-    <title>Login</title>
-  </head>
-  <body>
-    <div th:replace="fragments/header :: body"></div>
+<html lang="pt-br"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" type="text/css" th:href="@{/styles/css/MainCss.css}"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <link rel="shortcut icon" th:href="@{/img/newman.ico}" type="image/x-icon" />
+        <title>Login</title>
+    </head>
+    <body>
+        <div th:replace="fragments/header :: body"></div>
 
-    <div class="hRtCnc">
-      <div class="doTtzZ">
-        <div class="cAQjTg">
-          <div class="gAgEMf">
-            <section class="wWWhb login">
-                <form action="#" th:action="@{/login}" method="POST">
-                    <h2 class="subtitulo-login">Login</h2>
-                    <div class="form__div">
-                        <input type="email" class="form__input" name="email" placeholder=" " required>
-                        <label class="form__label">Email</label>
-                    </div>
-                    <div class="form__div">
-                        <input type="password" class="form__input" name="senha" placeholder=" " required>
-                        <label class="form__label">Senha</label>
-                    </div>
-                    <div class="button-cadastrar">
-                        <button type="submit" class="btn btn-destaque">Entrar</button>
-                    </div>
-                </form>
-            </section>
+        <div class="hRtCnc">
+            <div class="doTtzZ">
+                <div class="cAQjTg">
+                    <div class="gAgEMf">
+                        <section class="wWWhb login">
+                            <form action="#" th:action="@{/login}" method="POST">
+                                <h2 class="subtitulo-login">Login</h2>
+                                <div class="form__div">
+                                    <input type="email" class="form__input" name="email" placeholder=" " required>
+                                        <label class="form__label">Email</label>
+                                </div>
+                                <div class="form__div">
+                                    <input type="password" class="form__input" name="senha" placeholder=" " required>
+                                        <label class="form__label">Senha</label>
+                                </div>
+                                <div class="button-cadastrar">
+                                    <button type="submit" class="btn btn-destaque">Entrar</button>
+                                </div>
+                            </form>
+                        </section>
 
-            <div class="divisorio"></div>
+                        <div class="divisorio"></div>
 
-            <section class="wWWhb">
-                <form action="#" th:action="@{/CadastroCliente}" method="POST" onsubmit="return ConfirmacaoCadasto()">
-                    <h2 class="subtitulo-login">criar conta</h2>
-                    <div class="form__div">
-                        <input type="text" class="form__input" name="nome" placeholder=" " required>
-                        <label class="form__label">Nome</label>
+                        <section class="wWWhb">
+                            <form action="#" th:action="@{/CadastroCliente}" method="POST" onsubmit="return ConfirmacaoCadasto()">
+                                <h2 class="subtitulo-login">criar conta</h2>
+                                <div class="form__div">
+                                    <input type="text" class="form__input" name="nome" placeholder=" " required>
+                                        <label class="form__label">Nome</label>
+                                </div>
+                                <div class="form__div">
+                                    <input type="text" class="form__input" name="sobrenome" placeholder=" " required>
+                                        <label class="form__label">Sobrenome</label>
+                                </div>
+                                <div class="form__div">
+                                    <input type="email" class="form__input" name="email" placeholder=" " required id="Email" onblur="CheckEmail()">
+                                        <label class="form__label">Email</label>
+                                </div>
+                                <div class="form__div">
+                                    <input type="password" class="form__input" name="senha" placeholder=" " required id="Senha">
+                                        <label class="form__label">Senha</label>
+                                </div>
+                                <div class="form__div">
+                                    <input type="password" class="form__input" name="ConfirmeSenha" placeholder=" " required id="ConSenha">
+                                        <label class="form__label">Confirme a Senha</label>
+                                </div>
+                                <div class="form__div">
+                                    <input type="text" class="form__input" name="cpf" placeholder=" " required id="CPF" onblur="CheckCPF()">
+                                        <label class="form__label">CPF</label>
+                                </div>
+                                <div class="form__div">
+                                    <input type="date" class="form__input" name="nascimento" placeholder=" " required>
+                                        <label class="form__label">Data de nasimento</label>
+                                </div>
+                                <div class="form__div">                                
+                                    <select class="form__input" name="sexo" id="Sexo">
+                                        <option selected hidden value="">Sexo</option>
+                                        <option value="M">Mascolino</option>                                    
+                                        <option value="F">Feminino</option>
+                                    </select>
+                                </div>
+                                <div class="button-cadastrar">
+                                    <button type="submit" class="btn btn-simples">Cadastra</button>
+                                </div>
+                            </form>
+                        </section>
                     </div>
-                    <div class="form__div">
-                        <input type="text" class="form__input" name="sobrenome" placeholder=" " required>
-                        <label class="form__label">Sobrenome</label>
-                    </div>
-                    <div class="form__div">
-                        <input type="email" class="form__input" name="email" placeholder=" " required id="Email" onblur="CheckEmail()">
-                        <label class="form__label">Email</label>
-                    </div>
-                    <div class="form__div">
-                        <input type="password" class="form__input" name="senha" placeholder=" " required id="Senha">
-                        <label class="form__label">Senha</label>
-                    </div>
-                    <div class="form__div">
-                        <input type="password" class="form__input" name="ConfirmeSenha" placeholder=" " required id="ConSenha">
-                        <label class="form__label">Confirme a Senha</label>
-                    </div>
-                    <div class="form__div">
-                        <input type="text" class="form__input" name="cpf" placeholder=" " required id="CPF" onblur="CheckCPF()">
-                        <label class="form__label">CPF</label>
-                    </div>
-                    <div class="form__div">
-                        <input type="date" class="form__input" name="nascimento" placeholder=" " required>
-                        <label class="form__label">Data de nasimento</label>
-                    </div>
-                    <div class="form__div">                                
-                        <select class="form__input" name="sexo" id="Sexo">
-                            <option selected hidden value="">Sexo</option>
-                            <option value="M">Mascolino</option>                                    
-                            <option value="F">Feminino</option>
-                        </select>
-                    </div>
-                    <div class="button-cadastrar">
-                        <button type="submit" class="btn btn-simples">Cadastra</button>
-                    </div>
-                </form>
-            </section>
-          </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
 
-    <script type="text/javascript" th:src="@{/styles/js/Login.js}"></script>
-  </body>
+        <script type="text/javascript" th:src="@{/styles/js/Login.js}"></script>
+    </body>
 </html>

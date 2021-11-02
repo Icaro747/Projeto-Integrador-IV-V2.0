@@ -2,11 +2,8 @@ package br.com.process.controller;
 
 import br.com.process.DAO.ClienteDAO;
 import br.com.process.DAO.EnderecoDAO;
-import br.com.process.DAO.ProdutoDAO;
-import br.com.process.DAO.TagDAO;
 import br.com.process.entidade.Cliente;
 import br.com.process.entidade.Endereco;
-import br.com.process.entidade.Produto;
 import br.com.process.uteis.Crypto;
 import br.com.process.uteis.RestrictedAreaAccess;
 
@@ -21,31 +18,25 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  *
  * @author Icaro
  */
-@Controller
 @Slf4j
+@Controller
 public class ClienteController {
 
-
-    @GetMapping("/AtualizarCliente")
+    @GetMapping("/home/AtualizarCliente")
     public String TeleAtualizarCliente(Model model, HttpServletRequest request) {
-
         try {
-
             HttpSession session = request.getSession();
+            
             Cliente cliente = (Cliente) session.getAttribute("Use");
-            cliente = ClienteDAO.getClienteId(cliente);
-            log.info(cliente.toString());
+            cliente = ClienteDAO.getClienteId(cliente);;
 
             model.addAttribute("cliente", cliente);
-
             return "UpdataCliente";
 
         } catch (Exception e) {
@@ -55,7 +46,7 @@ public class ClienteController {
         return "mensagem";
     }
 
-    @PostMapping("/AtualizarCliente")
+    @PostMapping("/home/AtualizarCliente")
     public String Atualizar(Model model, Cliente cliente) {
         try {
             if (ClienteDAO.Atualizar(cliente)) {
@@ -70,18 +61,11 @@ public class ClienteController {
         return  "mensagem";
     }
 
-    @GetMapping("/AtualizarSenha")
+    @GetMapping("/home/AtualizarSenha")
     public String TelaAtualizarSenha(Model model, HttpServletRequest request) {
         try {
-            HttpSession session = request.getSession();
-            Cliente cliente = (Cliente) session.getAttribute("Use");
-            cliente = ClienteDAO.getClienteId(cliente);
-            log.info(cliente.toString());
-
-            model.addAttribute("cliente", cliente);
-
+            model.addAttribute("cliente", new Cliente());
             return "UpdateSenha";
-
         } catch (Exception e) {
             log.error("" + e);
             model.addAttribute("MSG", e.getMessage());
@@ -89,7 +73,7 @@ public class ClienteController {
         return "mensagem";
     }
 
-    @PostMapping("/AtualizarSenha")
+    @PostMapping("/home/AtualizarSenha")
     public String AtualizarSenha(Model model, Cliente cliente) {
         try {
             if (ClienteDAO.AtualizarSenha(cliente)) {

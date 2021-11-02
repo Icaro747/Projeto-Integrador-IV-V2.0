@@ -1,10 +1,8 @@
 package br.com.process.controller;
 
-import br.com.process.entidade.Funcionario;
 import br.com.process.uteis.RestrictedAreaAccess;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import lombok.extern.slf4j.Slf4j;
 
