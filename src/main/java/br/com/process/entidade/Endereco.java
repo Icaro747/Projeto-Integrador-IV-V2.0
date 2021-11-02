@@ -39,8 +39,8 @@ public class Endereco {
     @Size(min = 0, max = 2, message = "Tamanho do estado inválido")
     @NotEmpty(message = "Estado vazio")
     private String estado;
-    private boolean principalStatus;
-
+    private boolean principalStatus, desativado;
+    
     public Endereco(int id_Endereco) {
         this.id_Endereco = id_Endereco;
     }

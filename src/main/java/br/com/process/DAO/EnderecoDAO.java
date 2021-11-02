@@ -3,6 +3,7 @@ package br.com.process.DAO;
 import br.com.process.conexao.Conexao;
 import br.com.process.entidade.Endereco;
 import br.com.process.entidade.Cliente;
+import br.com.process.uteis.PropriedadeStatus;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -27,7 +28,7 @@ public class EnderecoDAO {
         
         try{
             conexao = Conexao.abrirConexao();
-            instrucaoSQL = conexao.prepareStatement("INSERT INTO Enderecos (CEP, Endereco, Numero, Complemento, Bairro, Cidade, Estado, Status, FK_Cliente) VALUES (?,?,?,?,?,?,?,?,?)");
+            instrucaoSQL = conexao.prepareStatement("INSERT INTO Enderecos (CEP, Endereco, Numero, Complemento, Bairro, Cidade, Estado, Status, Desativado, FK_Cliente) VALUES (?,?,?,?,?,?,?,?,?,?)");
             
             instrucaoSQL.setString(1, endereco.getCep());
             instrucaoSQL.setString(2, endereco.getEndereco());
@@ -37,7 +38,8 @@ public class EnderecoDAO {
             instrucaoSQL.setString(6, endereco.getCidade());
             instrucaoSQL.setString(7, endereco.getEstado());
             instrucaoSQL.setBoolean(8, endereco.isPrincipalStatus());
-            instrucaoSQL.setInt(9, cliente.getId_cliente());
+            instrucaoSQL.setBoolean(9, false);
+            instrucaoSQL.setInt(10, cliente.getId_cliente());
             
             int linhaAfetadas = instrucaoSQL.executeUpdate();
             return linhaAfetadas > 0;
@@ -82,8 +84,9 @@ public class EnderecoDAO {
                 String Cidade = rs.getString("Cidade");
                 String Estado = rs.getString("Estado");
                 boolean Status = rs.getBoolean("Status");
+                boolean Desativado = rs.getBoolean("Desativado");
                 
-                Endereco end = new Endereco(ID_Endereco, CEP, Endereco, Numero, Complemento, Bairro, Cidade, Estado, Status);
+                Endereco end = new Endereco(ID_Endereco, CEP, Endereco, Numero, Complemento, Bairro, Cidade, Estado, Status, Desativado);
                 enderecos.add(end);
             }
             
@@ -133,6 +136,46 @@ public class EnderecoDAO {
                 if (rs != null) {
                     rs.close();
                 }
+                if (instrucaoSQL != null) {
+                    instrucaoSQL.close();
+                }
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
+            } catch (SQLException e) {
+            }
+        }
+    }
+    
+    /**
+     * Método para desativar um Endereço no banco de dados.
+     * @param endereco entidade que identifica o Endereço que mudará o status.
+     * @param status
+     * @return <b>true</b> se a desativar foi bem sucedida <b>false</b> se não for.
+     */
+    public static boolean MudancaStatus(Endereco endereco, PropriedadeStatus status) {
+
+        Connection conexao = null;
+        PreparedStatement instrucaoSQL = null;
+
+        try {
+            conexao = Conexao.abrirConexao();
+
+            if (status == PropriedadeStatus.Desativa) {
+                instrucaoSQL = conexao.prepareStatement("UPDATE Enderecos SET Desativado = 1 WHERE ID_Endereco = ?");
+            } else {
+                instrucaoSQL = conexao.prepareStatement("UPDATE Enderecos SET Desativado = 0 WHERE ID_Endereco = ?");
+            }
+
+            instrucaoSQL.setInt(1, endereco.getId_Endereco());
+
+            int linhaAfetadas = instrucaoSQL.executeUpdate();
+            return linhaAfetadas > 0;
+        } catch (SQLException e) {
+            log.error(""+e);
+            throw new IllegalArgumentException("Erro no banco de dados");
+        } finally {
+            try {
                 if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }
