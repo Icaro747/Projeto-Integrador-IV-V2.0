@@ -118,8 +118,10 @@ public class LoginController {
         return "mensagem";
     }
 
-//    @GetMapping("/logoff")
-//    public String LogOff(HttpServletRequest request){
-//        
-//    }
+    @GetMapping("/logoff")
+    public String LogOff(Model model, HttpServletRequest request){
+        request.getSession().removeAttribute("Use");
+        model.addAttribute("MSG", "Logoff");
+        return "mensagem";
+    }
 }
