@@ -1,6 +1,7 @@
 package br.com.process.controller;
 
 import br.com.process.entidade.Funcionario;
+import br.com.process.uteis.RestrictedAreaAccess;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -22,7 +23,7 @@ public class AdminController {
     @RequestMapping({"/*",""})
     public String RestrictedArea(Model model, HttpServletRequest request){
         try {
-            if (RestrictedAreaAccess(request.getSession())) {
+            if (RestrictedAreaAccess.Funcionario(request.getSession())) {
                 return "adminHome";
             }else{
                 log.info("restrita. funcionário não logado");
@@ -33,10 +34,5 @@ public class AdminController {
             model.addAttribute("MSG", e.getMessage());
         }
         return "mensagem";
-    }
-    
-    public static boolean RestrictedAreaAccess(HttpSession session){
-        Funcionario fun = (Funcionario) session.getAttribute("Use");
-        return fun != null;
     }
 }

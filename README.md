@@ -71,6 +71,7 @@ CREATE TABLE Enderecos (
     Bairro VARCHAR(50) NOT NULL,
     Cidade VARCHAR(50) NOT NULL,
     Estado  VARCHAR(2) NOT NULL,
+    Status BOOLEAN NOT NULL,
     FK_Cliente INT NOT NULL,
     FOREIGN KEY (FK_Cliente) REFERENCES Cliente (ID_Cliente)
 );

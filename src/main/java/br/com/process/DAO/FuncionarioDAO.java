@@ -181,7 +181,6 @@ public class FuncionarioDAO {
   
     public static boolean Atualizar(Funcionario funcionario) {
 
-  
         Connection conexao = null;
         PreparedStatement instrucaoSQL = null;
 

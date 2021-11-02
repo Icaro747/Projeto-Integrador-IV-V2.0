@@ -2,8 +2,6 @@ package br.com.process.DAO;
 
 import br.com.process.conexao.Conexao;
 import br.com.process.entidade.Cliente;
-import br.com.process.entidade.Funcionario;
-import java.nio.file.Paths;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,8 +17,82 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ClienteDAO {
 
-    public static int Adicionar(Cliente cliente) {
+    public static boolean CheckCliente(Cliente cliente){
+        
+        ResultSet rs = null;
+        Connection conexao = null;
+        PreparedStatement instrucaoSQL = null;
 
+        try {
+            conexao = Conexao.abrirConexao();
+            instrucaoSQL = conexao.prepareStatement("SELECT * FROM Cliente WHERE Email = ?");
+          
+            instrucaoSQL.setString(1, cliente.getEmail());
+
+            rs = instrucaoSQL.executeQuery();
+
+            return rs.next();
+        } catch (SQLException e) {
+            log.error(""+e);
+            throw new IllegalArgumentException("Erro no banco de dados");
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (instrucaoSQL != null) {
+                    instrucaoSQL.close();
+                }
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
+            } catch (SQLException e) {
+            }
+        }
+    }
+    
+    public static Cliente getClienteEmail(Cliente cliente){
+        
+        ResultSet rs = null;
+        Connection conexao = null;
+        PreparedStatement instrucaoSQL = null;
+
+        try {
+            conexao = Conexao.abrirConexao();
+            instrucaoSQL = conexao.prepareStatement("SELECT * FROM Cliente WHERE Email = ?");
+
+            instrucaoSQL.setString(1, cliente.getEmail());
+            rs = instrucaoSQL.executeQuery();
+
+            if (rs.next()) {
+                cliente.setId_cliente(rs.getInt("ID_Cliente"));
+                cliente.setNome(rs.getString("Nome"));
+                cliente.setSenha(rs.getString("Senha"));
+            }
+
+            return cliente;
+
+        } catch (SQLException e) {
+            log.error(""+e);
+            throw new IllegalArgumentException("Erro no banco de dados");
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (instrucaoSQL != null) {
+                    instrucaoSQL.close();
+                }
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
+            } catch (SQLException e) {
+            }
+        }
+    }
+    
+    public static int Adicionar(Cliente cliente){
+      
         ResultSet rs = null;
         Connection conexao = null;
         PreparedStatement instrucaoSQL = null;
@@ -213,6 +285,7 @@ public class ClienteDAO {
 
     }
 
+
     public static Cliente getClienteId(Cliente cliente) {
 
         ResultSet rs = null;
@@ -257,5 +330,4 @@ public class ClienteDAO {
             }
         }
     }
-
 }

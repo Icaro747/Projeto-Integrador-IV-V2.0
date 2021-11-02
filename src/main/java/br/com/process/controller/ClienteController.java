@@ -2,16 +2,13 @@ package br.com.process.controller;
 
 import br.com.process.DAO.ClienteDAO;
 import br.com.process.DAO.EnderecoDAO;
-import br.com.process.DAO.FuncionarioDAO;
 import br.com.process.DAO.ProdutoDAO;
 import br.com.process.DAO.TagDAO;
 import br.com.process.entidade.Cliente;
 import br.com.process.entidade.Endereco;
-import br.com.process.entidade.Funcionario;
 import br.com.process.entidade.Produto;
 import br.com.process.uteis.Crypto;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
+import br.com.process.uteis.RestrictedAreaAccess;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -35,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @Slf4j
 public class ClienteController {
+
 
     @GetMapping("/AtualizarCliente")
     public String TeleAtualizarCliente(Model model, HttpServletRequest request) {
@@ -69,7 +67,7 @@ public class ClienteController {
             log.error("" + e);
             model.addAttribute("MSG", e.getMessage());
         }
-        return "mensagem";
+        return  "mensagem";
     }
 
     @GetMapping("/AtualizarSenha")
@@ -105,6 +103,12 @@ public class ClienteController {
             model.addAttribute("MSG", e.getMessage());
         }
         return "mensagem";
+    }
+  
+    @GetMapping("/CadastroCliente")
+    public String TeleCadastro(Model model) {
+        model.addAttribute("cliente", new Cliente());
+        return "cadastroCliente";
     }
 
     @PostMapping("/CadastroCliente")
@@ -157,8 +161,16 @@ public class ClienteController {
             if (session.getAttribute("Use") != null) {
                 Cliente cliente1 = (Cliente) session.getAttribute("Use");
                 if (!result.hasErrors()) {
+                  
+                    if (EnderecoDAO.CheckEnderecos(cliente1) == 0) {
+                        endereco.setPrincipalStatus(true);
+                    }else{
+                        endereco.setPrincipalStatus(false);
+                    }
+                    
                     if (EnderecoDAO.Adicionar(endereco, cliente1)) {
-                        return Home();
+                        return Home(model, request);
+
                     } else {
                         model.addAttribute("MSG", "Falhia ao cadatra");
                     }
@@ -176,14 +188,31 @@ public class ClienteController {
         return "mensagem";
     }
 
-    @GetMapping("/CadastroCliente")
-    public String TeleCadastro(Model model) {
-        model.addAttribute("cliente", new Cliente());
-        return "cadastroCliente";
+    @GetMapping({"/home", "/home/*"})
+    public String Home(Model model, HttpServletRequest request) {
+        try {
+            if (RestrictedAreaAccess.Cliente(request.getSession())) {
+                return "homeCliente";
+            } else {
+                return "login";
+            }
+        } catch (Exception e) {
+            log.error("" + e);
+            model.addAttribute("MSG", e.getMessage());
+            return "mensagem";
+        }
     }
-
-    @GetMapping("/home")
-    public String Home() {
-        return "homeCliente";
+    
+    @GetMapping("/home/listaEndereco")
+    public String listaEndereco(Model model, HttpServletRequest request){
+        try {
+            Cliente cliente = (Cliente) request.getSession().getAttribute("Use");
+            model.addAttribute("lista", EnderecoDAO.ClienteEnderecos(cliente));
+            return "listaEndereco";
+        } catch (Exception e) {
+            log.error("" + e);
+            model.addAttribute("MSG", e.getMessage());
+            return "mensagem";
+        }
     }
 }
