@@ -2,12 +2,10 @@ package br.com.process.controller;
 
 import br.com.process.DAO.ClienteDAO;
 import br.com.process.DAO.EnderecoDAO;
-import br.com.process.DAO.FuncionarioDAO;
 import br.com.process.DAO.ProdutoDAO;
 import br.com.process.DAO.TagDAO;
 import br.com.process.entidade.Cliente;
 import br.com.process.entidade.Endereco;
-import br.com.process.entidade.Funcionario;
 import br.com.process.entidade.Produto;
 import br.com.process.uteis.Crypto;
 import java.sql.Connection;
