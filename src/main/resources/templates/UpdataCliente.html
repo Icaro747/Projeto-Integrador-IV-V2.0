@@ -27,7 +27,7 @@ and open the template in the editor.
                 <div class="cAQjTg">
                     <div class="gAgEMf">
                         <section class="wWWhb">
-                            <form action="../AtualizarCliente" th:action ="@{/AtualizarCliente}" onsubmit="return Confirmacao()" method="POST" th:object="${cliente}">
+                           <form action="../AtualizarCliente" th:action ="@{/AtualizarCliente}" onsubmit="return Confirmacao()" method="POST" th:object="${cliente}">
                                 <h2 class="subtitulo-login">Atualizar Cliente</h2><!-- titulo -->
                                 <input type="hidden" name="id_cliente" th:field="*{id_cliente}">
                                 <input type="hidden" name="email" th:field="*{email}">
@@ -48,24 +48,29 @@ and open the template in the editor.
                                     <input type="text" class="form__input" name="cpf" th:field="*{cpf}" placeholder=" " id="CPF">
                                     <label class="form__label">CPF</label>
                                 </div>
+                                 <p th:if="${#fields.hasErrors('nascimento')}" th:errors="*{nascimento}" th:class="'error-text'">something</p>
+                                <div class="form__div">
+                                    <input type="date" class="form__input" name="nascimento" th:field="*{nascimento}" autocomplete="off" placeholder=" " required>
+                                    <label class="form__label">Data de nasimento</label>
+                                </div>
                                 <p th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}" th:class="'error-text'">something</p>
+                                <div class="form__div">                                
+                                    <select class="form__input" name="sexo" id="Sexo">
+                                        <option selected hidden value="">Sexo</option>
+                                        <option value="M">Mascolino</option>                                    
+                                        <option value="F">Feminino</option>
+                                    </select>
+                                </div>
                               </div>
-                             <div class="form__div">
-                                    <input type="text" class="form__input" name="nascimento" th:field="*{nascimento}" placeholder=" ">
-                                    <label class="form__label">Nascimento</label>
-                            </div>
-                            <div class="form__div">
-                                    <input type="text" class="form__input" name="sexo" th:field="*{sexo}" placeholder=" ">
-                                    <label class="form__label">Sexo</label>
-                            </div>
-                             <div class="button-cadastrar">
-                                    <button type="submit" class="btn btn-destaque">Atualizar</button>
-                            </div>
+                               
                         </form>
                     </section>
                 </div>
+             <div class="button-cadastrar">
+              <button type="submit" class="btn btn-destaque">Atualizar</button>
+            </div>
             </div>
         </div>
-        <script type="text/javascript" th:src="@{/styles/js/Funcionario.js}"></script>
+        <script type="text/javascript" th:src="@{/styles/js/Login.js}"></script>
     </body>
 </html>

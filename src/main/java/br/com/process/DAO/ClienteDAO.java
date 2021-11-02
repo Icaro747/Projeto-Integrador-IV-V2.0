@@ -142,7 +142,7 @@ public class ClienteDAO {
         
         try{
             conexao = Conexao.abrirConexao();
-            instrucaoSQL = conexao.prepareStatement("UPDATE Cliente SET Nome = ?,Sobrenome = ?,Email = ? ,CPF = ?,Nasimento = ?,Sexo = ? WHERE ID_Cliente = ?");
+            instrucaoSQL = conexao.prepareStatement("UPDATE Cliente SET Nome = ?,Sobrenome = ?,Email = ? ,CPF = ?,Nasimeto = ?,Sexo = ? WHERE ID_Cliente = ?");
             
             instrucaoSQL.setString(1,cliente.getNome());
             instrucaoSQL.setString(2,cliente.getSobrenome());
@@ -150,11 +150,12 @@ public class ClienteDAO {
             instrucaoSQL.setString(4,cliente.getCpf());
             instrucaoSQL.setDate(5,cliente.getNascimento());
             instrucaoSQL.setString(6,cliente.getSexo());
-            instrucaoSQL.setInt(6,cliente.getId_cliente());
+            instrucaoSQL.setInt(7,cliente.getId_cliente());
         
             int linhaAfetadas = instrucaoSQL.executeUpdate();
             
-            return  linhaAfetadas > 0;   
+            return  linhaAfetadas > 0;  
+            
        }catch(SQLException e ){
            
            log.error(""+e);
@@ -194,7 +195,7 @@ public class ClienteDAO {
                 cliente.setEmail(rs.getString("Email"));
                 cliente.setSenha(rs.getString("Senha"));
                 cliente.setCpf(rs.getString("CPF"));
-                cliente.setNascimento(rs.getDate("Nascimento"));
+                cliente.setNascimento(rs.getDate("Nasimeto"));
                 cliente.setSexo(rs.getString("Sexo"));
             }
 

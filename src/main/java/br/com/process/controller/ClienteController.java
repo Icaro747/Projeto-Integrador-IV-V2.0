@@ -32,25 +32,38 @@ import org.springframework.web.bind.annotation.RequestMapping;
  *
  * @author Icaro
  */
-@Controller @Slf4j
+@Controller
+@Slf4j
 public class ClienteController {
-    
-    
-        @RequestMapping(value = "/AtualizarCliente/{id}")
-        public String TelaAtualizar(Model model, @PathVariable int id) {
+
+    @GetMapping("/AtualizarCliente")
+    public String TeleAtualizarCliente(Model model, HttpServletRequest request) {
+        
         try {
-            Cliente cliente = new Cliente (id);
+
+            HttpSession session = request.getSession();
+            Cliente cliente = (Cliente) session.getAttribute("Use");
             cliente = ClienteDAO.getClienteId(cliente);
             log.info(cliente.toString());
+           
+            model.addAttribute("cliente",cliente);
             
-            if (cliente.getNome() != null) {
-                cliente.setSenha("");
-                model.addAttribute("funcionario", cliente);
-                
-                log.info("redirecionando pra tela de update cliente");
-                return "updateCliente";
-            }else{
-                model.addAttribute("MSG", "Cliente não encontrado");
+            return "UpdataCliente";
+            
+        } catch (Exception e) {
+            log.error("" + e);
+            model.addAttribute("MSG", e.getMessage());
+        }
+        return "mensagem";
+    }
+    
+    @PostMapping("/AtualizarCliente")
+    public String Atualizar(Model model, Cliente cliente) {
+        try {
+            if (ClienteDAO.Atualizar(cliente)) {
+                model.addAttribute("MSG", "Atualizado com Sucesso");
+            } else {
+                model.addAttribute("MSG", "Erro ao Atualizar");
             }
         } catch (Exception e) {
             log.error(""+e);
@@ -58,14 +71,12 @@ public class ClienteController {
         }
         return "mensagem";
     }
-    
-    
-    
+
     @PostMapping("/CadastroCliente")
-    public String Cadatro(Model model, @Valid @ModelAttribute(value = "cliente") Cliente cliente, BindingResult result, HttpServletRequest request){
+    public String Cadatro(Model model, @Valid @ModelAttribute(value = "cliente") Cliente cliente, BindingResult result, HttpServletRequest request) {
         try {
             if (!result.hasErrors()) {
-                if (!ClienteDAO.CheckCPF(cliente)){
+                if (!ClienteDAO.CheckCPF(cliente)) {
                     if (!ClienteDAO.CheckEmail(cliente)) {
                         cliente.setSenha(Crypto.HashSenha(cliente.getSenha()));
                         cliente.setId_cliente(ClienteDAO.Adicionar(cliente));
@@ -73,28 +84,28 @@ public class ClienteController {
                             HttpSession session = request.getSession();
                             session.setAttribute("Use", cliente);
                             return TelaCadastroEndereco(model);
-                        }else{
+                        } else {
                             model.addAttribute("MSG", "Falhia ao cadatra");
                         }
-                    }else{
+                    } else {
                         model.addAttribute("MSG", "Email já cadatrado");
                     }
-                }else{
+                } else {
                     model.addAttribute("MSG", "CPF já cadatrado");
                 }
-            }else{
+            } else {
                 log.info("validar cliente erro");
                 return "cadastroCliente";
             }
         } catch (Exception e) {
-            log.error(""+e);
+            log.error("" + e);
             model.addAttribute("MSG", e.getMessage());
         }
         return "mensagem";
     }
-    
+
     @GetMapping("/CadastroEndereco")
-    public String TelaCadastroEndereco(Model model){
+    public String TelaCadastroEndereco(Model model) {
         try {
             model.addAttribute("Endereco", new Endereco());
             return "cadastroEndereco";
@@ -103,9 +114,9 @@ public class ClienteController {
             return "mensagem";
         }
     }
-    
+
     @PostMapping("/CadastroEndereco")
-    public String CadastroEndereco(Model model, @Valid @ModelAttribute(value = "Endereco") Endereco endereco, BindingResult result, HttpServletRequest request){
+    public String CadastroEndereco(Model model, @Valid @ModelAttribute(value = "Endereco") Endereco endereco, BindingResult result, HttpServletRequest request) {
         try {
             HttpSession session = request.getSession();
             if (session.getAttribute("Use") != null) {
@@ -113,31 +124,32 @@ public class ClienteController {
                 if (!result.hasErrors()) {
                     if (EnderecoDAO.Adicionar(endereco, cliente1)) {
                         return Home();
-                    }else{
+                    } else {
                         model.addAttribute("MSG", "Falhia ao cadatra");
                     }
-                }else{
+                } else {
                     log.info("validar Endereco erro");
                     return "cadastroEndereco";
                 }
-            }else{
+            } else {
                 model.addAttribute("MSG", "usuário não encontrado");
             }
         } catch (Exception e) {
-            log.error(""+e);
+            log.error("" + e);
             model.addAttribute("MSG", e.getMessage());
         }
         return "mensagem";
     }
-    
+
     @GetMapping("/CadastroCliente")
-    public String TeleCadastro(Model model){
+    public String TeleCadastro(Model model) {
         model.addAttribute("cliente", new Cliente());
         return "cadastroCliente";
     }
-    
+
+
     @GetMapping("/home")
-    public String Home(){
+    public String Home() {
         return "homeCliente";
     }
 }
