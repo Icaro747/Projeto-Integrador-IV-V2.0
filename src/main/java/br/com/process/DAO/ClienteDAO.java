@@ -2,7 +2,6 @@ package br.com.process.DAO;
 
 import br.com.process.conexao.Conexao;
 import br.com.process.entidade.Cliente;
-import br.com.process.entidade.Funcionario;
 import java.nio.file.Paths;
 
 import java.sql.Connection;
