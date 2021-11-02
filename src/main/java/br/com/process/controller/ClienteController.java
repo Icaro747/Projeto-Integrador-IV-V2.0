@@ -74,10 +74,15 @@ public class ClienteController {
     }
 
     @PostMapping("/home/AtualizarSenha")
-    public String AtualizarSenha(Model model, Cliente cliente) {
+    public String AtualizarSenha(Model model, Cliente cliente , HttpServletRequest request) {
         try {
-            if (ClienteDAO.AtualizarSenha(cliente)) {
-                cliente.setSenha(Crypto.HashSenha(cliente.getSenha()));
+            HttpSession session = request.getSession();
+            Cliente cliental = (Cliente) session.getAttribute("Use");
+            cliente.setId_cliente(cliental.getId_cliente());
+            
+            cliente.setSenha(Crypto.HashSenha(cliente.getSenha()));
+            
+            if (ClienteDAO.AtualizarSenha(cliente)) {  
                 model.addAttribute("MSG", "Senha atualizada com Sucesso");
             } else {
                 model.addAttribute("MSG", "Erro ao Atualizar a Senha");
