@@ -18,17 +18,17 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class ClienteDAO {
-    
-    public static int Adicionar(Cliente cliente){
-        
+
+    public static int Adicionar(Cliente cliente) {
+
         ResultSet rs = null;
         Connection conexao = null;
         PreparedStatement instrucaoSQL = null;
-        
-        try{
+
+        try {
             conexao = Conexao.abrirConexao();
             instrucaoSQL = conexao.prepareStatement("INSERT INTO Cliente (Nome, Sobrenome, Email, Senha, CPF, nasimeto, sexo) VALUES (?,?,?,?,?,?,?)");
-            
+
             instrucaoSQL.setString(1, cliente.getNome());
             instrucaoSQL.setString(2, cliente.getSobrenome());
             instrucaoSQL.setString(3, cliente.getEmail());
@@ -36,24 +36,24 @@ public class ClienteDAO {
             instrucaoSQL.setString(5, cliente.getCpf());
             instrucaoSQL.setDate(6, cliente.getNascimento());
             instrucaoSQL.setString(7, cliente.getSexo());
-            
+
             int linhaAfetadas = instrucaoSQL.executeUpdate();
-            if (linhaAfetadas > 0){
-                
+            if (linhaAfetadas > 0) {
+
                 instrucaoSQL = conexao.prepareStatement("SELECT ID_Cliente FROM Cliente ORDER BY ID_Cliente DESC LIMIT 1");
                 rs = instrucaoSQL.executeQuery();
-                
+
                 if (rs.next()) {
                     return rs.getInt("ID_Cliente");
                 }
             }
             return -1;
-        }catch (SQLException e){
-            log.error(""+e);
+        } catch (SQLException e) {
+            log.error("" + e);
             throw new IllegalArgumentException("Erro no banco de dados");
-        }finally{
-             try {
-                 if (rs != null) {
+        } finally {
+            try {
+                if (rs != null) {
                     rs.close();
                 }
                 if (instrucaoSQL != null) {
@@ -66,26 +66,26 @@ public class ClienteDAO {
             }
         }
     }
-    
-    public static boolean CheckEmail(Cliente cliente){
-        
+
+    public static boolean CheckEmail(Cliente cliente) {
+
         ResultSet rs = null;
         Connection conexao = null;
         PreparedStatement instrucaoSQL = null;
-        
+
         try {
             conexao = Conexao.abrirConexao();
             instrucaoSQL = conexao.prepareStatement("SELECT * FROM Cliente WHERE Email = ?");
-            
+
             instrucaoSQL.setString(1, cliente.getEmail());
             rs = instrucaoSQL.executeQuery();
-            
+
             return rs.next();
-            
+
         } catch (SQLException e) {
-            log.error(""+e);
+            log.error("" + e);
             throw new IllegalArgumentException("Erro no banco de dados");
-        } finally{
+        } finally {
             try {
                 if (rs != null) {
                     rs.close();
@@ -100,26 +100,26 @@ public class ClienteDAO {
             }
         }
     }
-    
-    public static boolean CheckCPF(Cliente cliente){
-        
+
+    public static boolean CheckCPF(Cliente cliente) {
+
         ResultSet rs = null;
         Connection conexao = null;
         PreparedStatement instrucaoSQL = null;
-        
+
         try {
             conexao = Conexao.abrirConexao();
             instrucaoSQL = conexao.prepareStatement("SELECT * FROM Cliente WHERE CPF = ?");
-            
+
             instrucaoSQL.setString(1, cliente.getCpf());
             rs = instrucaoSQL.executeQuery();
-            
+
             return rs.next();
-            
+
         } catch (SQLException e) {
-            log.error(""+e);
+            log.error("" + e);
             throw new IllegalArgumentException("Erro no banco de dados");
-        } finally{
+        } finally {
             try {
                 if (rs != null) {
                     rs.close();
@@ -134,49 +134,87 @@ public class ClienteDAO {
             }
         }
     }
-    
+
     public static boolean Atualizar(Cliente cliente) {
         Connection conexao = null;
         PreparedStatement instrucaoSQL = null;
-        
-        
-        try{
+
+        try {
             conexao = Conexao.abrirConexao();
             instrucaoSQL = conexao.prepareStatement("UPDATE Cliente SET Nome = ?,Sobrenome = ?,Email = ? ,CPF = ?,Nasimeto = ?,Sexo = ? WHERE ID_Cliente = ?");
-            
-            instrucaoSQL.setString(1,cliente.getNome());
-            instrucaoSQL.setString(2,cliente.getSobrenome());
-            instrucaoSQL.setString(3,cliente.getEmail());
-            instrucaoSQL.setString(4,cliente.getCpf());
-            instrucaoSQL.setDate(5,cliente.getNascimento());
-            instrucaoSQL.setString(6,cliente.getSexo());
-            instrucaoSQL.setInt(7,cliente.getId_cliente());
-        
+
+            instrucaoSQL.setString(1, cliente.getNome());
+            instrucaoSQL.setString(2, cliente.getSobrenome());
+            instrucaoSQL.setString(3, cliente.getEmail());
+            instrucaoSQL.setString(4, cliente.getCpf());
+            instrucaoSQL.setDate(5, cliente.getNascimento());
+            instrucaoSQL.setString(6, cliente.getSexo());
+            instrucaoSQL.setInt(7, cliente.getId_cliente());
+
             int linhaAfetadas = instrucaoSQL.executeUpdate();
-            
-            return  linhaAfetadas > 0;  
-            
-       }catch(SQLException e ){
-           
-           log.error(""+e);
-           throw  new IllegalArgumentException("Erro no banco de dados");
-       }finally{
-            try{
-                if(instrucaoSQL != null){
+
+            return linhaAfetadas > 0;
+
+        } catch (SQLException e) {
+
+            log.error("" + e);
+            throw new IllegalArgumentException("Erro no banco de dados");
+        } finally {
+            try {
+                if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }
-                if(conexao != null){
+                if (conexao != null) {
                     Conexao.fecharConexao();
                 }
-            } catch(SQLException e){
-                
+            } catch (SQLException e) {
+
             }
         }
-        
+
     }
-        
-        public static Cliente getClienteId(Cliente cliente){
-        
+
+    public static boolean AtualizarSenha(Cliente cliente) {
+        Connection conexao = null;
+        PreparedStatement instrucaoSQL = null;
+        try {
+            conexao = Conexao.abrirConexao();
+            instrucaoSQL = conexao.prepareStatement("UPDATE Cliente SET Nome = ?,Sobrenome = ?,Email = ? ,Senha = ? ,CPF = ?,Nasimeto = ?,Sexo = ? WHERE ID_Cliente = ?");
+
+            instrucaoSQL.setString(1, cliente.getNome());
+            instrucaoSQL.setString(2, cliente.getSobrenome());
+            instrucaoSQL.setString(3, cliente.getEmail());
+            instrucaoSQL.setString(4, cliente.getSenha());
+            instrucaoSQL.setString(5, cliente.getCpf());
+            instrucaoSQL.setDate(6, cliente.getNascimento());
+            instrucaoSQL.setString(7, cliente.getSexo());
+            instrucaoSQL.setInt(8, cliente.getId_cliente());
+
+            int linhaAfetadas = instrucaoSQL.executeUpdate();
+
+            return linhaAfetadas > 0;
+
+        } catch (SQLException e) {
+
+            log.error("" + e);
+            throw new IllegalArgumentException("Erro no banco de dados");
+        } finally {
+            try {
+                if (instrucaoSQL != null) {
+                    instrucaoSQL.close();
+                }
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
+            } catch (SQLException e) {
+
+            }
+        }
+
+    }
+
+    public static Cliente getClienteId(Cliente cliente) {
+
         ResultSet rs = null;
         Connection conexao = null;
         PreparedStatement instrucaoSQL = null;
@@ -184,7 +222,7 @@ public class ClienteDAO {
         try {
             conexao = Conexao.abrirConexao();
             instrucaoSQL = conexao.prepareStatement("SELECT * FROM Cliente WHERE ID_Cliente = ?");
-            
+
             instrucaoSQL.setInt(1, cliente.getId_cliente());
             rs = instrucaoSQL.executeQuery();
 
@@ -202,7 +240,7 @@ public class ClienteDAO {
             return cliente;
 
         } catch (SQLException e) {
-            log.error(""+e);
+            log.error("" + e);
             throw new IllegalArgumentException("Erro no banco de dados");
         } finally {
             try {
@@ -219,5 +257,5 @@ public class ClienteDAO {
             }
         }
     }
-       
+
 }

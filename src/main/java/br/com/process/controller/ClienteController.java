@@ -38,25 +38,25 @@ public class ClienteController {
 
     @GetMapping("/AtualizarCliente")
     public String TeleAtualizarCliente(Model model, HttpServletRequest request) {
-        
+
         try {
 
             HttpSession session = request.getSession();
             Cliente cliente = (Cliente) session.getAttribute("Use");
             cliente = ClienteDAO.getClienteId(cliente);
             log.info(cliente.toString());
-           
-            model.addAttribute("cliente",cliente);
-            
+
+            model.addAttribute("cliente", cliente);
+
             return "UpdataCliente";
-            
+
         } catch (Exception e) {
             log.error("" + e);
             model.addAttribute("MSG", e.getMessage());
         }
         return "mensagem";
     }
-    
+
     @PostMapping("/AtualizarCliente")
     public String Atualizar(Model model, Cliente cliente) {
         try {
@@ -66,7 +66,42 @@ public class ClienteController {
                 model.addAttribute("MSG", "Erro ao Atualizar");
             }
         } catch (Exception e) {
-            log.error(""+e);
+            log.error("" + e);
+            model.addAttribute("MSG", e.getMessage());
+        }
+        return "mensagem";
+    }
+
+    @GetMapping("/AtualizarSenha")
+    public String TelaAtualizarSenha(Model model, HttpServletRequest request) {
+        try {
+            HttpSession session = request.getSession();
+            Cliente cliente = (Cliente) session.getAttribute("Use");
+            cliente = ClienteDAO.getClienteId(cliente);
+            log.info(cliente.toString());
+
+            model.addAttribute("cliente", cliente);
+
+            return "UpdateSenha";
+
+        } catch (Exception e) {
+            log.error("" + e);
+            model.addAttribute("MSG", e.getMessage());
+        }
+        return "mensagem";
+    }
+
+    @PostMapping("/AtualizarSenha")
+    public String AtualizarSenha(Model model, Cliente cliente) {
+        try {
+            if (ClienteDAO.AtualizarSenha(cliente)) {
+                cliente.setSenha(Crypto.HashSenha(cliente.getSenha()));
+                model.addAttribute("MSG", "Senha atualizada com Sucesso");
+            } else {
+                model.addAttribute("MSG", "Erro ao Atualizar a Senha");
+            }
+        }catch (Exception e) {
+            log.error("" + e);
             model.addAttribute("MSG", e.getMessage());
         }
         return "mensagem";
@@ -146,7 +181,6 @@ public class ClienteController {
         model.addAttribute("cliente", new Cliente());
         return "cadastroCliente";
     }
-
 
     @GetMapping("/home")
     public String Home() {
