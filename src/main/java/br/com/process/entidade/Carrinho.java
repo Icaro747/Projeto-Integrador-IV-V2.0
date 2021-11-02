@@ -31,7 +31,7 @@ public class Carrinho {
             produto.setIndice(indice);
             indice++;
             totalVenda += produto.V_QTD();
-            produtos.add(produto);
+            this.produtos.add(produto);
         }
     }
     

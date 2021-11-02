@@ -1,17 +1,43 @@
+const URL = "http://localhost:8080/api";
+
 function Confirmacao() {
     var Senha = $("#Senha").val();
     var ConSenha = $("#ConSenha").val();
     if (Senha === ConSenha) {
         return true;
     } else {
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'As senhas não estão iguais!',
-            confirmButtonColor: '#0262dc'
-        });
+        MSG('As senhas não estão iguais!');
         return false;
     }
+}
+
+function CheckEmail() {
+    var Email = $("#Email").val();
+    const URL_Email = URL + `/CheckEmail/${Email}`;
+    if (Email != "" || Email != null) {
+        return result(URL_Email);
+    }
+}
+
+function CheckCPF() {
+    var CPF = $("#CPF").val();
+    const URL_CPF = URL + `/CheckCpf/${CPF}`;
+    if (CPF != "" || CPF != null) {
+        return result(URL_CPF);
+    }
+}
+
+function result(url) {
+    fetch(url, { method: 'GET' }).then(response => {
+        response.json().then(data => {
+            if (data.sucesso) {
+                return true;
+            } else {
+                MSG(data.mensagem);
+                return false;
+            }
+        });
+    });
 }
 
 function ConfirmacaoCadasto() {
@@ -19,45 +45,30 @@ function ConfirmacaoCadasto() {
     var Senha = $("#Senha").val();
     var ConSenha = $("#ConSenha").val();
     var Sexo = $("#Sexo").val();
-    var CPF = $("#CPF").val();
-    var Email = $("#Email").val();
-    var msg = "";
-    var URL = "http://localhost:8080/api/CheckCpfEmail";
 
     try {
         if (Senha === ConSenha) {
             if (Sexo !== '' || Sexo !== null) {
-                URL += `/${CPF}/${Email}`;
-                fetch(URL, {method: 'GET'}).then(response => {
-                    response.json().then(data => {
-                        if (data.sucesso) {
-                            return true;
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: data.mensagem,
-                                confirmButtonColor: '#0262dc'
-                            });
-                        }
-                    });
-                });
+                return true;
             } else {
-                msg = "Escolher um sexo";
+                MSG("Escolher um sexo");
             }
         } else {
-            msg = "As senhas não estão iguais!";
+            MSG("As senhas não estão iguais!");
         }
     } catch (e) {
-        console.error({e});
+        console.log({ e });
     }
+    return false;
+}
+
+function MSG(text) {
     Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: msg,
+        text: text,
         confirmButtonColor: '#0262dc'
     });
-    return false;
 }
 
 $(document).ready(function () {

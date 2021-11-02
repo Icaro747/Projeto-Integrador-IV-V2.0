@@ -17,24 +17,34 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/api")
 public class ApiController {
 
-    @GetMapping("/CheckCpfEmail/{cpf}/{email}")
-    public ClienteResponse CheckCliente(@PathVariable String cpf, @PathVariable String email) {
+    @GetMapping("/CheckEmail/{email}")
+    public ClienteResponse CheckEmail(@PathVariable String email) {
+        try {
+            Cliente cliente = new Cliente();
+            cliente.setEmail(email);
+
+            if (!ClienteDAO.CheckEmail(cliente)) {
+                return new ClienteResponse(true, 0, "Tudo certo");
+            } else {
+                return new ClienteResponse(false, 2, "Email já cadastrado");
+            }
+        } catch (Exception e) {
+            return new ClienteResponse(false, 404, "" + e);
+        }
+    }
+
+    @GetMapping("/CheckCpf/{cpf}")
+    public ClienteResponse CheckCPF(@PathVariable String cpf) {
         try {
             Cliente cliente = new Cliente();
             cliente.setCpf(cpf);
-            cliente.setEmail(email);
-            
             if (!ClienteDAO.CheckCPF(cliente)) {
-                if (!ClienteDAO.CheckEmail(cliente)) {
-                    return new ClienteResponse(true, 0, "Tudo certo");
-                } else {
-                    return new ClienteResponse(false, 2, "Email já cadastrado");
-                }
+                return new ClienteResponse(true, 0, "Tudo certo");
             } else {
                 return new ClienteResponse(false, 1, "CPF já cadastrado");
             }
         } catch (Exception e) {
-            return new ClienteResponse(false, 404, ""+e);
+            return new ClienteResponse(false, 404, "" + e);
         }
     }
 }

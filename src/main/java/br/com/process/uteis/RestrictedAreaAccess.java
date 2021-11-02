@@ -17,7 +17,6 @@ public class RestrictedAreaAccess {
         } catch (Exception e) {
             return false;
         }
-
     }
 
     public static boolean Cliente(HttpSession session) {
