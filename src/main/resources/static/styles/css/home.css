@@ -28,3 +28,16 @@
 .home li a svg{
     width: 100px
 }
+
+
+li{
+    position: relative;
+    top: 0;
+    padding: 2px;
+    transition: all .1s ease-in-out;
+}
+
+ul li a:hover{
+    top:-3px;
+    box-shadow: 0 4px 3px #999;
+}

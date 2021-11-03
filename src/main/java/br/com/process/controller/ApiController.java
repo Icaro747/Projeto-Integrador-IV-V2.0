@@ -47,4 +47,19 @@ public class ApiController {
             return new ClienteResponse(false, 404, "" + e);
         }
     }
+    
+    @GetMapping("/CheckSenha/{senha}")
+    public ClienteResponse CheckSenha(@PathVariable String senha){
+        try{
+            Cliente cliente = new Cliente();
+            cliente.setSenha(senha);
+            if(!ClienteDAO.CheckCPF(cliente)){
+                return  new ClienteResponse(true,0,"Tudo certo");
+            }else{
+                return  new ClienteResponse(false,1,"CPF já cadastrado");
+            }
+        }catch(Exception e){
+            return  new ClienteResponse(false,404,"" + e);
+        }
+    }
 }
