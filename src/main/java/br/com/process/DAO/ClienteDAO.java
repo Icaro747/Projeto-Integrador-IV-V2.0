@@ -172,6 +172,41 @@ public class ClienteDAO {
             }
         }
     }
+    
+    public static boolean CheckSenha(Cliente cliente) {
+
+        ResultSet rs = null;
+        Connection conexao = null;
+        PreparedStatement instrucaoSQL = null;
+
+        try {
+            conexao = Conexao.abrirConexao();
+            instrucaoSQL = conexao.prepareStatement("SELECT * FROM Cliente WHERE Senha = ?");
+
+            instrucaoSQL.setString(1, cliente.getSenha());
+            rs = instrucaoSQL.executeQuery();
+
+            return rs.next();
+
+        } catch (SQLException e) {
+            log.error("" + e);
+            throw new IllegalArgumentException("Erro no banco de dados");
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (instrucaoSQL != null) {
+                    instrucaoSQL.close();
+                }
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
+            } catch (SQLException e) {
+            }
+        }
+    }
+
 
     public static boolean CheckCPF(Cliente cliente) {
 
