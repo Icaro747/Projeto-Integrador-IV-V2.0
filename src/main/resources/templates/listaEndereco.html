@@ -41,7 +41,7 @@
                             <td th:if="${Endereco.desativado}">Desativo</td>
                             
                             <td th:if="${Endereco.principalStatus}"></td>
-                            <td th:unless="${Endereco.principalStatus}"><a th:href="@{'' + ${Endereco.id_Endereco}}">Principal</a></td>
+                            <td th:unless="${Endereco.principalStatus}"><a th:href="@{'/home/Endereco/Principal/' + ${Endereco.id_Endereco} + '/' + ${Principal}}">Principal</a></td>
                             
                             <td>
                                 <a th:unless="${Endereco.desativado}" th:href="@{'/home/Endereco/Desativar/' + ${Endereco.id_Endereco}}" class="btnDesativar">Excluir</a>
