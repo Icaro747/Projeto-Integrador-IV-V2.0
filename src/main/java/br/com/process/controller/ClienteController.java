@@ -7,6 +7,7 @@ import br.com.process.entidade.Endereco;
 import br.com.process.uteis.Crypto;
 import br.com.process.uteis.PropriedadeStatus;
 import br.com.process.uteis.RestrictedAreaAccess;
+import br.com.process.uteis.TiposEnderecos;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -199,6 +200,7 @@ public class ClienteController {
         try {
             Cliente cliente = (Cliente) request.getSession().getAttribute("Use");
             model.addAttribute("lista", EnderecoDAO.ClienteEnderecos(cliente));
+            model.addAttribute("Principal", EnderecoDAO.EnderecoPrincipal(cliente));
             return "listaEndereco";
         } catch (Exception e) {
             log.error("" + e);
@@ -228,6 +230,24 @@ public class ClienteController {
         Endereco endereco = new Endereco(id);
         try {
             if (EnderecoDAO.MudancaStatus(endereco, PropriedadeStatus.Desativa)) {
+                return listaEndereco(model, request);
+            }else{
+                model.addAttribute("MSG", "Erro ao Desativar");
+            }
+        } catch (Exception e) {
+            log.error(""+e);
+            model.addAttribute("MSG", e.getMessage());
+        }
+        return "mensagem";
+    }
+       
+    @GetMapping("/home/Endereco/Principal/{id1}/{id2}")
+    public String Principal (Model model, @PathVariable int id1,@PathVariable int id2, HttpServletRequest request){
+        Endereco endereco1 = new Endereco(id1);
+        Endereco endereco2 = new Endereco(id2);
+        
+        try {
+            if (EnderecoDAO.MudancaPrincipal(endereco1, PropriedadeStatus.Ativo) && EnderecoDAO.MudancaPrincipal(endereco2, PropriedadeStatus.Desativa)) {
                 return listaEndereco(model, request);
             }else{
                 model.addAttribute("MSG", "Erro ao Desativar");

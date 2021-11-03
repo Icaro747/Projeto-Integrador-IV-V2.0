@@ -4,6 +4,7 @@ import br.com.process.conexao.Conexao;
 import br.com.process.entidade.Endereco;
 import br.com.process.entidade.Cliente;
 import br.com.process.uteis.PropriedadeStatus;
+import br.com.process.uteis.TiposEnderecos;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -165,6 +166,81 @@ public class EnderecoDAO {
                 instrucaoSQL = conexao.prepareStatement("UPDATE Enderecos SET Desativado = 1 WHERE ID_Endereco = ?");
             } else {
                 instrucaoSQL = conexao.prepareStatement("UPDATE Enderecos SET Desativado = 0 WHERE ID_Endereco = ?");
+            }
+
+            instrucaoSQL.setInt(1, endereco.getId_Endereco());
+
+            int linhaAfetadas = instrucaoSQL.executeUpdate();
+            return linhaAfetadas > 0;
+        } catch (SQLException e) {
+            log.error(""+e);
+            throw new IllegalArgumentException("Erro no banco de dados");
+        } finally {
+            try {
+                if (instrucaoSQL != null) {
+                    instrucaoSQL.close();
+                }
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
+            } catch (SQLException e) {
+            }
+        }
+    }
+    
+    
+    public static int EnderecoPrincipal (Cliente cliente) {
+
+        Connection conexao = null;
+        PreparedStatement instrucaoSQL = null;
+        ResultSet rs = null;
+
+        try {
+            conexao = Conexao.abrirConexao();
+
+            instrucaoSQL = conexao.prepareStatement("SELECT * FROM Enderecos WHERE FK_Cliente = ? AND Status = 1");
+ 
+            instrucaoSQL.setInt(1, cliente.getId_cliente());
+            
+            rs = instrucaoSQL.executeQuery();
+            
+            if(rs.next()){
+                
+                return rs.getInt("ID_Endereco");
+            } else {
+                
+                return -1;
+            }
+            
+            
+        } catch (SQLException e) {
+            log.error(""+e);
+            throw new IllegalArgumentException("Erro no banco de dados");
+        } finally {
+            try {
+                if (instrucaoSQL != null) {
+                    instrucaoSQL.close();
+                }
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
+            } catch (SQLException e) {
+            }
+        }
+    }
+    
+    public static boolean MudancaPrincipal(Endereco endereco, PropriedadeStatus status) {
+
+        Connection conexao = null;
+        PreparedStatement instrucaoSQL = null;
+
+        try {
+            conexao = Conexao.abrirConexao();
+
+            if (status == PropriedadeStatus.Ativo) {
+                instrucaoSQL = conexao.prepareStatement("UPDATE Enderecos SET Status= 1 WHERE ID_Endereco = ?");
+            } else {
+                instrucaoSQL = conexao.prepareStatement("UPDATE Enderecos SET Status = 0 WHERE ID_Endereco = ?");
             }
 
             instrucaoSQL.setInt(1, endereco.getId_Endereco());
