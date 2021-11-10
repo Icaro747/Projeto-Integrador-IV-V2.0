@@ -7,3 +7,9 @@ function Confirmacao(URL, QTD, acao){
         });
     }
 }
+
+function calculaCep(URL){
+    $.ajax(URL).done(function(){
+        location.reload();
+    });
+}
