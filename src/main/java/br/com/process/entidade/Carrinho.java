@@ -22,8 +22,9 @@ public class Carrinho {
 
     @Getter @Setter private int id_carrinho;
     @Getter private final ArrayList<Produto> produtos = new ArrayList<>();
-    @Setter private double totalVenda;
+    @Getter @Setter private double totalVenda;
     @Getter @Setter private Date dataVenda;
+    @Getter @Setter private double presoEntrega;
 
     public void setProdutos(ArrayList<Produto> produtos) {
         int indice = 0;
@@ -75,8 +76,8 @@ public class Carrinho {
         return produtos.size();
     }
     
-    public double getTotalVenda() {
-        return Formulas.Arredondando(totalVenda, 2);
+    public double getTotal() {
+        return Formulas.Arredondando(getTotalVenda() + getPresoEntrega(), 2);
     }
     
 }
