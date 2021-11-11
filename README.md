@@ -77,4 +77,43 @@ CREATE TABLE Enderecos (
     FOREIGN KEY (FK_Cliente) REFERENCES Cliente (ID_Cliente)
 );
 
-```
+CREATE TABLE EnderecoFatura (
+    ID_Endereco INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    CEP VARCHAR(9) NOT NULL,
+    Endereco VARCHAR(100) NOT NULL,
+    Numero VARCHAR(5) NOT NULL,
+    Complemento VARCHAR(50) ,
+    Bairro VARCHAR(50) NOT NULL,
+    Cidade VARCHAR(50) NOT NULL,
+    Estado  VARCHAR(2) NOT NULL,    
+    FK_Cliente INT NOT NULL,
+    FOREIGN KEY (FK_Cliente) REFERENCES Cliente (ID_Cliente)
+);
+
+CREATE TABLE Vendas (
+ID_Venda INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+data_Venda DATE NOT NULL,
+V_total DECIMAL(9,2) NOT NULL,
+V_frete DECIMAL(9,2) NOT NULL,
+StatusPedido VARCHAR(50) NOT NULL,
+FK_Cliente INT NOT NULL,
+FOREIGN KEY (FK_Cliente) REFERENCES Cliente (ID_Cliente)
+);
+
+CREATE TABLE Item (
+ID_Item INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+Quantidade INT NOT NULL,
+Desconto INT NOT NULL,
+V_item DECIMAL(9,2) NOT NULL,
+FK_Venda INT NOT NULL,
+FOREIGN KEY (FK_Venda) REFERENCES Vendas (ID_Venda),
+FK_Produto INT NOT NULL,
+FOREIGN KEY (FK_Produto) REFERENCES Produtos (ID_Produto)
+);
+
+delimiter $$
+create trigger BaixaEstoque after insert on Item for each row
+begin
+update Produtos set Quantidade = Quantidade - new.Quantidade where ID_Produto = new.FK_Produto;
+update Vendas set V_total = V_total + (new.V_item * new.Quantidade) where ID_Venda = new.FK_Venda;
+end $$
