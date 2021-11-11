@@ -1,5 +1,6 @@
 package br.com.process.controller;
 
+import br.com.process.DAO.ImagensDAO;
 import br.com.process.entidade.Carrinho;
 import br.com.process.entidade.Frete;
 import br.com.process.entidade.Produto;
@@ -72,7 +73,7 @@ public class CarrinhoController {
     public String Carrinho(Model model, HttpServletRequest request, Produto produto) {
         try {
             HttpSession session = request.getSession();
-
+            produto.setImagemPrincipal(ImagensDAO.getImagemPrincipal(produto));
             if (session.getAttribute("carrinho") != null) {
                 Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
                 carrinho.AddNewProduto(produto);
@@ -163,5 +164,7 @@ public class CarrinhoController {
         }
         return false;
     }
+    
+    
 
 }

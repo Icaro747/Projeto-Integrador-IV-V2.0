@@ -1,14 +1,14 @@
 .CepCalculos{
-    background-color: #f5f5f5;
     padding: 10px 0 10px 0;
     margin: 0 0 10px 0;
     border: none;
     border-radius: 6px;
-    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 30%);
+    box-shadow: 0 0 1rem rgb(221,221,221);
     width: 100%;
     display: table;
     vertical-align: top;
     font: inherit;
+    margin-top: 10px;
 }
 .xs{
     display: flex;
@@ -38,4 +38,50 @@
 .item-frete h3,
 .item-frete h4{
     margin-left: 30px;
+}
+
+.carrinhoTtz{
+    box-shadow: 0 0 1rem rgb(197,197,197);
+    border-radius: 10px;
+    width: 69%;
+    margin-left: 1px;
+    min-height: 32vh;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+a{
+    cursor: pointer;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.div-subtotal{
+
+    padding: 10px;
+}
+
+
+.div-valores{
+    box-shadow: 0 0 1rem rgb(197 197 197);
+    border-radius: 10px; 
+    width: 30%;
+}
+
+
+.h3-valortotal{
+    margin-right: 150px;
+}
+
+.quantidade-produto{
+    display: flex;
+}
+
+.abtn{
+    text-align: center;
+    border-radius: 14px;
 }
