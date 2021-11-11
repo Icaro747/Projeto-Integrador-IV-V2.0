@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-br"
-    xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:th="http://www.thymeleaf.org">
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>lista endereços</title>
         <meta charset="UTF-8"/>
@@ -11,9 +11,12 @@
     </head>
     <body>
         <div th:replace="fragments/header :: body"></div>
-        
+
         <div class="ConteinerProdutos">
             <div class="BoxListaSize doTtzZ">
+
+                <h2>Endereços de Entrega</h2>
+
                 <div class="BoxListe">
                     <table>
                         <th>CEP</th>
@@ -33,16 +36,16 @@
                             <td th:text="${Endereco.bairro}"></td>
                             <td th:text="${Endereco.cidade}"></td>
                             <td th:text="${Endereco.estado}"></td>
-                            
+
                             <td th:if="${Endereco.principalStatus}">Principal</td>
                             <td th:unless="${Endereco.principalStatus}">Secundário</td>
-                            
+
                             <td th:unless="${Endereco.desativado}">Ativo</td>
                             <td th:if="${Endereco.desativado}">Desativo</td>
-                            
+
                             <td th:if="${Endereco.principalStatus}"></td>
                             <td th:unless="${Endereco.principalStatus}"><a th:href="@{'/home/Endereco/Principal/' + ${Endereco.id_Endereco} + '/' + ${Principal}}">Principal</a></td>
-                            
+
                             <td>
                                 <a th:unless="${Endereco.desativado}" th:href="@{'/home/Endereco/Desativar/' + ${Endereco.id_Endereco}}" class="btnDesativar">Excluir</a>
                                 <a th:if="${Endereco.desativado}" th:href="@{'/home/Endereco/Ativar/' + ${Endereco.id_Endereco}}" class="btnAtivar">Ativar</a>
@@ -51,7 +54,40 @@
                     </table>
                 </div>
                 <a href="../CadastroEndereco" class="btn btn-secundaria">Adicionar</a>
+                
             </div>
         </div>
+                            
+                <div class="ConteinerProdutos">
+                <div class="BoxListaSize doTtzZ">
+
+                <h2>Endereço de Fatura</h2>
+
+                <div class="BoxListe">
+                    <table>
+                        <th>CEP</th>
+                        <th>Endereço</th>
+                        <th>Número</th>
+                        <th>Complemento</th>
+                        <th>Bairro</th>
+                        <th>Cidade</th>
+                        <th>Estado</th>
+
+                        <tr th:each="Fatura : ${listaFatura}">
+                            <td th:text="${Fatura.cep}"></td>
+                            <td th:text="${Fatura.endereco}"></td>
+                            <td th:text="${Fatura.numero}"></td>
+                            <td th:text="${Fatura.complemento}"></td>
+                            <td th:text="${Fatura.bairro}"></td>
+                            <td th:text="${Fatura.cidade}"></td>
+                            <td th:text="${Fatura.estado}"></td>
+                        </tr>
+                    </table>
+                   
+                </div>
+
+            </div>
+        </div>
+
     </body>
 </html>
