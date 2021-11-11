@@ -52,4 +52,16 @@ public class Endereco {
             return complemento;
         }
     }
+
+    public Endereco(int id_Endereco, String cep, String endereco, int numero, String complemento, String bairro, String cidade, String estado) {
+        this.id_Endereco = id_Endereco;
+        this.cep = cep;
+        this.endereco = endereco;
+        this.numero = numero;
+        this.complemento = complemento;
+        this.bairro = bairro;
+        this.cidade = cidade;
+        this.estado = estado;
+    }
+    
 }

@@ -7,7 +7,6 @@ import br.com.process.entidade.Endereco;
 import br.com.process.uteis.Crypto;
 import br.com.process.uteis.PropriedadeStatus;
 import br.com.process.uteis.RestrictedAreaAccess;
-import br.com.process.uteis.TiposEnderecos;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -35,7 +34,7 @@ public class ClienteController {
     public String TeleAtualizarCliente(Model model, HttpServletRequest request) {
         try {
             HttpSession session = request.getSession();
-            
+
             Cliente cliente = (Cliente) session.getAttribute("Use");
             cliente = ClienteDAO.getClienteId(cliente);;
 
@@ -61,7 +60,7 @@ public class ClienteController {
             log.error("" + e);
             model.addAttribute("MSG", e.getMessage());
         }
-        return  "mensagem";
+        return "mensagem";
     }
 
     @GetMapping("/home/AtualizarSenha")
@@ -77,26 +76,26 @@ public class ClienteController {
     }
 
     @PostMapping("/home/AtualizarSenha")
-    public String AtualizarSenha(Model model, Cliente cliente , HttpServletRequest request) {
+    public String AtualizarSenha(Model model, Cliente cliente, HttpServletRequest request) {
         try {
             HttpSession session = request.getSession();
             Cliente cliental = (Cliente) session.getAttribute("Use");
             cliente.setId_cliente(cliental.getId_cliente());
-            
+
             cliente.setSenha(Crypto.HashSenha(cliente.getSenha()));
-            
-            if (ClienteDAO.AtualizarSenha(cliente)) {  
+
+            if (ClienteDAO.AtualizarSenha(cliente)) {
                 model.addAttribute("MSG", "Senha atualizada com Sucesso");
             } else {
                 model.addAttribute("MSG", "Erro ao Atualizar a Senha");
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             log.error("" + e);
             model.addAttribute("MSG", e.getMessage());
         }
         return "mensagem";
     }
-  
+
     @GetMapping("/CadastroCliente")
     public String TeleCadastro(Model model) {
         model.addAttribute("cliente", new Cliente());
@@ -153,19 +152,25 @@ public class ClienteController {
             if (session.getAttribute("Use") != null) {
                 Cliente cliente1 = (Cliente) session.getAttribute("Use");
                 if (!result.hasErrors()) {
-                  
+
                     if (EnderecoDAO.CheckEnderecos(cliente1) == 0) {
                         endereco.setPrincipalStatus(true);
-                    }else{
+                    } else {
                         endereco.setPrincipalStatus(false);
                     }
-                    
                     if (EnderecoDAO.Adicionar(endereco, cliente1)) {
-                        return Home(model, request);
+                        if (EnderecoDAO.CheckEnderecoFatura(cliente1)) {
+
+                            return Home(model, request);
+                        } else {
+                            
+                            return TelaFatura(model, endereco);
+                        }
 
                     } else {
                         model.addAttribute("MSG", "Falhia ao cadatra");
                     }
+
                 } else {
                     log.info("validar Endereco erro");
                     return "cadastroEndereco";
@@ -194,13 +199,14 @@ public class ClienteController {
             return "mensagem";
         }
     }
-    
+
     @GetMapping("/home/listaEndereco")
-    public String listaEndereco(Model model, HttpServletRequest request){
+    public String listaEndereco(Model model, HttpServletRequest request) {
         try {
             Cliente cliente = (Cliente) request.getSession().getAttribute("Use");
             model.addAttribute("lista", EnderecoDAO.ClienteEnderecos(cliente));
             model.addAttribute("Principal", EnderecoDAO.EnderecoPrincipal(cliente));
+            model.addAttribute("listaFatura", EnderecoDAO.ClienteEnderecoFatura(cliente));
             return "listaEndereco";
         } catch (Exception e) {
             log.error("" + e);
@@ -208,54 +214,99 @@ public class ClienteController {
             return "mensagem";
         }
     }
-    
+
     @GetMapping("/home/Endereco/Ativar/{id}")
-    public String Ativar(Model model, @PathVariable int id, HttpServletRequest request){
+    public String Ativar(Model model, @PathVariable int id, HttpServletRequest request) {
         Endereco endereco = new Endereco(id);
         try {
             if (EnderecoDAO.MudancaStatus(endereco, PropriedadeStatus.Ativo)) {
                 return listaEndereco(model, request);
-            }else{
+            } else {
                 model.addAttribute("MSG", "Erro ao Ativar");
             }
         } catch (Exception e) {
-            log.error(""+e);
+            log.error("" + e);
             model.addAttribute("MSG", e.getMessage());
         }
         return "mensagem";
     }
-    
+
     @GetMapping("/home/Endereco/Desativar/{id}")
-    public String Desativar(Model model, @PathVariable int id, HttpServletRequest request){
+    public String Desativar(Model model, @PathVariable int id, HttpServletRequest request) {
         Endereco endereco = new Endereco(id);
         try {
             if (EnderecoDAO.MudancaStatus(endereco, PropriedadeStatus.Desativa)) {
                 return listaEndereco(model, request);
-            }else{
+            } else {
                 model.addAttribute("MSG", "Erro ao Desativar");
             }
         } catch (Exception e) {
-            log.error(""+e);
+            log.error("" + e);
             model.addAttribute("MSG", e.getMessage());
         }
         return "mensagem";
     }
-       
+
     @GetMapping("/home/Endereco/Principal/{id1}/{id2}")
-    public String Principal (Model model, @PathVariable int id1,@PathVariable int id2, HttpServletRequest request){
+    public String Principal(Model model, @PathVariable int id1, @PathVariable int id2, HttpServletRequest request) {
         Endereco endereco1 = new Endereco(id1);
         Endereco endereco2 = new Endereco(id2);
-        
+
         try {
             if (EnderecoDAO.MudancaPrincipal(endereco1, PropriedadeStatus.Ativo) && EnderecoDAO.MudancaPrincipal(endereco2, PropriedadeStatus.Desativa)) {
                 return listaEndereco(model, request);
-            }else{
+            } else {
                 model.addAttribute("MSG", "Erro ao Desativar");
             }
         } catch (Exception e) {
-            log.error(""+e);
+            log.error("" + e);
             model.addAttribute("MSG", e.getMessage());
         }
         return "mensagem";
     }
+
+    @PostMapping("/CadastroEnderecoFatura")
+    public String CadastroEnderecoFatura(Model model, @Valid @ModelAttribute(value = "Endereco") Endereco endereco, BindingResult result, HttpServletRequest request) {
+        try {
+            HttpSession session = request.getSession();
+            if (session.getAttribute("Use") != null) {
+                Cliente cliente1 = (Cliente) session.getAttribute("Use");
+                if (!result.hasErrors()) {
+                    
+                    if (EnderecoDAO.AdicionarFatura(endereco, cliente1)) {
+                        return Home(model, request);
+
+                    } else {
+                        model.addAttribute("MSG", "Falhia ao cadatra");
+                    }
+                } else {
+                    log.info("validar Endereco erro");
+                    return "cadastroEndereco";
+                }
+            } else {
+                model.addAttribute("MSG", "usuário não encontrado");
+            }
+        } catch (Exception e) {
+            log.error("" + e);
+            model.addAttribute("MSG", e.getMessage());
+        }
+        return "mensagem";
+    }
+
+    @GetMapping("/CadastroEnderecoFatura")
+    public String TelaFatura(Model model, Endereco endereco) {
+
+        try {
+            model.addAttribute("endereco", endereco);
+            return "cadastroEnderecoFatura";
+
+        } catch (Exception e) {
+
+            log.error("" + e);
+            model.addAttribute("MSG", e.getMessage());
+        }
+        return "mensagem";
+
+    }
+
 }
