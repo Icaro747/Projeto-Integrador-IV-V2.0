@@ -4,7 +4,6 @@ import br.com.process.conexao.Conexao;
 import br.com.process.entidade.Endereco;
 import br.com.process.entidade.Cliente;
 import br.com.process.uteis.PropriedadeStatus;
-import br.com.process.uteis.TiposEnderecos;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -125,6 +124,9 @@ public class EnderecoDAO {
 
             rs = instrucaoSQL.executeQuery();
             if (rs.next()) {
+                if (rs.getInt("QTD") > 0){
+                    
+                } 
                 return rs.getInt("QTD");
             }else{
                 return -1;

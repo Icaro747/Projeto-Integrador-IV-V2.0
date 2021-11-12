@@ -19,7 +19,8 @@ import org.springframework.context.annotation.ComponentScans;
     @ComponentScan(basePackageClasses = br.com.process.controller.ImagemController.class),
     @ComponentScan(basePackageClasses = br.com.process.controller.FuncionarioController.class),
     @ComponentScan(basePackageClasses = br.com.process.controller.ClienteController.class),
-    @ComponentScan(basePackageClasses = br.com.process.controller.ApiController.class)
+    @ComponentScan(basePackageClasses = br.com.process.controller.ApiController.class),
+    @ComponentScan(basePackageClasses = br.com.process.controller.VendaController.class)
 })
 public class ProjetoIntegradorIvApplication {
     

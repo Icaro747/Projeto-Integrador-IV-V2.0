@@ -7,7 +7,6 @@ import br.com.process.entidade.Endereco;
 import br.com.process.uteis.Crypto;
 import br.com.process.uteis.PropriedadeStatus;
 import br.com.process.uteis.RestrictedAreaAccess;
-import br.com.process.uteis.TiposEnderecos;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
