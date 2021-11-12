@@ -124,6 +124,9 @@ public class EnderecoDAO {
 
             rs = instrucaoSQL.executeQuery();
             if (rs.next()) {
+                if (rs.getInt("QTD") > 0){
+                    
+                } 
                 return rs.getInt("QTD");
             } else {
                 return -1;
