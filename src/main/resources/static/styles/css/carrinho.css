@@ -39,49 +39,86 @@
 .item-frete h4{
     margin-left: 30px;
 }
-
 .carrinhoTtz{
     box-shadow: 0 0 1rem rgb(197,197,197);
     border-radius: 10px;
-    width: 69%;
-    margin-left: 1px;
-    min-height: 32vh;
+    width: 89vh;
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-content: center;
-    justify-content: space-evenly;
-    align-items: center;
+    flex-direction: column;
+    padding: 5px;
+    margin: auto;
 }
-
-a{
+.sizeBox{
+    min-height: 50px
+}
+.quantidade-produto a{
+    transition: .3s all;
+    padding: inherit;
+    color: var(--secundaria);
+    font-weight: 600;
+    font-variant: all-small-caps;
+    min-width: 30px;
     cursor: pointer;
-    margin-left: 10px;
-    margin-right: 10px;
+    user-select: none;
+    text-align: center;
 }
-
-.div-subtotal{
-
+.quantidade-produto a:hover{
+    color: var(--text-cor1);
+    background-color: var(--secundaria);
+    border-radius: 5px;
+}
+.items_valor{
     padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 25px;
 }
-
-
-.div-valores{
+.box_valor{
     box-shadow: 0 0 1rem rgb(197 197 197);
     border-radius: 10px; 
     width: 30%;
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: min-content;
 }
-
-
-.h3-valortotal{
-    margin-right: 150px;
+.btn_finalizar{
+    margin: 5px;
+    width: 90%;
 }
-
 .quantidade-produto{
     display: flex;
 }
-
 .abtn{
     text-align: center;
     border-radius: 14px;
+}
+.item_carrinho{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: row;
+    text-align: center;
+    padding: 10px 0 10px 0;
+    font-size: 25px;
+}
+.pro_img{
+    height: 150px;
+}
+.item_carrinho div p{
+    min-width: 30px;
+}
+.alinar_btn{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.linha{
+    background-color: black;
+    width: 95%;
+    height: 1px;
+    margin: auto;
 }
