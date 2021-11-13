@@ -1,6 +1,7 @@
 package br.com.process.controller;
 
 import br.com.process.DAO.ImagensDAO;
+import br.com.process.DAO.ProdutoDAO;
 import br.com.process.entidade.Carrinho;
 import br.com.process.entidade.Frete;
 import br.com.process.entidade.Produto;
@@ -148,7 +149,9 @@ public class CarrinhoController {
             carrinho.RemoveItem(indice);
 
             if (acao.equals("+")) {
-                produto.setQuantidade(produto.getQuantidade() + 1);
+                  if(produto.getQuantidade() < ProdutoDAO.getProduto(produto).getQuantidade()){
+                     produto.setQuantidade(produto.getQuantidade() + 1);
+                }
             }
             if (acao.equals("-")) {
                 produto.setQuantidade(produto.getQuantidade() - 1);
