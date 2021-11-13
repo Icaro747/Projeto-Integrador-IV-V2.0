@@ -33,14 +33,17 @@
                                         <p th:text="${produto.quantidade}"></p>
                                         <a th:onclick="|Confirmacao('/listaCarrinho/${produto.indice}/+','${produto.quantidade}','+')|"> + </a>
                                     </div>
+                                    <div class="div-subtotal">
+                                        <h3>Valor</h3>    
+                                        <p th:text="|R$ ${produto.ValorTotal}|"></p>
+                                    </div>
                                     <p><a class="btnDesativar" th:href="@{'./RemoveItem/' + ${produto.indice}}">Remover</a></p>
                                 </table>
                             </div>
                             <div class="div-valores">  
-                                <table th:each="produto : ${ListaCarrinho}">
-                                    <div class="div-subtotal">
-                                        <h3>Subtotal</h3>    
-                                        <p th:text="|R$ ${produto.ValorTotal}|"></p>
+                                     <div class="div-subtotal">
+                                        <p class="p-frete"><h3>SubTotal</h3></p>
+                                        <p class="final-preco-frete" th:text="|R$ ${session.carrinho.totalVenda}|"></p>
                                     </div>
                                     <div class="div-subtotal">
                                         <p class="p-frete"><h3>Frete</h3></p>
@@ -51,7 +54,7 @@
                                         <p class="final" th:text="|R$ ${session.carrinho.getTotal()}|"></p>
                                     </div>
                                     <hr>
-                                    </table>
+                                   
                                             <a href="#" class="btn-Comprar abtn" >Finalizar Compra</a> 
                                             </div>
                             
@@ -72,9 +75,9 @@
                                                                 <input type="radio" class="InputRadio" name="empreza_frete" th:value="${frete.nome}">
                                                             </a>
                                                         </div>
-                                                        <h3 th:text="${frete.nome}">title</h3>
-                                                        <h3 th:text="|R$ ${frete.valor}|">varlo</h3>
-                                                        <h4 th:text="${frete.dataEntraga}">data</h4>
+                                                        <h3 th:text="${frete.nome}"></h3>
+                                                        <h3 th:text="|R$ ${frete.valor}|"></h3>
+                                                        <h4 th:text="${frete.dataEntraga}"></h4>
                                                     </div>
                                                 </div>
                                             </div>
