@@ -4,85 +4,93 @@
       xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Carrinho</title>
-        <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <link rel="stylesheet" type="text/css" th:href="@{/styles/css/MainCss.css}"/>
-                <link rel="stylesheet" type="text/css" th:href="@{/styles/css/carrinho.css}"/>
-                <link rel="shortcut icon" th:href="@{img/newman.ico}" type="image/x-icon">
-                    <script th:src="@{/styles/js/jquery-3.6.0.min.js}" type="text/javascript"></script>
-                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-                    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
-                    </head>
-                    <body>
-                        <div th:replace="fragments/header :: body"></div>
-                        <h1 class="LabelCenter titolo">Carrinho</h1>
-                        <div class="ConteinerProdutos">
-                            <div class="BoxListaSize carrinhoTtz">  
-                                <table th:each="produto : ${ListaCarrinho}">
-                                    <div class="img-carrinho">
-                                    <img class="ProdutoImg" th:src="@{/img/uploads/${carrinho.ImagemPrincipal}}">
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/styles/css/MainCss.css}"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/styles/css/carrinho.css}"/>
+        <link rel="shortcut icon" th:href="@{img/newman.ico}" type="image/x-icon"/>
+        <script th:src="@{/styles/js/jquery-3.6.0.min.js}" type="text/javascript"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
+    </head>
+    <body>
+        <div th:replace="fragments/header :: body"></div>
+        <h1 class="LabelCenter titolo">Carrinho</h1>
+        <div class="ConteinerProdutos">
+            <div>
+                <div class="BoxListaSize sizeBox">
+                    <div class="carrinhoTtz">
+                        <div th:each="produto : ${ListaCarrinho}" style="width: 100%;" >
+                            <div class="item_carrinho">
+                                <div class="img-carrinho">
+                                    <img class="pro_img" th:src="@{'/img/uploads/' + ${produto.ImagemPrincipal}}">
                                 </div>
-                                    <div class="div">
-                                        <p th:text="${produto.nome}"></p>
-                                    </div>
-                                    <div class="div">    
-                                        <p th:text="${produto.tamanho}"></p>   
-                                    </div>
-                                    <div class="quantidade-produto">                                       
-                                        <a th:onclick="|Confirmacao('/listaCarrinho/${produto.indice}/-','${produto.quantidade}','-')|"> - </a>
-                                        <p th:text="${produto.quantidade}"></p>
-                                        <a th:onclick="|Confirmacao('/listaCarrinho/${produto.indice}/+','${produto.quantidade}','+')|"> + </a>
-                                    </div>
-                                    <div class="div-subtotal">
-                                        <h3>Valor</h3>    
-                                        <p th:text="|R$ ${produto.ValorTotal}|"></p>
-                                    </div>
-                                    <p><a class="btnDesativar" th:href="@{'./RemoveItem/' + ${produto.indice}}">Remover</a></p>
-                                </table>
+                                <div >
+                                    <p th:text="${produto.nome}"></p>
+                                </div>
+                                <div >    
+                                    <p th:text="${produto.tamanho}"></p>   
+                                </div>
+                                <div class="quantidade-produto">                                       
+                                    <a th:onclick="|Confirmacao('/listaCarrinho/${produto.indice}/-','${produto.quantidade}','-')|"> - </a>
+                                    <p th:text="${produto.quantidade}"></p>
+                                    <a th:onclick="|Confirmacao('/listaCarrinho/${produto.indice}/+','${produto.quantidade}','+')|"> + </a>
+                                </div>
+                                <div>   
+                                    <p th:text="|R$ ${produto.ValorTotal}|"></p>
+                                </div>
+                                <p><a class="btnDesativar" th:href="@{'./RemoveItem/' + ${produto.indice}}">Remover</a></p>
                             </div>
-                            <div class="div-valores">  
-                                     <div class="div-subtotal">
-                                        <p class="p-frete"><h3>SubTotal</h3></p>
-                                        <p class="final-preco-frete" th:text="|R$ ${session.carrinho.totalVenda}|"></p>
-                                    </div>
-                                    <div class="div-subtotal">
-                                        <p class="p-frete"><h3>Frete</h3></p>
-                                        <p class="final-preco-frete" th:text="|R$ ${session.carrinho.presoEntrega}|"></p>
-                                    </div>
-                                    <div class="div-subtotal">
-                                        <p class="final"><h3 class="h3-valortotal">Valor total</h3></p>
-                                        <p class="final" th:text="|R$ ${session.carrinho.getTotal()}|"></p>
-                                    </div>
-                                    <hr>
-                                   
-                                            <a href="#" class="btn-Comprar abtn" >Finalizar Compra</a> 
-                                            </div>
-                            
-                                            <div class="CepCalculos">
-                                                <form action="./Calcular" method="POST" class="xs">
-                                                    <div class="form__div">
-                                                        <input type="text" class="form__input" name="cep" placeholder=" " id="CEP" >
-                                                            <label class="form__label">CEP</label>
-                                                    </div>
-                                                    <div class="button-cadastrar btn-cep">
-                                                        <button type="submit" class="btn btn-simples">Calcular</button>
-                                                    </div>
-                                                </form>
-                                                <div th:if="${Fretes}" class="box-fretes">
-                                                    <div th:each="frete : ${Fretes}" class="item-frete">
-                                                        <div class="alinhamento-inputs-radio">
-                                                            <a th:onclick="|calculaCep('http://localhost:8080/setCEP/${frete.valor}')|">
-                                                                <input type="radio" class="InputRadio" name="empreza_frete" th:value="${frete.nome}">
-                                                            </a>
-                                                        </div>
-                                                        <h3 th:text="${frete.nome}"></h3>
-                                                        <h3 th:text="|R$ ${frete.valor}|"></h3>
-                                                        <h4 th:text="${frete.dataEntraga}"></h4>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <script type="text/javascript" th:src="@{/styles/js/Carrinho.js}"></script>
-                                        <script type="text/javascript" th:src="@{/styles/js/BuscaCep.js}"></script>
-                                        </body>
-                                        </html>
+                            <div class="linha"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="box_valor">  
+                <div>
+                    <div class="items_valor">
+                        <p class="p-frete"><b>SubTotal</b></p>
+                        <p class="final-preco-frete" th:text="|R$ ${session.carrinho.totalVenda}|"></p>
+                    </div>
+                    <div class="items_valor">
+                        <p class="p-frete"><b>Frete</b>
+                        <p class="final-preco-frete" th:text="|R$ ${session.carrinho.presoEntrega}|"></p>
+                    </div>
+                    <div class="items_valor">
+                        <p class="final"><b>Valor total</b></p>
+                        <p class="final" th:text="|R$ ${session.carrinho.getTotal()}|"></p>
+                    </div>
+                </div><div class="alinar_btn">
+                    <div class="linha"></div>
+                    <a href="#" class="btn-Comprar abtn btn_finalizar" >Finalizar Compra</a> 
+                </div>
+            </div>
+
+            <div class="CepCalculos">
+                <form action="./Calcular" method="POST" class="xs">
+                    <div class="form__div">
+                        <input type="text" class="form__input" name="cep" placeholder=" " id="CEP" >
+                            <label class="form__label">CEP</label>
+                    </div>
+                    <div class="button-cadastrar btn-cep">
+                        <button type="submit" class="btn btn-simples">Calcular</button>
+                    </div>
+                </form>
+                <div th:if="${Fretes}" class="box-fretes">
+                    <div th:each="frete : ${Fretes}" class="item-frete">
+                        <div class="alinhamento-inputs-radio">
+                            <a th:onclick="|calculaCep('http://localhost:8080/setCEP/${frete.valor}')|">
+                                <input type="radio" class="InputRadio" name="empreza_frete" th:value="${frete.nome}">
+                            </a>
+                        </div>
+                        <h3 th:text="${frete.nome}"></h3>
+                        <h3 th:text="|R$ ${frete.valor}|"></h3>
+                        <h4 th:text="${frete.dataEntraga}"></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" th:src="@{/styles/js/Carrinho.js}"></script>
+        <script type="text/javascript" th:src="@{/styles/js/BuscaCep.js}"></script>
+    </body>
+</html>
