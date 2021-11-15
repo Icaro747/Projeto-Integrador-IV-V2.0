@@ -1,5 +1,7 @@
 package br.com.process.controller;
 
+import br.com.process.uteis.Parcelamento;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -40,6 +42,14 @@ public class VendaController {
     @GetMapping("/finalizar")
     public String Finalizar(Model model, HttpServletRequest request){
         return RestrictedVenda(model, request, "index");
+    }
+    
+    @GetMapping("/pagamento")
+    public String TelaPagamento(Model model, HttpServletRequest request){
+        Parcelamento parcelamento = new Parcelamento(3, 0.15F);
+        parcelamento.CriarListaParcelamento(159.00F, 0, 20F, 12);
+        model.addAttribute("parcelas", parcelamento.getParcelas());
+        return "formaPagamento";
     }
     
 }
