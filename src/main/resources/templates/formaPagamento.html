@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Forma de Pagamento</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/styles/css/MainCss.css}"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/styles/css/pagamento.css}"/>
+        <link rel="shortcut icon" th:href="@{img/newman.ico}" type="image/x-icon"/>
+    </head>
+    <body>
+        <div th:replace="fragments/header :: body"></div>
+        <h1 class="LabelCenter titolo">Forma de Pagamento</h1>
+        <div class="ConteinerProdutos">
+            <div class="box_pagamento">
+
+                <div class="opc_pagamento">
+                    <div class="opc"><a href="#boleto">Boleto</a></div>
+                    <div class="opc"><a href="#cartao">Cartão</a></div>
+                </div>
+
+                <div class="pagamento">
+
+                    <div id="none" class="forma">
+                        <div class="escolhe">
+                            <h1>Escolhe uma forma de pagamento</h1>
+                        </div>
+                    </div>
+
+                    <div id="boleto" class="forma">
+                        <p>Pague com <b>Boleto</b></p>
+                        <p>R$ 124,43</p>
+                        <p>
+                            <b>Atenção</b><br/>
+                            Você tem até <samp>data</samp> para realizar o pagamento.
+                        </p>
+                        <div class="button-cadastrar btn-cep">
+                            <button type="submit" class="btn-Comprar">Finalizar</button>
+                        </div>
+                    </div>
+
+                    <div id="cartao" class="forma">
+                        <div>
+                            <p>Pague com <b>Cratão</b></p>
+                        </div>
+                        <div class="box_cratao">
+                            <div class="com_1">
+                                <div class="form__div">
+                                    <input type="text" class="form__input" name="cartao" placeholder=" " required/>
+                                    <label class="form__label text">Número do cartão</label>
+                                </div>
+                                <div class="form__div">
+                                    <input type="text" class="form__input" name="titular" placeholder=" " required/>
+                                    <label class="form__label text">Nome do titular</label>
+                                </div>
+                                <div class="com_1 com_2">
+                                    <div class="form__div">
+                                        <input type="text" class="form__input" name="Validade" placeholder=" " required/>
+                                        <label class="form__label text">Validade do cartão</label>
+                                    </div>
+                                    <div class="form__div">
+                                        <input type="text" class="form__input" name="Codigo" placeholder=" " required/>
+                                        <label class="form__label text">Código de segurança</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="com_1">
+                                <div class="form__div">
+                                    <input type="text" class="form__input" name="CPFtitular" placeholder=" " required/>
+                                    <label class="form__label text">CPF do titular do cartão</label>
+                                </div>
+                                <div class="form__div">
+                                    <input type="text" class="form__input" name="nascimento" placeholder=" " required/>
+                                    <label class="form__label text">Data de nascimento</label>
+                                </div>
+                                <div class="form__div">
+                                    <select class="form__input" name="parcela">
+                                        <option th:each="parcela : ${parcelas}" th:text="${parcela.text}"></option>
+                                    </select>
+                                    <label class="form__label text">Parcelamento</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="button-cadastrar btn-cep">
+                            <button type="submit" class="btn-Comprar">Finalizar</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
