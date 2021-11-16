@@ -1,13 +1,18 @@
 package br.com.process.controller;
 
+import br.com.process.DAO.EnderecoDAO;
 import br.com.process.DAO.ImagensDAO;
 import br.com.process.DAO.ProdutoDAO;
 import br.com.process.entidade.Carrinho;
+import br.com.process.entidade.Cliente;
 import br.com.process.entidade.Frete;
 import br.com.process.entidade.Produto;
+import br.com.process.uteis.PropriedadeStatus;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -16,10 +21,12 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 
 /**
  *
@@ -32,12 +39,12 @@ public class CarrinhoController {
 
     private List<Frete> listaFrete = new ArrayList<>();
 
-    public void setFretes() {
+    public void setFretes(int km) {
         try {
             if (listaFrete.isEmpty()) {
-                listaFrete.add(new Frete("Loggi", "14dia uteis", 0));
-                listaFrete.add(new Frete("Pac", "7dia uteis", 15));
-                listaFrete.add(new Frete("Sedex", "3dia uteis", 16.50));
+                listaFrete.add(new Frete("Loggi", "Em até 3 dias uteis", (6.50 * km)));
+                listaFrete.add(new Frete("Sedex", "Em até 7 dias uteis", (5 * km)));
+                listaFrete.add(new Frete("PAC", "Em até 14 dias uteis", 0));
             }
         } catch (Exception e) {
             log.error("" + e);
@@ -46,7 +53,9 @@ public class CarrinhoController {
 
     @PostMapping("/Calcular")
     public String fretes(Model model, HttpServletRequest request) {
-        setFretes();
+        Random randomNum = new Random();
+        int km = randomNum.nextInt(10) + 1;
+        setFretes(km);
         model.addAttribute("Fretes", listaFrete);
         return ListaCarrinho(model, request);
     }
@@ -167,6 +176,20 @@ public class CarrinhoController {
             model.addAttribute("MSG", e.getMessage());
         }
         return false;
+    }
+  
+    @GetMapping("/entrega")
+    public String listaEndereco(Model model, HttpServletRequest request) {
+        try {
+            Cliente cliente = (Cliente) request.getSession().getAttribute("Use");
+            model.addAttribute("lista", EnderecoDAO.ClienteEnderecos(cliente, PropriedadeStatus.Desativa));
+            model.addAttribute("Principal", EnderecoDAO.EnderecoPrincipal(cliente));
+            return "entrega";
+        } catch (Exception e) {
+            log.error("" + e);
+            model.addAttribute("MSG", e.getMessage());
+            return "MSG";
+        }
     }
 
 }
