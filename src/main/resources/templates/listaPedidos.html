@@ -1,0 +1,44 @@
+<html lang="pt-br"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>lista pedidos</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/styles/css/MainCss.css}"/>
+        <link rel="shortcut icon" th:href="@{img/newman.ico}" type="image/x-icon"/>
+    </head>
+    <body>
+        <div th:replace="fragments/header :: body"></div>
+
+        <div class="ConteinerProdutos">
+            <div class="BoxListaSize doTtzZ">
+
+                <h2>Lista de Pedidos</h2>
+
+                <div class="BoxListe">
+                    <table>
+                        <th>Número</th>
+                        <th>Data</th>
+                        <th>Valor Total</th>
+                        <th>Status</th>
+                        
+                        <tr th:each="Venda : ${lista}">
+                            <td th:text="${Venda.id_venda}"></td>
+                            <td th:text="${Venda.data_venda}"></td>
+                            <td th:text="${Venda.v_total}"></td>
+                            <td th:text="${Venda.statusPedido}"></td>
+                                                                                   
+                            <td>
+                                <a th:href="@{'./detalhesPedido/' + ${Venda.id_venda}}" class="btn btn-secundaria">Detalhes</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                                
+            </div>
+        </div>
+       
+
+    </body>
+</html>
