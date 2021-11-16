@@ -1,14 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.process.DAO;
 
 import br.com.process.conexao.Conexao;
+import br.com.process.entidade.Carrinho;
 import br.com.process.entidade.Cliente;
 import br.com.process.entidade.Produto;
 import br.com.process.entidade.Venda;
+
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -16,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -100,7 +98,6 @@ public class VendaDAO {
 
             return produtos;
         } catch (SQLException e) {
-
             log.error("" + e);
             throw new IllegalArgumentException("Erro no banco de dados");
         } finally {
@@ -108,6 +105,97 @@ public class VendaDAO {
                 if (rs != null) {
                     rs.close();
                 }
+                if (instrucaoSQL != null) {
+                    instrucaoSQL.close();
+                }
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
+            } catch (SQLException e) {
+            }
+        }
+    }
+
+    public static int Criar(Venda venda, Cliente cliente, Carrinho carrinho) {
+
+        ResultSet rs = null;
+        Connection conexao = null;
+        PreparedStatement instrucaoSQL = null;
+
+        try {
+            conexao = Conexao.abrirConexao();
+            instrucaoSQL = conexao.prepareStatement("INSERT INTO Vendas (data_Venda, V_total, V_frete, StatusPedido, FK_Cliente) VALUES (?,?,?,?,?)");
+
+            instrucaoSQL.setDate(1, venda.getData_venda());
+            instrucaoSQL.setDouble(2, 0.0F);
+            instrucaoSQL.setDouble(3, carrinho.getPresoEntrega());
+            instrucaoSQL.setString(4, "Aguardando pagamento");
+            instrucaoSQL.setInt(5, cliente.getId_cliente());
+
+            int linhaAfetadas = instrucaoSQL.executeUpdate();
+
+            if (linhaAfetadas > 0) {
+
+                instrucaoSQL = conexao.prepareStatement("SELECT ID_Venda FROM Vendas ORDER BY ID_Venda DESC LIMIT 1");
+                rs = instrucaoSQL.executeQuery();
+                linhaAfetadas = 0;
+
+                if (rs.next()) {
+                    venda.setId_venda(rs.getInt("ID_Venda "));
+
+                    if (venda.getId_venda() > 0) {
+                        for (Produto produto : carrinho.getProdutos()) {
+                            if (Item(produto, venda)) {
+                                linhaAfetadas++;
+                            } else {
+                                throw new IllegalArgumentException("Erro ao finalizar seu pedido por favor tente mais tarde novamente");
+                            }
+                        }
+                    }
+                }
+
+                return venda.getId_venda();
+            } else {
+                return -1;
+            }
+        } catch (SQLException e) {
+            log.error("" + e);
+            throw new IllegalArgumentException("Erro no banco de dados");
+        } finally {
+            try {
+                if (instrucaoSQL != null) {
+                    instrucaoSQL.close();
+                }
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
+            } catch (SQLException e) {
+            }
+        }
+    }
+
+    public static boolean Item(Produto produto, Venda venda) {
+
+        Connection conexao = null;
+        PreparedStatement instrucaoSQL = null;
+
+        try {
+            conexao = Conexao.abrirConexao();
+            instrucaoSQL = conexao.prepareStatement("INSERT INTO Item (Quantidade, Desconto, V_item, FK_Venda, FK_Produto) VALUES (?,?,?,?,?)");
+
+            instrucaoSQL.setInt(1, produto.getQuantidade());
+            instrucaoSQL.setInt(2, produto.getDesconto());
+            instrucaoSQL.setDouble(3, produto.getV_venda());
+            instrucaoSQL.setInt(4, venda.getId_venda());
+            instrucaoSQL.setInt(5, produto.getId_produto());
+
+            int linhaAfetadas = instrucaoSQL.executeUpdate();
+            return linhaAfetadas > 0;
+        } catch (SQLException e) {
+            log.error("" + e);
+            throw new IllegalArgumentException("Erro no banco de dados");
+        } finally {
+            try {
                 if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }

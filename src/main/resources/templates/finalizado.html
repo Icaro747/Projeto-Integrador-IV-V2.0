@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" th:href="@{/img/newman.ico}" type="image/x-icon"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/styles/css/MainCss.css}"/>
+    </head>
+    <body>
+       <div th:replace="fragments/header :: body"></div>
+       <h1 class="LabelCenter titolo">Finalizado</h1>
+       <div class="ConteinerProdutos">
+           <div style="
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            margin-top: 10%;">
+               <h1>Mensagem do Servidor</h1>
+               <h2 th:text="${MSG}">mensagem</h2>
+               <h2 th:text="${MSG2}">mensagem</h2>
+           </div>
+       </div>
+    </body>
+</html>
