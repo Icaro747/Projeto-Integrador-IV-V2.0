@@ -118,12 +118,20 @@ public class VendaController {
         return false;
     }
 
-    @GetMapping({"/pagamento","/pagamento#none"})
+    @GetMapping({"/pagamento", "/pagamento#none"})
     public String TelaPagamento(Model model, HttpServletRequest request) {
-        Parcelamento parcelamento = new Parcelamento(3, 0.15F);
-        parcelamento.CriarListaParcelamento(159.00F, 0, 20F, 12);
-        model.addAttribute("parcelas", parcelamento.getParcelas());
-        return "formaPagamento";
+        try {
+            HttpSession session = request.getSession();
+            Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
+            Parcelamento parcelamento = new Parcelamento(3, 0.15F);
+            parcelamento.CriarListaParcelamento(carrinho.getTotal(), 0, 20F, 12);
+            model.addAttribute("parcelas", parcelamento.getParcelas());
+            return RestrictedVenda(model, request, "formaPagamento");
+        } catch (Exception e) {
+            log.error("" + e);
+            model.addAttribute("MSG", e.getMessage());
+            return "mensagem";
+        }
     }
 
     @GetMapping("/listaPedidos")
