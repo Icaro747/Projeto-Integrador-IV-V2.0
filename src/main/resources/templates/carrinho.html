@@ -17,32 +17,34 @@
         <div th:replace="fragments/header :: body"></div>
         <h1 class="LabelCenter titolo">Carrinho</h1>
         <div class="ConteinerProdutos">
-            <div>
+            <div class="tamanho">
                 <div class="BoxListaSize sizeBox">
                     <div class="carrinhoTtz">
-                        <div th:each="produto : ${ListaCarrinho}" style="width: 100%;" >
-                            <div class="item_carrinho">
-                                <div class="img-carrinho">
-                                    <img class="pro_img" th:src="@{'/img/uploads/' + ${produto.ImagemPrincipal}}">
+                        <div class="BoxListe">
+                            <div th:each="produto : ${ListaCarrinho}">
+                                <div class="item_carrinho">
+                                    <div class="img-carrinho">
+                                        <img class="pro_img" th:src="@{'/img/uploads/' + ${produto.ImagemPrincipal}}">
+                                    </div>
+                                    <div>
+                                        <p th:text="${produto.nome}"></p>
+                                    </div>
+                                    <div>    
+                                        <p th:text="${produto.tamanho}"></p>   
+                                    </div>
+                                    <div class="quantidade-produto">                                       
+                                        <a th:onclick="|Confirmacao('/listaCarrinho/${produto.indice}/-','${produto.quantidade}','-')|"> - </a>
+                                        <p th:text="${produto.quantidade}"></p>
+                                        <a th:onclick="|Confirmacao('/listaCarrinho/${produto.indice}/+','${produto.quantidade}','+')|"> + </a>
+                                    </div>
+                                    <div>   
+                                        <p th:text="|R$ ${produto.ValorTotal}|"></p>
+                                    </div>
+                                    <p><a class="btnDesativar" th:href="@{'./RemoveItem/' + ${produto.indice}}">Remover</a></p>
                                 </div>
-                                <div>
-                                    <p th:text="${produto.nome}"></p>
-                                </div>
-                                <div>    
-                                    <p th:text="${produto.tamanho}"></p>   
-                                </div>
-                                <div class="quantidade-produto">                                       
-                                    <a th:onclick="|Confirmacao('/listaCarrinho/${produto.indice}/-','${produto.quantidade}','-')|"> - </a>
-                                    <p th:text="${produto.quantidade}"></p>
-                                    <a th:onclick="|Confirmacao('/listaCarrinho/${produto.indice}/+','${produto.quantidade}','+')|"> + </a>
-                                </div>
-                                <div>   
-                                    <p th:text="|R$ ${produto.ValorTotal}|"></p>
-                                </div>
-                                <p><a class="btnDesativar" th:href="@{'./RemoveItem/' + ${produto.indice}}">Remover</a></p>
-                            </div>
 
-                            <div class="linha"></div>
+                                <div class="linha"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -55,7 +57,7 @@
                     </div>
                     <div class="items_valor">
                         <p class="p-frete"><b>Frete</b>
-                        <p class="final-preco-frete" th:text="|R$ ${session.carrinho.presoEntrega}|"></p>
+                            <p class="final-preco-frete" th:text="|R$ ${session.carrinho.presoEntrega}|"></p>
                     </div>
                     <div class="items_valor">
                         <p class="final"><b>Valor total</b></p>

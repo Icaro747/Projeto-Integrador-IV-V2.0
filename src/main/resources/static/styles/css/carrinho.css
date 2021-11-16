@@ -122,3 +122,16 @@
     height: 1px;
     margin: auto;
 }
+@media (max-width: 1269px) { 
+    .carrinhoTtz{
+        width: 100%;
+    }
+    .box_valor{
+        width: 100%;
+        margin-left: 0px;
+        margin-top: 10px;
+    }
+    .tamanho{
+        width: 100%;
+    }
+}
