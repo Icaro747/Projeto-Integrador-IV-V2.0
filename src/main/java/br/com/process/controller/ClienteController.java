@@ -204,7 +204,7 @@ public class ClienteController {
     public String listaEndereco(Model model, HttpServletRequest request) {
         try {
             Cliente cliente = (Cliente) request.getSession().getAttribute("Use");
-            model.addAttribute("lista", EnderecoDAO.ClienteEnderecos(cliente));
+            model.addAttribute("lista", EnderecoDAO.ClienteEnderecos(cliente, PropriedadeStatus.Desativa));
             model.addAttribute("Principal", EnderecoDAO.EnderecoPrincipal(cliente));
             model.addAttribute("listaFatura", EnderecoDAO.ClienteEnderecoFatura(cliente));
             return "listaEndereco";
@@ -308,5 +308,7 @@ public class ClienteController {
         return "mensagem";
 
     }
+    
+    
 
 }

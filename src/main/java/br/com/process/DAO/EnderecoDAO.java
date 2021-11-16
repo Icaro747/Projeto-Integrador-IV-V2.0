@@ -59,7 +59,7 @@ public class EnderecoDAO {
         }
     }
 
-    public static List<Endereco> ClienteEnderecos(Cliente cliente) {
+    public static List<Endereco> ClienteEnderecos(Cliente cliente, PropriedadeStatus status) {
 
         ResultSet rs = null;
         Connection conexao = null;
@@ -69,8 +69,12 @@ public class EnderecoDAO {
 
         try {
             conexao = Conexao.abrirConexao();
-            instrucaoSQL = conexao.prepareStatement("SELECT * FROM Enderecos WHERE FK_Cliente = ?");
-
+            if (status == PropriedadeStatus.Ativo){
+                instrucaoSQL = conexao.prepareStatement("SELECT * FROM Enderecos WHERE FK_Cliente = ? AND Desativado = 0");
+            } else{
+                instrucaoSQL = conexao.prepareStatement("SELECT * FROM Enderecos WHERE FK_Cliente = ?");
+            }
+            
             instrucaoSQL.setInt(1, cliente.getId_cliente());
 
             rs = instrucaoSQL.executeQuery();
@@ -393,4 +397,55 @@ public class EnderecoDAO {
             }
         }
     }
+    
+    public static Endereco getEndereco(int id) {
+
+        ResultSet rs = null;
+        Connection conexao = null;
+        PreparedStatement instrucaoSQL = null;
+
+        
+        try {
+            conexao = Conexao.abrirConexao();
+            instrucaoSQL = conexao.prepareStatement("SELECT * FROM Enderecos WHERE ID_Endereco = ?");
+
+            instrucaoSQL.setInt(1, id);
+
+            rs = instrucaoSQL.executeQuery();
+            if (rs.next()) {
+                int ID_Endereco = rs.getInt("ID_Endereco");
+                String CEP = rs.getString("CEP");
+                String Endereco = rs.getString("Endereco");
+                int Numero = rs.getInt("Numero");
+                String Complemento = rs.getString("Complemento");
+                String Bairro = rs.getString("Bairro");
+                String Cidade = rs.getString("Cidade");
+                String Estado = rs.getString("Estado");
+               
+                Endereco end = new Endereco(ID_Endereco, CEP, Endereco, Numero, Complemento, Bairro, Cidade, Estado);
+                return end;
+            } else{
+                throw new IllegalArgumentException("Endereço nao encontrado");
+            }
+
+            
+        } catch (SQLException e) {
+            log.error("" + e);
+            throw new IllegalArgumentException("Erro no banco de dados");
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (instrucaoSQL != null) {
+                    instrucaoSQL.close();
+                }
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
+            } catch (SQLException e) {
+            }
+        }
+    }
+        
 }
