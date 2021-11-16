@@ -2,6 +2,7 @@ package br.com.process.controller;
 
 import br.com.process.DAO.EnderecoDAO;
 import br.com.process.DAO.ImagensDAO;
+import br.com.process.DAO.ProdutoDAO;
 import br.com.process.entidade.Carrinho;
 import br.com.process.entidade.Cliente;
 import br.com.process.entidade.Frete;
@@ -62,7 +63,6 @@ public class CarrinhoController {
     @ResponseBody
     @RequestMapping("/setCEP/{preso}")
     public boolean setProsoEntrega(Model model, @PathVariable double preso, HttpServletRequest request) {
-        log.info(""+preso);
         try {
             HttpSession session = request.getSession();
             if (session.getAttribute("carrinho") != null) {
@@ -73,7 +73,7 @@ public class CarrinhoController {
             }
         } catch (Exception e) {
             log.error("Erro ao setar o preso de entrega");
-            log.error(""+e);
+            log.error("" + e);
         }
         return false;
     }
@@ -150,14 +150,18 @@ public class CarrinhoController {
     public boolean AcaoItem(HttpServletRequest request, @PathVariable int indice, @PathVariable String acao, Model model) {
         try {
             HttpSession session = request.getSession();
-
+            
             Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
 
             Produto produto = carrinho.getProduto(indice);
+            int QTD = produto.getQuantidade();
+            
             carrinho.RemoveItem(indice);
 
             if (acao.equals("+")) {
-                produto.setQuantidade(produto.getQuantidade() + 1);
+                if (QTD < ProdutoDAO.getProduto(produto).getQuantidade()) {
+                    produto.setQuantidade(QTD + 1);
+                }
             }
             if (acao.equals("-")) {
                 produto.setQuantidade(produto.getQuantidade() - 1);
@@ -165,7 +169,7 @@ public class CarrinhoController {
 
             carrinho.AddProduto(produto);
             session.setAttribute("carrinho", carrinho);
-
+            
             return true;
         } catch (Exception e) {
             log.error("" + e);
@@ -173,7 +177,7 @@ public class CarrinhoController {
         }
         return false;
     }
-    
+  
     @GetMapping("/entrega")
     public String listaEndereco(Model model, HttpServletRequest request) {
         try {
@@ -187,7 +191,5 @@ public class CarrinhoController {
             return "MSG";
         }
     }
-    
-        
 
 }

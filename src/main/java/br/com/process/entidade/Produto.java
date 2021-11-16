@@ -40,6 +40,7 @@ public class Produto {
     @Getter @Setter private boolean status;
     @Getter @Setter private int indice;
     @Getter @Setter private int qtdImg;
+     @Getter @Setter private int desconto;
 
     private final double ValorDescontoVista = 0.15;
     private final double ValorJuros = 0.05;
@@ -135,4 +136,14 @@ public class Produto {
           this.height = height;
         }
     }
+
+    public Produto(String nome, String marca, int quantidade, double v_venda, int desconto) {
+        this.nome = nome;
+        this.marca = marca;
+        this.quantidade = quantidade;
+        this.v_venda = v_venda;
+        this.desconto = desconto;
+    }
+    
+    
 }
