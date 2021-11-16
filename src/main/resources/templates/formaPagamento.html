@@ -29,7 +29,7 @@
 
                     <div id="boleto" class="forma">
                         <p>Pague com <b>Boleto</b></p>
-                        <p>R$ 124,43</p>
+                        <p>R$<span th:text="${session.carrinho.getTotal()}"></span></p>
                         <p>
                             <b>Atenção</b><br/>
                             Você tem até <samp>data</samp> para realizar o pagamento.
