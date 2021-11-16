@@ -176,6 +176,7 @@ public class VendaController {
                 model.addAttribute("MSG", "Pedido finalizado com sucesso");
                 model.addAttribute("MSG2", "O número do seu pedido é "+id);
                 session.removeAttribute("carrinho");
+                return "finalizado";
             } else {
                 model.addAttribute("MSG", "Elgo deu errado ao finalizar seu pedido");
             }
