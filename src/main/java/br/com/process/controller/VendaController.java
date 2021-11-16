@@ -6,6 +6,7 @@ import br.com.process.entidade.Cliente;
 import br.com.process.entidade.Carrinho;
 import br.com.process.entidade.Frete;
 import br.com.process.entidade.Venda;
+import br.com.process.uteis.Datas;
 import br.com.process.uteis.PropriedadeStatus;
 import br.com.process.uteis.RestrictedAreaAccess;
 import br.com.process.uteis.Parcelamento;
@@ -145,7 +146,6 @@ public class VendaController {
             model.addAttribute("MSG", e.getMessage());
             return "mensagem";
         }
-
     }
 
     @GetMapping("/detalhesPedido/{id}")
@@ -158,5 +158,32 @@ public class VendaController {
             model.addAttribute("MSG", e.getMessage());
             return "mensagem";
         }
+    }
+
+    @GetMapping("/finalizar")
+    public String finalizar(Model model, HttpServletRequest request) {
+        try {
+            HttpSession session = request.getSession();
+
+            Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
+            Cliente cliente = (Cliente) session.getAttribute("Use");
+            Venda venda = new Venda();
+            venda.setData_venda(Datas.getData());
+            
+            int id = VendaDAO.Criar(venda, cliente, carrinho);
+                    
+            if (id > 0) {
+                model.addAttribute("MSG", "Pedido finalizado com sucesso");
+                model.addAttribute("MSG2", "O número do seu pedido é "+id);
+                session.removeAttribute("carrinho");
+                return "finalizado";
+            } else {
+                model.addAttribute("MSG", "Elgo deu errado ao finalizar seu pedido");
+            }
+        } catch (Exception e) {
+            log.error("" + e);
+            model.addAttribute("MSG", e.getMessage());
+        }
+        return "mensagem";
     }
 }
