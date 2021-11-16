@@ -4,61 +4,72 @@
       xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Entrega</title>
-        <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <link rel="stylesheet" type="text/css" th:href="@{/styles/css/MainCss.css}"/>
-                <link rel="stylesheet" type="text/css" th:href="@{/styles/css/carrinho.css}"/>
-                <link rel="shortcut icon" th:href="@{img/newman.ico}" type="image/x-icon">
-                    <script th:src="@{/styles/js/jquery-3.6.0.min.js}" type="text/javascript"></script>
-                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-                    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
-                    </head>
-                    <body>
-                        <div th:replace="fragments/header :: body"></div>
-                        <h1 class="LabelCenter titolo">Entrega</h1>
-                        <div class="ConteinerProdutos">
-                            <div class="BoxListaSize carrinhoTtz">
-                                <div th:each="Endereco : ${lista}" class="enderecos-entrega">
-                                    <input th:onclick="|calculaCep('/venda/Calcular/'+ ${Endereco.id_Endereco})|" type="radio" class="InputRadio" name="endereco_selecionado" th:value="${Endereco.id_Endereco}">
-                                    <h3 th:text="${Endereco.cep}">CEP</h3>
-                                    <h4 th:text="|Rua ${Endereco.endereco}, ${Endereco.numero}|">Rua e numero</h4>                 
-                                    <h4 th:text="|${Endereco.bairro} - ${Endereco.cidade} - ${Endereco.estado}|">Bairro, Cidade, Estado</h4>                                                     
-                                </div>
-                                <a href="../CadastroEndereco" class="btn-Comprar abtn" >Adicionar Novo Endereço</a>                                                                                                                                          
-                            </div>
-                            <div class="div-valores">  
-                                <table>
-                                    <div class="div-subtotal" th:if="${session.enderecoEntrega}">
-                                        <p><span th:text="|${session.enderecoEntrega.endereco}|"></span> <span th:text="|${session.enderecoEntrega.numero}|"></span></p>
-                                    </div>
-                                    <div class="div-subtotal" th:if="${session.dadosFrete}">
-                                        <p class="p-frete"><h3>Entregadora</h3></p>
-                                        <p class="final-preco-frete" th:text="|${session.dadosFrete.nome}|"></p>
-                                        <p class="p-frete"><h3>Prazo</h3></p>
-                                        <p class="final-preco-frete" th:text="|${session.dadosFrete.dataEntraga}|"></p>
-                                        <p class="p-frete"><h3>Frete</h3></p>
-                                        <p class="final-preco-frete" th:text="|R$ ${session.dadosFrete.valor}|"></p>
-                                    </div>
-                                </table>
-                                <a href="#" class="btn-Comprar abtn" >Continuar</a> 
-                            </div>
-                            <div class="CepCalculos">                                
-                                <div th:if="${Fretes}" class="box-fretes">
-                                    <div th:each="frete : ${Fretes}" class="item-frete">
-                                        <div class="alinhamento-inputs-radio">
-                                            <a th:onclick="|calculaCep('/venda/setCEP/${frete.indice}')|">
-                                                <input type="radio" class="InputRadio" name="empreza_frete" th:value="${frete.nome}">
-                                            </a>
-                                        </div>
-                                        <h3 th:text="${frete.nome}">title</h3>
-                                        <h3 th:text="|R$ ${frete.valor}|">valor</h3>
-                                        <h4 th:text="${frete.dataEntraga}">data</h4>
-                                    </div>
-                                </div>
-                            </div>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/styles/css/MainCss.css}"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/styles/css/carrinho.css}"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/styles/css/pagamento.css}"/>
+        <link rel="shortcut icon" th:href="@{img/newman.ico}" type="image/x-icon"/>
+        <script th:src="@{/styles/js/jquery-3.6.0.min.js}" type="text/javascript"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
+    </head>
+    <body>
+        <div th:replace="fragments/header :: body"></div>
+        <h1 class="LabelCenter titolo">Entrega</h1>
+        <div class="ConteinerProdutos">
+
+            <div class="carrinhoTtz">
+                <div th:each="Endereco : ${lista}" class="enderecos_entrega">
+                    <div class="opc_entrega">
+                        <input th:onclick="|calculaCep('/venda/Calcular/'+ ${Endereco.id_Endereco})|" type="radio" class="InputRadio" name="endereco_selecionado" th:value="${Endereco.id_Endereco}">
+                    </div>
+                    <div>
+                        <h3 th:text="${Endereco.cep}">CEP</h3>
+                        <h4 th:text="|Rua ${Endereco.endereco}, ${Endereco.numero}|">Rua e numero</h4>                 
+                        <h4 th:text="|${Endereco.bairro} - ${Endereco.cidade} - ${Endereco.estado}|">Bairro, Cidade, Estado</h4>
+                    </div>
+                    <div class="linha"></div>
+                </div>
+                <a href="../CadastroEndereco" class="btn-Comprar abtn" >Adicionar Novo Endereço</a>                                                                                                                                          
+            </div>
+
+            <div class="box_valor">  
+                <div>
+                    <div class="div-subtotal" th:if="${session.enderecoEntrega}">
+                        <p><span th:text="|${session.enderecoEntrega.endereco}|"></span> <span th:text="|${session.enderecoEntrega.numero}|"></span></p>
+                    </div>
+                    <div class="div-subtotal" th:if="${session.dadosFrete}">
+                        <h3>Entregadora</h3>
+                        <p class="final-preco-frete" th:text="|${session.dadosFrete.nome}|"></p>
+                        <h3>Prazo</h3>
+                        <p class="final-preco-frete" th:text="|${session.dadosFrete.dataEntraga}|"></p>
+                        <h3>Frete</h3>
+                        <p class="final-preco-frete" th:text="|R$ ${session.dadosFrete.valor}|"></p>
+                    </div>
+                </div>
+                <div class="alinar_btn">
+                    <div class="linha"></div>
+                    <a href="./pagamento#none" class="btn-Comprar abtn btn_finalizar" >Continuar</a> 
+                </div>
+            </div>
+
+            <div class="CepCalculos">                                
+                <div th:if="${Fretes}" class="box-fretes">
+                    <div th:each="frete : ${Fretes}" class="item-frete">
+                        <div class="alinhamento-inputs-radio">
+                            <a th:onclick="|calculaCep('/venda/setCEP/${frete.indice}')|">
+                                <input type="radio" class="InputRadio" name="empreza_frete" th:value="${frete.nome}">
+                            </a>
                         </div>
-                        
-                        
-                        <script type="text/javascript" th:src="@{/styles/js/Vendas.js}"></script>
-                    </body>
-                </html>
+                        <h3 th:text="${frete.nome}">title</h3>
+                        <h3 th:text="|R$ ${frete.valor}|">valor</h3>
+                        <h4 th:text="${frete.dataEntraga}">data</h4>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <script type="text/javascript" th:src="@{/styles/js/Vendas.js}"></script>
+    </body>
+</html>
