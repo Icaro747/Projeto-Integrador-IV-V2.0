@@ -1,0 +1,55 @@
+<html lang="pt-br"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>detalhes pedidos</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/styles/css/MainCss.css}"/>
+        <link rel="shortcut icon" th:href="@{img/newman.ico}" type="image/x-icon"/>
+    </head>
+    <body>
+        <div th:replace="fragments/header :: body"></div>
+
+        <div class="ConteinerProdutos">
+            <div class="BoxListaSize doTtzZ">
+
+                <h2>Resumo do Pedido</h2>
+
+                <div class="BoxListe">
+                    <table>
+                        <th>Produto</th>
+                        <th>Quantidade</th>
+                        <th>Valor Unitário</th>
+                        <th>Valor Total</th>
+                        
+                        <tr th:each="produto : ${session.carrinho.getProdutos()}">
+                            <td th:text="${produto.nome}"></td>
+                            <td th:text="${produto.quantidade}"></td>
+                            <td th:text="|R$ ${produto.v_venda}|"></td>
+                            <td th:text="|R$ ${produto.ValorTotal}|"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="frete">
+                    <p class="final-preco-frete" th:text="|R$ ${session.dadosFrete.valor}|"></p>
+                </div>
+                <div class="totalGeral">
+                    <p class="final" th:text="|R$ ${session.carrinho.getTotal()}|"></p>
+                </div>
+                <div class="endereco">
+                    <p class="final" th:text="|${session.enderecoEntrega.endereco}, ${session.enderecoEntrega.numero}|"></p>
+                </div>
+                <div class="formapg">
+                    <p class="final" th:if="${tipoPg.formaPg == cartao}">Cartão</p>
+                    <p class="final" th:if="${tipoPg.formaPg == boleto}">Boleto</p>
+                </div>
+                <button type="submit" class="btn-Comprar">Concluir</button>
+                <button type="submit" class="btn-Comprar">Voltar</button>
+            </div>            
+        </div>
+       
+
+    </body>
+</html>
+
