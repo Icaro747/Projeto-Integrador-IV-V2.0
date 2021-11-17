@@ -22,7 +22,7 @@ public class Carrinho {
 
     @Getter @Setter private int id_carrinho;
     private final ArrayList<Produto> produtos = new ArrayList<>();
-    @Getter @Setter private double totalVenda;
+    @Setter private double totalVenda;
     @Getter @Setter private Date dataVenda;
     @Getter @Setter private double presoEntrega;
 
@@ -83,5 +83,11 @@ public class Carrinho {
     public ArrayList<Produto> getProdutos() {
         return produtos;
     }
+
+    public double getTotalVenda() {
+        return Formulas.Arredondando(totalVenda, 2);
+    }
+    
+    
     
 }
