@@ -80,7 +80,7 @@ public class VendaController {
             }
             listaFrete.add(new Frete(1, "Loggi", "Em até 3 dias uteis", (6.50 * km)));
             listaFrete.add(new Frete(2, "Sedex", "Em até 7 dias uteis", (5 * km)));
-            listaFrete.add(new Frete(3, "PAC", "Em até 14 dias uteis", 0));
+            listaFrete.add(new Frete(3, "PAC", "Em até 14 dias uteis", km));
         } catch (Exception e) {
             log.error("" + e);
         }
@@ -165,6 +165,8 @@ public class VendaController {
     @PostMapping("/resumoPedido")
     public String resumoPedido(Model model, HttpServletRequest request, FormaPagamento pagamento) {
         try {
+            log.info(pagamento.getCartao());
+            log.info(pagamento.getFormaPg());
             model.addAttribute("tipoPg", pagamento);
             return "resumoPedido";
         } catch (Exception e) {
