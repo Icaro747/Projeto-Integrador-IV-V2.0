@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Forma de Pagamento</title>
         <meta charset="UTF-8"/>
@@ -26,65 +28,71 @@
                             <h1>Escolhe uma forma de pagamento</h1>
                         </div>
                     </div>
-
-                    <div id="boleto" class="forma">
-                        <p>Pague com <b>Boleto</b></p>
-                        <p>R$<span th:text="${session.carrinho.getTotal()}"></span></p>
-                        <p>
-                            <b>Atenção</b><br/>
-                            Você tem até <samp>data</samp> para realizar o pagamento.
-                        </p>
-                        <div class="button-cadastrar btn-cep">
-                            <button type="submit" class="btn-Comprar">Finalizar</button>
+                  
+                    <form method="POST" th:action="@{/venda/resumoPedido}">
+                        <input type="hidden" name="formaPg" value="boleto">
+                        <div id="boleto" class="forma">
+                            <p>Pague com <b>Boleto</b></p>
+                            <p>R$<span th:text="${session.carrinho.getTotal()}"></span></p>
+                            <p>
+                                <b>Atenção</b><br/>
+                                Você tem até <samp>data</samp> para realizar o pagamento.
+                            </p>
+                            <div class="button-cadastrar btn-cep">
+                                <button type="submit" class="btn-Comprar">Finalizar</button>
+                            </div>
                         </div>
-                    </div>
+                    </form>    
 
-                    <div id="cartao" class="forma">
-                        <div>
-                            <p>Pague com <b>Cratão</b></p>
-                        </div>
-                        <div class="box_cratao">
-                            <div class="com_1">
-                                <div class="form__div">
-                                    <input type="text" class="form__input" name="cartao" placeholder=" " required/>
-                                    <label class="form__label text">Número do cartão</label>
-                                </div>
-                                <div class="form__div">
-                                    <input type="text" class="form__input" name="titular" placeholder=" " required/>
-                                    <label class="form__label text">Nome do titular</label>
-                                </div>
-                                <div class="com_1 com_2">
+                    <form method="POST" th:action="@{/venda/resumoPedido}">
+                        <input type="hidden" name="formaPg" value="cartao">                        
+                        <div id="cartao" class="forma">
+                            <div>
+                                <p>Pague com <b>Cratão</b></p>
+                            </div>
+                            <div class="box_cratao">
+                                <div class="com_1">
                                     <div class="form__div">
-                                        <input type="text" class="form__input" name="Validade" placeholder=" " required/>
-                                        <label class="form__label text">Validade do cartão</label>
+                                        <input type="text" class="form__input" name="cartao" placeholder=" " required/>
+                                        <label class="form__label text">Número do cartão</label>
                                     </div>
                                     <div class="form__div">
-                                        <input type="text" class="form__input" name="Codigo" placeholder=" " required/>
-                                        <label class="form__label text">Código de segurança</label>
+                                        <input type="text" class="form__input" placeholder=" " required/>
+                                        <label class="form__label text">Nome do titular</label>
+                                    </div>
+                                    <div class="com_1 com_2">
+                                        <div class="form__div">
+                                            <input type="text" class="form__input" placeholder=" " required/>
+                                            <label class="form__label text">Validade do cartão</label>
+                                        </div>
+                                        <div class="form__div">
+                                            <input type="text" class="form__input" placeholder=" " required/>
+                                            <label class="form__label text">Código de segurança</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="com_1">
+                                    <div class="form__div">
+                                        <input type="text" class="form__input" name="CPFtitular" placeholder=" " required/>
+                                        <label class="form__label text">CPF do titular do cartão</label>
+                                    </div>
+                                    <div class="form__div">
+                                        <input type="text" class="form__input" name="nascimento" placeholder=" " required/>
+                                        <label class="form__label text">Data de nascimento</label>
+                                    </div>
+                                    <div class="form__div">
+                                        <select class="form__input" name="parcela">
+                                            <option th:each="parcela : ${parcelas}" th:text="${parcela.text}"></option>
+                                        </select>
+                                        <label class="form__label text">Parcelamento</label>
                                     </div>
                                 </div>
                             </div>
-                            <div class="com_1">
-                                <div class="form__div">
-                                    <input type="text" class="form__input" name="CPFtitular" placeholder=" " required/>
-                                    <label class="form__label text">CPF do titular do cartão</label>
-                                </div>
-                                <div class="form__div">
-                                    <input type="text" class="form__input" name="nascimento" placeholder=" " required/>
-                                    <label class="form__label text">Data de nascimento</label>
-                                </div>
-                                <div class="form__div">
-                                    <select class="form__input" name="parcela">
-                                        <option th:each="parcela : ${parcelas}" th:text="${parcela.text}"></option>
-                                    </select>
-                                    <label class="form__label text">Parcelamento</label>
-                                </div>
+                            <div class="button-cadastrar btn-cep">
+                                <button type="submit" class="btn-Comprar">Finalizar</button>
                             </div>
                         </div>
-                        <div class="button-cadastrar btn-cep">
-                            <button type="submit" class="btn-Comprar">Finalizar</button>
-                        </div>
-                    </div>
+                    </form>    
 
                 </div>
             </div>

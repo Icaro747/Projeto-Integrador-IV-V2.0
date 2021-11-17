@@ -4,6 +4,7 @@ import br.com.process.DAO.VendaDAO;
 import br.com.process.DAO.EnderecoDAO;
 import br.com.process.entidade.Cliente;
 import br.com.process.entidade.Carrinho;
+import br.com.process.entidade.FormaPagamento;
 import br.com.process.entidade.Frete;
 import br.com.process.entidade.Venda;
 import br.com.process.uteis.Datas;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -153,6 +155,18 @@ public class VendaController {
         try {
             model.addAttribute("lista", VendaDAO.Detalhes(new Venda(id)));
             return "detalhesPedido";
+        } catch (Exception e) {
+            log.error("" + e);
+            model.addAttribute("MSG", e.getMessage());
+            return "mensagem";
+        }
+    }
+    
+    @PostMapping("/resumoPedido")
+    public String resumoPedido(Model model, HttpServletRequest request, FormaPagamento pagamento) {
+        try {
+            model.addAttribute("tipoPg", pagamento);
+            return "resumoPedido";
         } catch (Exception e) {
             log.error("" + e);
             model.addAttribute("MSG", e.getMessage());
