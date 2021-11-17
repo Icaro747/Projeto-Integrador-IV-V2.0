@@ -10,11 +10,9 @@
     </head>
     <body>
         <div th:replace="fragments/header :: body"></div>
-
+        <h1 class="LabelCenter titolo">Resumo do Pedido</h1>
         <div class="ConteinerProdutos">
-            <div class="BoxListaSize doTtzZ">
-
-                <h2>Resumo do Pedido</h2>
+            <div class="BoxListaSize doTtzZ" style="min-height: 0;">
 
                 <div class="BoxListe">
                     <table>
@@ -22,7 +20,7 @@
                         <th>Quantidade</th>
                         <th>Valor Unitário</th>
                         <th>Valor Total</th>
-                        
+
                         <tr th:each="produto : ${session.carrinho.getProdutos()}">
                             <td th:text="${produto.nome}"></td>
                             <td th:text="${produto.quantidade}"></td>
@@ -31,25 +29,39 @@
                         </tr>
                     </table>
                 </div>
+
                 <div class="frete">
+                    <h3>Frete</h3>
                     <p class="final-preco-frete" th:text="|R$ ${session.dadosFrete.valor}|"></p>
                 </div>
                 <div class="totalGeral">
+                    <h3>Total</h3>
                     <p class="final" th:text="|R$ ${session.carrinho.getTotal()}|"></p>
                 </div>
                 <div class="endereco">
+                    <h3>Endereço de entrega</h3>
                     <p class="final" th:text="|${session.enderecoEntrega.endereco}, ${session.enderecoEntrega.numero}|"></p>
                 </div>
                 <div class="formapg">
-                    <p class="final" th:if="${tipoPg.formaPg == cartao}">Cartão</p>
-                    <p class="final" th:if="${tipoPg.formaPg == boleto}">Boleto</p>
+                    <h3>Forma de pagamento</h3>
+                    <p class="final" th:if="${tipoPg.formaPg == 'cartao'}">Cartão</p>
+                    <p class="final" th:if="${tipoPg.formaPg == 'boleto'}">Boleto</p>
                 </div>
-                <button type="submit" class="btn-Comprar">Concluir</button>
-                <button type="submit" class="btn-Comprar">Voltar</button>
+                <div style="display: flex; width: 100%;">
+                    <div style="
+                        padding: 3px;
+                        width: 50%;
+                        text-align: center;">
+                        <a href="./pagamento#none" class="btn-Comprar" style="background-color: cadetblue;">Voltar</a>
+                    </div><div style="
+                        padding: 3px;
+                        width: 50%;
+                        text-align: center;">
+                        <a href="./finalizar" class="btn-Comprar">Concluir</a>
+                    </div>
+                </div>
             </div>            
         </div>
-       
-
     </body>
 </html>
 

@@ -141,7 +141,7 @@ public class VendaDAO {
                 linhaAfetadas = 0;
 
                 if (rs.next()) {
-                    venda.setId_venda(rs.getInt("ID_Venda "));
+                    venda.setId_venda(rs.getInt("ID_Venda"));
 
                     if (venda.getId_venda() > 0) {
                         for (Produto produto : carrinho.getProdutos()) {
