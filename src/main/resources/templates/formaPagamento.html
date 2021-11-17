@@ -28,12 +28,12 @@
                             <h1>Escolhe uma forma de pagamento</h1>
                         </div>
                     </div>
-
+                  
                     <form method="POST" th:action="@{/venda/resumoPedido}">
                         <input type="hidden" name="formaPg" value="boleto">
                         <div id="boleto" class="forma">
                             <p>Pague com <b>Boleto</b></p>
-                            <p>R$ 124,43</p>
+                            <p>R$<span th:text="${session.carrinho.getTotal()}"></span></p>
                             <p>
                                 <b>Atenção</b><br/>
                                 Você tem até <samp>data</samp> para realizar o pagamento.

@@ -21,7 +21,7 @@ import lombok.ToString;
 public class Carrinho {
 
     @Getter @Setter private int id_carrinho;
-    @Getter private final ArrayList<Produto> produtos = new ArrayList<>();
+    private final ArrayList<Produto> produtos = new ArrayList<>();
     @Getter @Setter private double totalVenda;
     @Getter @Setter private Date dataVenda;
     @Getter @Setter private double presoEntrega;
@@ -78,6 +78,10 @@ public class Carrinho {
     
     public double getTotal() {
         return Formulas.Arredondando(getTotalVenda() + getPresoEntrega(), 2);
+    }
+
+    public ArrayList<Produto> getProdutos() {
+        return produtos;
     }
     
 }
