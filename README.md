@@ -98,7 +98,6 @@ CREATE TABLE Vendas (
     StatusPedido VARCHAR(50) NOT NULL,
     F_pagameto VARCHAR(50) NOT NULL,
     Parcela VARCHAR(50),
-    Entrega VARCHAR(50) NOT NULL,
     FK_Cliente INT NOT NULL,
     FOREIGN KEY (FK_Cliente) REFERENCES Cliente (ID_Cliente)
 );
