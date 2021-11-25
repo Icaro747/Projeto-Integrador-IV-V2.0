@@ -4,9 +4,11 @@ import br.com.process.DAO.VendaDAO;
 import br.com.process.DAO.EnderecoDAO;
 import br.com.process.entidade.Cliente;
 import br.com.process.entidade.Carrinho;
+import br.com.process.entidade.Endereco;
 import br.com.process.entidade.FormaPagamento;
 import br.com.process.entidade.Frete;
 import br.com.process.entidade.Venda;
+import br.com.process.entidade.VendaDetalhada;
 import br.com.process.uteis.Datas;
 import br.com.process.uteis.PropriedadeStatus;
 import br.com.process.uteis.RestrictedAreaAccess;
@@ -153,7 +155,9 @@ public class VendaController {
     @GetMapping("/detalhesPedido/{id}")
     public String detalhePedidos(Model model, HttpServletRequest request, @PathVariable int id) {
         try {
-            model.addAttribute("lista", VendaDAO.Detalhes(new Venda(id)));
+            log.info("iniciando o busca de venda:"+id);
+            VendaDetalhada VD = VendaDAO.Detalhes(new Venda(id));
+            model.addAttribute("VD", VD);
             return "detalhesPedido";
         } catch (Exception e) {
             log.error("" + e);
@@ -161,12 +165,12 @@ public class VendaController {
             return "mensagem";
         }
     }
-    
+
     @PostMapping("/resumoPedido")
     public String resumoPedido(Model model, HttpServletRequest request, FormaPagamento pagamento) {
         try {
-            log.info(pagamento.getCartao());
-            log.info(pagamento.getFormaPg());
+            HttpSession session = request.getSession();
+            session.setAttribute("pagamento", pagamento);
             model.addAttribute("tipoPg", pagamento);
             return "resumoPedido";
         } catch (Exception e) {
@@ -179,19 +183,35 @@ public class VendaController {
     @GetMapping("/finalizar")
     public String finalizar(Model model, HttpServletRequest request) {
         try {
+            log.info("inicializando o finalização do pedido");
             HttpSession session = request.getSession();
 
+            log.info("armazenando informações essenciais");
             Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
+            log.info("" + carrinho.toString());
             Cliente cliente = (Cliente) session.getAttribute("Use");
+            log.info("" + cliente.toString());
+            FormaPagamento FP = (FormaPagamento) session.getAttribute("pagamento");
+            if (FP.getCartao() == null) {
+                FP.setCartao("à vista");
+            }
+            log.info("" + FP.toString());
+            Frete frete = (Frete) session.getAttribute("dadosFrete");
+            log.info("" + frete.toString());
             Venda venda = new Venda();
             venda.setData_venda(Datas.getData());
-            
-            int id = VendaDAO.Criar(venda, cliente, carrinho);
-                    
+            log.info("" + venda.toString());
+            Endereco endereco = (Endereco) session.getAttribute("enderecoEntrega");
+
+            log.info("inicializando o cadastro no banco");
+            int id = VendaDAO.Criar(venda, cliente, carrinho, FP, frete, endereco);
+            log.info("cadastro no banco finalizado. ID:" + id);
+
             if (id > 0) {
                 model.addAttribute("MSG", "Pedido finalizado com sucesso");
-                model.addAttribute("MSG2", "O número do seu pedido é "+id);
+                model.addAttribute("MSG2", "O número do seu pedido é " + id);
                 session.removeAttribute("carrinho");
+                session.removeAttribute("tipoPg");
                 return "finalizado";
             } else {
                 model.addAttribute("MSG", "Elgo deu errado ao finalizar seu pedido");

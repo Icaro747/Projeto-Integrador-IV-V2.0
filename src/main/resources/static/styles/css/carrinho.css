@@ -122,6 +122,9 @@
     height: 1px;
     margin: auto;
 }
+.text-frete{
+    margin-left: 30px;
+}
 @media (max-width: 1269px) { 
     .carrinhoTtz{
         width: 100%;

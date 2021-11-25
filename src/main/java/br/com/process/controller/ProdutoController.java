@@ -101,7 +101,6 @@ public class ProdutoController {
                 model.addAttribute("imagens", ImagensDAO.getImgs(produto));
                 model.addAttribute("produto", produto);
                 log.info("Produto encontrado");
-                log.info(produto.toString());
                 return "produto";
             }else{
                 model.addAttribute("MSG", "Produto não encontrado");
