@@ -91,35 +91,35 @@ CREATE TABLE EnderecoFatura (
 );
 
 CREATE TABLE Vendas (
-	ID_Venda INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-	data_Venda DATE NOT NULL,
-	V_total DECIMAL(9,2) NOT NULL,
-	V_frete DECIMAL(9,2) NOT NULL,
-	StatusPedido VARCHAR(50) NOT NULL,
-	F_pagameto VARCHAR(50) NOT NULL,
-	Parcela VARCHAR(50),
-	Entrega VARCHAR(50) NOT NULL,
-	FK_Cliente INT NOT NULL,
-	FOREIGN KEY (FK_Cliente) REFERENCES Cliente (ID_Cliente)
+    ID_Venda INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    data_Venda DATE NOT NULL,
+    V_total DECIMAL(9,2) NOT NULL,
+    V_frete DECIMAL(9,2) NOT NULL,
+    StatusPedido VARCHAR(50) NOT NULL,
+    F_pagameto VARCHAR(50) NOT NULL,
+    Parcela VARCHAR(50),
+    Entrega VARCHAR(50) NOT NULL,
+    FK_Cliente INT NOT NULL,
+    FOREIGN KEY (FK_Cliente) REFERENCES Cliente (ID_Cliente)
 );
 
 CREATE TABLE Item (
-	ID_Item INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-	Quantidade INT NOT NULL,
-	Desconto INT NOT NULL,
-	V_item DECIMAL(9,2) NOT NULL,
-	FK_Venda INT NOT NULL,
-	FOREIGN KEY (FK_Venda) REFERENCES Vendas (ID_Venda),
-	FK_Produto INT NOT NULL,
-	FOREIGN KEY (FK_Produto) REFERENCES Produtos (ID_Produto)
+    ID_Item INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    Quantidade INT NOT NULL,
+    Desconto INT NOT NULL,
+    V_item DECIMAL(9,2) NOT NULL,
+    FK_Venda INT NOT NULL,
+    FOREIGN KEY (FK_Venda) REFERENCES Vendas (ID_Venda),
+    FK_Produto INT NOT NULL,
+    FOREIGN KEY (FK_Produto) REFERENCES Produtos (ID_Produto)
 );
 
 CREATE TABLE Entrega(
-	ID_Entrega INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    ID_Entrega INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     Distribuidora VARCHAR(50) NOT NULL,
     DataEntraga VARCHAR(100) NOT NULL,
     FK_Venda INT NOT NULL,
-	FOREIGN KEY (FK_Venda) REFERENCES Vendas (ID_Venda)
+    FOREIGN KEY (FK_Venda) REFERENCES Vendas (ID_Venda)
 );
 
 delimiter $$
