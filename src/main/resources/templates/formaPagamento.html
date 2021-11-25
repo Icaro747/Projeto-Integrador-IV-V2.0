@@ -30,7 +30,7 @@
                     </div>
                   
                     <form method="POST" th:action="@{/venda/resumoPedido}">
-                        <input type="hidden" name="formaPg" value="boleto">
+                        <input type="hidden" name="formaPg" value="Boleto">
                         <div id="boleto" class="forma">
                             <p>Pague com <b>Boleto</b></p>
                             <p>R$<span th:text="${session.carrinho.getTotal()}"></span></p>
@@ -45,15 +45,15 @@
                     </form>    
 
                     <form method="POST" th:action="@{/venda/resumoPedido}">
-                        <input type="hidden" name="formaPg" value="cartao">                        
+                        <input type="hidden" name="formaPg" value="Cartão">                        
                         <div id="cartao" class="forma">
                             <div>
-                                <p>Pague com <b>Cratão</b></p>
+                                <p>Pague com <b>Cartão</b></p>
                             </div>
                             <div class="box_cratao">
                                 <div class="com_1">
                                     <div class="form__div">
-                                        <input type="text" class="form__input" name="cartao" placeholder=" " required/>
+                                        <input type="text" class="form__input" placeholder=" " required/>
                                         <label class="form__label text">Número do cartão</label>
                                     </div>
                                     <div class="form__div">
@@ -81,8 +81,8 @@
                                         <label class="form__label text">Data de nascimento</label>
                                     </div>
                                     <div class="form__div">
-                                        <select class="form__input" name="parcela">
-                                            <option th:each="parcela : ${parcelas}" th:text="${parcela.text}"></option>
+                                        <select class="form__input" name="cartao">
+                                            <option th:each="parcela : ${parcelas}" th:text="${parcela.text}" th:value="${parcela.text}"></option>
                                         </select>
                                         <label class="form__label text">Parcelamento</label>
                                     </div>

@@ -29,4 +29,10 @@ public class Frete {
         this.dataEntraga = dataEntraga;
         this.valor = valor;
     }
+
+    public Frete(String nome, String dataEntraga) {
+        this.nome = nome;
+        this.dataEntraga = dataEntraga;
+    }
+    
 }

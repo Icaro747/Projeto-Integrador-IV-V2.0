@@ -45,7 +45,9 @@ table td span{
     align-items: center;
     justify-content: space-evenly;
 }
-
+.item-table-valor{
+    border-bottom: 2px solid var(--text-cor2);
+}
 .BoxLista{
     overflow-x: auto;
 }
