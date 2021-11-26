@@ -6,6 +6,7 @@
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="stylesheet" type="text/css" th:href="@{/styles/css/MainCss.css}"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/styles/css/pagamento.css}"/>
         <link rel="shortcut icon" th:href="@{img/newman.ico}" type="image/x-icon"/>
     </head>
     <body>
@@ -27,36 +28,48 @@
                             <td th:text="|R$ ${produto.v_venda}|"></td>
                             <td th:text="|R$ ${produto.ValorTotal}|"></td>
                         </tr>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th class="item-table-valor">Frete</th>
+                            <th class="item-table-valor" th:text="|R$ ${session.dadosFrete.valor}|"></th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th class="item-table-valor">Total</th>
+                            <th class="item-table-valor" th:text="|R$ ${session.carrinho.getTotal()}|"></th>
+                        </tr>
                     </table>
                 </div>
-
-                <div class="frete">
-                    <h3>Frete</h3>
-                    <p class="final-preco-frete" th:text="|R$ ${session.dadosFrete.valor}|"></p>
-                </div>
-                <div class="totalGeral">
-                    <h3>Total</h3>
-                    <p class="final" th:text="|R$ ${session.carrinho.getTotal()}|"></p>
-                </div>
-                <div class="endereco">
-                    <h3>Endereço de entrega</h3>
-                    <p class="final" th:text="|${session.enderecoEntrega.endereco}, ${session.enderecoEntrega.numero}|"></p>
-                </div>
-                <div class="formapg">
-                    <h3>Forma de pagamento</h3>
-                    <p class="final" th:if="${tipoPg.formaPg == 'cartao'}">Cartão</p>
-                    <p class="final" th:if="${tipoPg.formaPg == 'boleto'}">Boleto</p>
+                <div class="dados-resumo">
+                    <div class="frete">
+                        <h3>Transportadora</h3>
+                        <p class="final-preco-frete" th:text="${session.dadosFrete.nome}"></p>
+                    </div>
+                    <div class="endereco">
+                        <h3>Endereço de entrega</h3>
+                        <p class="final" th:text="|${session.enderecoEntrega.endereco}, ${session.enderecoEntrega.numero}|"></p>
+                    </div>
+                    <div class="formapg">
+                        <h3>Forma de pagamento</h3>
+                        <p class="final" th:text="${tipoPg.formaPg}">Cartão</p>
+                    </div>
+                    <div class="formapg" th:if="${tipoPg.cartao}">
+                        <h3>Parcelamento</h3>
+                        <p class="final" th:text="${tipoPg.cartao}">Cartão</p>
+                    </div>
                 </div>
                 <div style="display: flex; width: 100%;">
                     <div style="
-                        padding: 3px;
-                        width: 50%;
-                        text-align: center;">
-                        <a href="./pagamento#none" class="btn-Comprar" style="background-color: cadetblue;">Voltar</a>
+                         padding: 3px;
+                         width: 50%;
+                         text-align: center;">
+                        <a href="./pagamento#none" class="btn-Comprar btn-voltar">Voltar</a>
                     </div><div style="
-                        padding: 3px;
-                        width: 50%;
-                        text-align: center;">
+                               padding: 3px;
+                               width: 50%;
+                               text-align: center;">
                         <a href="./finalizar" class="btn-Comprar">Concluir</a>
                     </div>
                 </div>

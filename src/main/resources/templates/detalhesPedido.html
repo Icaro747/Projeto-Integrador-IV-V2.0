@@ -6,34 +6,67 @@
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="stylesheet" type="text/css" th:href="@{/styles/css/MainCss.css}"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/styles/css/pagamento.css}"/>
         <link rel="shortcut icon" th:href="@{img/newman.ico}" type="image/x-icon"/>
     </head>
     <body>
         <div th:replace="fragments/header :: body"></div>
-
+        <h1 class="LabelCenter titolo">Detalhes do Pedido</h1>
         <div class="ConteinerProdutos">
             <div class="BoxListaSize doTtzZ">
-
-                <h2>Detalhes do Pedido</h2>
-
                 <div class="BoxListe">
                     <table>
-                        <th>Nome</th>
+                        <th>Produto</th>
                         <th>Quantidade</th>
-                        <th>Desconto</th>
-                        <th>Marca</th>
-                        <th>Valor</th>
-                        
-                        <tr th:each="Produto : ${lista}">
-                            <td th:text="${Produto.nome}"></td>
-                            <td th:text="${Produto.quantidade}"></td>
-                            <td th:text="${Produto.desconto}"></td>
-                            <td th:text="${Produto.marca}"></td>
-                            <td th:text="${Produto.v_venda}"></td>
+                        <th>Valor Unitário</th>
+                        <th>Valor Total</th>
+
+                        <tr th:each="produto : ${VD.Items}">
+                            <td th:text="${produto.nome}"></td>
+                            <td th:text="${produto.quantidade}"></td>
+                            <td th:text="|R$ ${produto.v_venda}|"></td>
+                            <td th:text="|R$ ${produto.ValorTotal}|"></td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th class="item-table-valor">Frete</th>
+                            <th class="item-table-valor" th:text="|R$ ${VD.v_frete}|"></th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th class="item-table-valor">Total</th>
+                            <th class="item-table-valor" th:text="|R$ ${VD.v_total}|"></th>
                         </tr>
                     </table>
                 </div>
-                <h5><a th:href="@{'/venda/listaPedidos'}" class="btn btn-secundaria">Voltar</a></h5>              
+                <div class="dados-resumo">
+                    <div class="frete">
+                        <h3>Transportadora</h3>
+                        <p class="final-preco-frete" th:text="${VD.frete.nome}"></p>
+                    </div>
+                    <div class="endereco">
+                        <h3>Endereço de entrega</h3>
+                        <p class="final" th:text="${VD.endereco}"></p>
+                    </div>
+                    <div class="formapg">
+                        <h3>Forma de pagamento</h3>
+                        <p class="final" th:text="${VD.formPagamento}">Cartão</p>
+                    </div>
+                    <div class="formapg" th:if="${VD.parcela}">
+                        <h3>Parcelamento</h3>
+                        <p class="final" th:text="${VD.parcela}">Cartão</p>
+                    </div>
+                </div>
+                <div style="display: flex; width: 100%;">
+                    <div style="
+                         padding: 3px;
+                         width: 100%;
+                         text-align: center;">
+                        <a th:href="@{'/venda/listaPedidos'}" class="btn-Comprar btn-voltar">Voltar</a>
+                    </div>
+                </div>
             </div>
         </div>
     </body>

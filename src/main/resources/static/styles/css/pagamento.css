@@ -66,3 +66,18 @@
     align-items: center;
     justify-content: center;
 }
+.dados-resumo{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 30px 10px;
+}
+@media (max-width: 1269px) {
+    .box_cratao{
+        flex-direction: column;
+    }
+    .com_1{
+        width: 100%;
+    }
+}

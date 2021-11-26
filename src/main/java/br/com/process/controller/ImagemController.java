@@ -30,7 +30,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class ImagemController {
 
     private final String FOLDER_IMG_TAG = GerenciadorArquivo.CaminhoTag();
-    private final String FOLDER_IMG_PRODUTO = "C://Users//Uffa.DESKTOP-OVIM3N3//Documents//senac//Projeto-Integrador-IV-V2.0//src//main//resources//static//img//uploads//";
+    private final String FOLDER_IMG_PRODUTO = "C://Users//Icaro//Documents//NetBeansProjects//PI//Projeto-Integrador-IV-V2.0//src//main//resources//static//img//uploads//";
 
     @PostMapping("/admin/CadastroProduto/NewImg")
     public String NewImgProduto(Model model, @ModelAttribute(value="imagen")Imagen imagen, @RequestParam("img") MultipartFile file, RedirectAttributes redirectAttributes) {
