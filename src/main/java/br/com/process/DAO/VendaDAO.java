@@ -85,7 +85,7 @@ public class VendaDAO {
 
         try {
             conexao = Conexao.abrirConexao();
-            instrucaoSQL = conexao.prepareStatement("SELECT * FROM Vendas ORDER BY ID_Venda");
+            instrucaoSQL = conexao.prepareStatement("SELECT * FROM Vendas ORDER BY ID_Venda desc");
 
             rs = instrucaoSQL.executeQuery();
             while (rs.next()) {

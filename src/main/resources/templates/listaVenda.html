@@ -17,23 +17,22 @@
             <div class="BoxListaSize doTtzZ">
                 <div class="BoxListe">
                     <table>
-                        <th>ID</th>
-                        <th>Data_Venda</th>
-                         <th>Data_Venda</th>
+                        <th>Codigo da Venda</th>
+                        <th>Data da Venda</th>
+                         <th>Total</th>
                          <th>Valor_Total</th>
-                         <th>Valor_Frete</th>
                          <th>StatusPedido</th>
                         
                          <tr th:each="vendas : ${listaVenda}">
-                             <td th:text="${vendas.ID_Venda}"></td>
-                             <td th:text="${vendas.data_Venda}"></td>
-                             <td th:text="${vendas.V_total}"></td>
-                             <td th:text="${vendas.V_frete}"></td>
-                             <td th:text="${vendas.StatusPedido}"></td>
+                             <td th:text="${vendas.id_venda}"></td>
+                             <td th:text="${vendas.data_venda}"></td>
+                             <td th:text="${vendas.v_total}"></td>
+                             <td th:text="${vendas.statusPedido}"></td>
+                             <td><a href="../" class="">Alterar vendas</a></td>
                         </tr>
                     </table>
                 </div>
-            <a href="../" class="btn btn-secundaria">Alterar vendas</a>
+          
             </div>
         </div>
     </body>
