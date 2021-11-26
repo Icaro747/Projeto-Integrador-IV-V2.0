@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Lista de Vendas</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" th:href="@{/styles/css/MainCss.css}"/>
+        <link rel="shortcut icon" th:href="@{img/newman.ico}" type="image/x-icon">
+    </head>
+    <body>
+        <div th:replace="fragments/header :: body"></div>
+        
+        <h1 class="LabelCenter titolo">Lista Vendas</h1>
+        <div class="ConteinerProdutos">
+            <div class="BoxListaSize doTtzZ">
+                <div class="BoxListe">
+                    <table>
+                        <th>ID</th>
+                        <th>Data_Venda</th>
+                         <th>Data_Venda</th>
+                         <th>Valor_Total</th>
+                         <th>Valor_Frete</th>
+                         <th>StatusPedido</th>
+                        
+                         <tr th:each="vendas : ${listaVenda}">
+                             <td th:text="${vendas.ID_Venda}"></td>
+                             <td th:text="${vendas.data_Venda}"></td>
+                             <td th:text="${vendas.V_total}"></td>
+                             <td th:text="${vendas.V_frete}"></td>
+                             <td th:text="${vendas.StatusPedido}"></td>
+                        </tr>
+                    </table>
+                </div>
+            <a href="../" class="btn btn-secundaria">Alterar vendas</a>
+            </div>
+        </div>
+    </body>
+</html>

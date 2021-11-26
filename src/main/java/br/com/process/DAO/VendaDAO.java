@@ -69,6 +69,52 @@ public class VendaDAO {
             }
         }
     }
+    
+    
+     public static List<Venda> Vendas() {
+
+        ResultSet rs = null;
+        Connection conexao = null;
+        PreparedStatement instrucaoSQL = null;
+
+        List<Venda> vendas = new ArrayList<>();
+
+        try {
+            conexao = Conexao.abrirConexao();
+            instrucaoSQL = conexao.prepareStatement("SELECT * FROM Vendas ORDER BY ID_Venda");
+
+            rs = instrucaoSQL.executeQuery();
+            while (rs.next()) {
+                int ID_Venda = rs.getInt("ID_Venda");
+                Date data_Venda = rs.getDate("data_Venda");
+                double V_total = rs.getDouble("V_total");
+                double V_frete = rs.getDouble("V_frete");
+                String StatusPedido = rs.getString("StatusPedido");
+
+                Venda vend = new Venda(ID_Venda, data_Venda, V_total, V_frete, StatusPedido);
+                vendas.add(vend);
+            }
+
+            return vendas;
+        } catch (SQLException e) {
+
+            log.error("" + e);
+            throw new IllegalArgumentException("Erro no banco de dados");
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (instrucaoSQL != null) {
+                    instrucaoSQL.close();
+                }
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
+            } catch (SQLException e) {
+            }
+        }
+    }
 
     public static List<Produto> Detalhes(Venda venda) {
 

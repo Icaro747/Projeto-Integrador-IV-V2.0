@@ -1,6 +1,7 @@
 package br.com.process.controller;
 
 import br.com.process.DAO.FuncionarioDAO;
+import br.com.process.DAO.VendaDAO;
 import br.com.process.entidade.Funcionario;
 import br.com.process.uteis.PropriedadeStatus;
 import br.com.process.uteis.Crypto;
@@ -15,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -72,6 +74,12 @@ public class FuncionarioController {
             model.addAttribute("MSG", e.getMessage());
         }
         return "mensagem";
+    }
+    
+        @GetMapping("/admin/listaVenda")
+        public String ListaVenda (Model model){
+        model.addAttribute("listaVenda",VendaDAO.Vendas());
+        return "listaVenda";
     }
     
     @RequestMapping("/admin/listaFuncionario")
