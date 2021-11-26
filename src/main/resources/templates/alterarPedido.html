@@ -1,0 +1,70 @@
+<html lang="pt-br"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>detalhes pedidos</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/styles/css/MainCss.css}"/>
+        <link rel="shortcut icon" th:href="@{img/newman.ico}" type="image/x-icon"/>
+    </head>
+    <body>
+        <div th:replace="fragments/header :: body"></div>
+        <h1 class="LabelCenter titolo">Resumo do Pedido</h1>
+        <div class="ConteinerProdutos">
+            <div class="BoxListaSize doTtzZ" style="min-height: 0;">
+
+                <div class="BoxListe">
+                    <table>
+                        <th>Id</th>
+                        <th>Data</th>
+                        <th>Total</th>
+                        <th>Frete</th>
+                        <th>Status</th>
+
+                        <tr th:each="venda : ${lista}">
+                            <td th:text="${venda.id_venda}"></td>
+                            <td th:text="${venda.data_venda}"></td>
+                            <td th:text="|R$ ${venda.v_total}|"></td>
+                            <td th:text="|R$ ${venda.v_frete}|"></td>
+                            <td th:text="${venda.statusPedido}"></td>
+                        </tr>
+                    </table>
+                </div>
+<!--
+                <div class="frete">
+                    <h3>Frete</h3>
+                    <p class="final-preco-frete" th:text="|R$ ${session.dadosFrete.valor}|"></p>
+                </div>
+                <div class="totalGeral">
+                    <h3>Total</h3>
+                    <p class="final" th:text="|R$ ${session.carrinho.getTotal()}|"></p>
+                </div>
+                <div class="endereco">
+                    <h3>Endereço de entrega</h3>
+                    <p class="final" th:text="|${session.enderecoEntrega.endereco}, ${session.enderecoEntrega.numero}|"></p>
+                </div>
+                <div class="formapg">
+                    <h3>Forma de pagamento</h3>
+                    <p class="final" th:if="${tipoPg.formaPg == 'cartao'}">Cartão</p>
+                    <p class="final" th:if="${tipoPg.formaPg == 'boleto'}">Boleto</p>
+                </div>
+-->                
+                <div style="display: flex; width: 100%;">
+                    <div style="
+                        padding: 3px;
+                        width: 50%;
+                        text-align: center;">
+                        <a href="./pagamento#none" class="btn-Comprar" style="background-color: cadetblue;">Voltar</a>
+                    </div><div style="
+                        padding: 3px;
+                        width: 50%;
+                        text-align: center;">
+                        <a href="./finalizar" class="btn-Comprar">Concluir</a>
+                    </div>
+                </div>
+            </div>            
+        </div>
+    </body>
+</html>
+

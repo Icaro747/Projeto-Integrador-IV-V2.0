@@ -206,4 +206,88 @@ public class VendaDAO {
             }
         }
     }
+    
+    
+    public static Venda getVendaId(int id) {
+
+        ResultSet rs = null;
+        Connection conexao = null;
+        PreparedStatement instrucaoSQL = null;
+
+        Venda venda = new Venda();
+        
+        try {
+            conexao = Conexao.abrirConexao();
+            instrucaoSQL = conexao.prepareStatement("SELECT * FROM Vendas WHERE ID_Venda = ?");
+
+            instrucaoSQL.setInt(1, id);
+
+            rs = instrucaoSQL.executeQuery();
+            while (rs.next()) {
+                int ID_Venda = rs.getInt("ID_Venda");
+                Date data_Venda = rs.getDate("data_Venda");
+                double V_total = rs.getDouble("V_total");
+                double V_frete = rs.getDouble("V_frete");
+                String StatusPedido = rs.getString("StatusPedido");
+
+                venda = new Venda(ID_Venda, data_Venda, V_total, V_frete, StatusPedido);                
+            }
+
+            return venda;
+        } catch (SQLException e) {
+
+            log.error("" + e);
+            throw new IllegalArgumentException("Erro no banco de dados");
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (instrucaoSQL != null) {
+                    instrucaoSQL.close();
+                }
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
+            } catch (SQLException e) {
+            }
+        }
+    }    
+
+    public static boolean setStatusVenda(Venda venda) {
+
+        ResultSet rs = null;
+        Connection conexao = null;
+        PreparedStatement instrucaoSQL = null;
+
+        try {
+            conexao = Conexao.abrirConexao();
+            instrucaoSQL = conexao.prepareStatement("UPDATE Vendas SET StatusPedido = ? WHERE ID_Venda = ?");
+
+            instrucaoSQL.setString(1, venda.getStatusPedido());
+            instrucaoSQL.setInt(2, venda.getId_venda());
+
+            int linhaAfetadas = instrucaoSQL.executeUpdate();
+
+            return linhaAfetadas > 0;
+        } catch (SQLException e) {
+
+            log.error("" + e);
+            throw new IllegalArgumentException("Erro no banco de dados");
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (instrucaoSQL != null) {
+                    instrucaoSQL.close();
+                }
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
+            } catch (SQLException e) {
+            }
+        }
+    }    
+    
 }

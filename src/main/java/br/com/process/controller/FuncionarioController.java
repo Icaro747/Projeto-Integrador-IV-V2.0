@@ -1,12 +1,15 @@
 package br.com.process.controller;
 
 import br.com.process.DAO.FuncionarioDAO;
+import br.com.process.DAO.VendaDAO;
 import br.com.process.entidade.Funcionario;
+import br.com.process.entidade.Venda;
 import br.com.process.uteis.PropriedadeStatus;
 import br.com.process.uteis.Crypto;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
 import javax.validation.Valid;
 
@@ -15,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -147,5 +151,32 @@ public class FuncionarioController {
             model.addAttribute("MSG", e.getMessage());
         }
         return "mensagem";
-    }    
+    }
+    
+    @GetMapping("/admin/AlterarPedido/{id}")
+    public String AlterarPedido(Model model, HttpServletRequest request, @PathVariable int id) {
+        try {
+            model.addAttribute("lista", VendaDAO.getVendaId(id));
+            return "alterarPedido";
+        } catch (Exception e) {
+            log.error("" + e);
+            model.addAttribute("MSG", e.getMessage());
+            return "mensagem";
+        }
+    }
+    
+    @PostMapping("/admin/Alterar")
+    public String Alterar(Model model, Venda venda) {
+        try {
+            if (VendaDAO.setStatusVenda(venda)) {
+                model.addAttribute("MSG", "Atualizado com Sucesso");
+            } else {
+                model.addAttribute("MSG", "Erro ao Atualizar");
+            }
+        } catch (Exception e) {
+            log.error(""+e);
+            model.addAttribute("MSG", e.getMessage());
+        }
+        return "mensagem";
+    }      
 }

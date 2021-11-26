@@ -10,7 +10,7 @@ import br.com.process.uteis.Crypto;
  */
 public class PrimeiroUse {
     public static void main(String[] args) {
-        Funcionario fun = new Funcionario(5, "Icaro", "Sousa", "icaro@newman.com", "icaro", "33736621841", "Admin", true);
+        Funcionario fun = new Funcionario(5, "Eduardo", "Silva", "eduardo1@newman.com", "eduardo123", "41156286859", "Admin", true);
         fun.setSenha(Crypto.HashSenha(fun.getSenha()));
         cadatro(fun);
 //        System.out.println("Test de Senha");
