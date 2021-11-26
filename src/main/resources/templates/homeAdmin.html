@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-br"
     xmlns="http://www.w3.org/1999/xhtml"
@@ -18,12 +19,13 @@
                     <div class="gAgEMf">
                         <section class="wWWhb"> 
                             <h2>Admin Home</h2><br>
-
+                                    
                             <a class="btn btn-primary " role="button" href="/admin/CadastroFuncionario" th:if="${session.Use.Atuacao=='Admin'}">Cadastro de Funcionario</a><br><br>
                             <a class="btn btn-primary" role="button" href="/admin/listaFuncionario" th:if="${session.Use.Atuacao=='Admin'}">Lista do Funcionario</a><br><br>
                             <a class="btn btn-primary" role="button" th:href="@{'/admin/listaFuncionario/' + ${session.Use.Id_funcionario}}" th:if="${session.Use.Atuacao=='Admin'}">Seu usuário</a><br><br>     
                             <a class="btn btn-primary" role="button" href="/admin/CadastroProduto" th:if="${session.Use.Atuacao=='Admin'}">Cadastro de Produto</a><br><br>
                             <a class="btn btn-primary" role="button" href="/admin/listaProduto" >Lista do Produtos</a><br><br><br>
+                            <a class="btn btn-primary" role="button" href="/admin/listaVenda">Lista Vendas</a><br><br><br>
                             <a class="btn btn-primary" role="button" href="/admin/CadastroTag" th:if="${session.Use.Atuacao=='Admin'}">Cadastro de Tag</a><br><br>
                             <a class="btn btn-primary" role="button" href="/admin/listaTag">Lista de Tags</a>
                             <a class="btn btn-secundaria" role="button" th:href="@{/logoff}">Sair</a>
