@@ -40,7 +40,7 @@ public class Produto {
     @Getter @Setter private boolean status;
     @Getter @Setter private int indice;
     @Getter @Setter private int qtdImg;
-     @Getter @Setter private int desconto;
+    @Getter @Setter private int desconto;
 
     private final double ValorDescontoVista = 0.15;
     private final double ValorJuros = 0.05;

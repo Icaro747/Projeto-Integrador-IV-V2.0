@@ -2,6 +2,7 @@ package br.com.process.uteis;
 
 import br.com.process.entidade.Cliente;
 import br.com.process.entidade.Funcionario;
+
 import javax.servlet.http.HttpSession;
 
 /**
@@ -10,6 +11,15 @@ import javax.servlet.http.HttpSession;
  */
 public class RestrictedAreaAccess {
 
+    public static boolean FuncionarioADM(HttpSession session) {
+        try {
+            Funcionario fun = (Funcionario) session.getAttribute("Use");
+            return fun.getAtuacao().equals("Admin");
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    
     public static boolean Funcionario(HttpSession session) {
         try {
             Funcionario fun = (Funcionario) session.getAttribute("Use");

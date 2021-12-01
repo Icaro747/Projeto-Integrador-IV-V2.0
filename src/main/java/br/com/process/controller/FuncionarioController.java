@@ -4,10 +4,12 @@ import br.com.process.DAO.FuncionarioDAO;
 import br.com.process.entidade.Funcionario;
 import br.com.process.uteis.PropriedadeStatus;
 import br.com.process.uteis.Crypto;
+import br.com.process.uteis.RestrictedAreaAccess;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import lombok.extern.slf4j.Slf4j;
@@ -24,64 +26,78 @@ import org.springframework.web.bind.annotation.RequestMapping;
  *
  * @author Vinicius
  */
-@Controller @Slf4j
+@Slf4j
+@Controller
 public class FuncionarioController {
 
     @RequestMapping(value = "/admin/AtualizarFuncionario/{id}")
-    public String TelaAtualizar(Model model, @PathVariable int id) {
+    public String TelaAtualizar(Model model, @PathVariable int id, HttpServletRequest request) {
         try {
-            Funcionario funcionario = new Funcionario(id);
-            funcionario = FuncionarioDAO.getFuncionarioId(funcionario);
-            log.info(funcionario.toString());
-            
-            if (funcionario.getNome() != null) {
-                funcionario.setSenha("");
-                model.addAttribute("funcionario", funcionario);
-                
-                log.info("redirecionando pra tela de update funcionario");
-                return "updateFuncionario";
-            }else{
-                model.addAttribute("MSG", "Fsuncionário não encontrado");
+            if (RestrictedAreaAccess.Funcionario(request.getSession())) {
+                Funcionario funcionario = new Funcionario(id);
+                funcionario = FuncionarioDAO.getFuncionarioId(funcionario);
+                log.info(funcionario.toString());
+
+                if (funcionario.getNome() != null) {
+                    funcionario.setSenha("");
+                    model.addAttribute("funcionario", funcionario);
+
+                    log.info("redirecionando pra tela de update funcionario");
+                    return "updateFuncionario";
+                } else {
+                    model.addAttribute("MSG", "Fsuncionário não encontrado");
+                }
+            } else {
+                model.addAttribute("MSG", "Área Restrita");
             }
         } catch (Exception e) {
-            log.error(""+e);
+            log.error("" + e);
             model.addAttribute("MSG", e.getMessage());
         }
         return "mensagem";
     }
 
     @PostMapping("/admin/AtualizarFuncionario")
-    public String Atualizar(Model model, @Valid @ModelAttribute(value = "funcionario") Funcionario funcionario, BindingResult result) {
+    public String Atualizar(Model model, @Valid @ModelAttribute(value = "funcionario") Funcionario funcionario, BindingResult result, HttpServletRequest request) {
         try {
-            log.info(funcionario.toString());
-            if (!result.hasErrors()) {
-                log.info("iniciando encriptação de senha");
-                funcionario.setSenha(Crypto.HashSenha(funcionario.getSenha()));
-                log.info("senha criptografada");
-                if (FuncionarioDAO.Atualizar(funcionario)) {
-                    model.addAttribute("MSG", "Atualizar com Sucesso");
+            if (RestrictedAreaAccess.Funcionario(request.getSession())) {
+                log.info(funcionario.toString());
+                if (!result.hasErrors()) {
+                    log.info("iniciando encriptação de senha");
+                    funcionario.setSenha(Crypto.HashSenha(funcionario.getSenha()));
+                    log.info("senha criptografada");
+                    if (FuncionarioDAO.Atualizar(funcionario)) {
+                        model.addAttribute("MSG", "Atualizar com Sucesso");
+                    } else {
+                        model.addAttribute("MSG", "Erro ao Atualizar");
+                    }
                 } else {
-                    model.addAttribute("MSG", "Erro ao Atualizar");
+                    log.info("validar funcionario erro");
+                    return "updateFuncionario";
                 }
             } else {
-                log.info("validar funcionario erro");
-                return "updateFuncionario";
+                model.addAttribute("MSG", "Área Restrita");
             }
         } catch (Exception e) {
-            log.error(""+e);
+            log.error("" + e);
             model.addAttribute("MSG", e.getMessage());
         }
         return "mensagem";
     }
-    
+
     @RequestMapping("/admin/listaFuncionario")
-    public String ListaFuncionario (Model model){
-        model.addAttribute("listaFuncionario", FuncionarioDAO.getUsuarios(PropriedadeStatus.Desativa));
-        return "listaFuncionario";
+    public String ListaFuncionario(Model model, HttpServletRequest request) {
+        if (RestrictedAreaAccess.Funcionario(request.getSession())) {
+            model.addAttribute("listaFuncionario", FuncionarioDAO.getUsuarios(PropriedadeStatus.Desativa));
+            return "listaFuncionario";
+        } else {
+            model.addAttribute("MSG", "Área Restrita");
+            return "mensagem";
+        }
     }
-    
+
     @RequestMapping(value = "/admin/listaFuncionario/{id}")
-    public String ListaUse (Model model, @PathVariable int id){
+    public String ListaUse(Model model, @PathVariable int id) {
         try {
             Funcionario funcionario = new Funcionario(id);
             List<Funcionario> Use = new ArrayList<>();
@@ -90,62 +106,79 @@ public class FuncionarioController {
             model.addAttribute("eu", true);
             return "listaFuncionario";
         } catch (Exception e) {
-            log.error(""+e);
+            log.error("" + e);
             model.addAttribute("MSG", e.getMessage());
         }
         return "mensagem";
     }
-    
+
     @RequestMapping(value = "/admin/Desativar/{id}")
-    public String Desativar(Model model, @PathVariable int id){
+    public String Desativar(Model model, @PathVariable int id, HttpServletRequest request) {
         Funcionario funcionario = new Funcionario(id);
         try {
-            if (FuncionarioDAO.MudancaStatus(funcionario, PropriedadeStatus.Desativa)) {
-                return ListaFuncionario(model);
-            }else{
-                model.addAttribute("MSG", "Erro ao Desativado");
+            if (RestrictedAreaAccess.FuncionarioADM(request.getSession())) {
+                if (FuncionarioDAO.MudancaStatus(funcionario, PropriedadeStatus.Desativa)) {
+                    return ListaFuncionario(model, request);
+                } else {
+                    model.addAttribute("MSG", "Erro ao Desativado");
+                }
+            } else {
+                model.addAttribute("MSG", "Área Restrita");
             }
         } catch (Exception e) {
-            log.error(""+e);
+            log.error("" + e);
             model.addAttribute("MSG", e.getMessage());
         }
         return "mensagem";
     }
-    
+
     @RequestMapping(value = "/admin/Ativar/{id}")
-    public String Ativar(Model model, @PathVariable int id){
+    public String Ativar(Model model, @PathVariable int id, HttpServletRequest request) {
         Funcionario funcionario = new Funcionario(id);
         try {
-            if (FuncionarioDAO.MudancaStatus(funcionario, PropriedadeStatus.Ativo)) {
-                return ListaFuncionario(model);
-            }else{
-                model.addAttribute("MSG", "Erro ao Ativar");
+            if (RestrictedAreaAccess.FuncionarioADM(request.getSession())) {
+                if (FuncionarioDAO.MudancaStatus(funcionario, PropriedadeStatus.Ativo)) {
+                    return ListaFuncionario(model, request);
+                } else {
+                    model.addAttribute("MSG", "Erro ao Ativar");
+                }
+            } else {
+                model.addAttribute("MSG", "Área Restrita");
             }
         } catch (Exception e) {
-            log.error(""+e);
+            log.error("" + e);
             model.addAttribute("MSG", e.getMessage());
         }
         return "mensagem";
     }
-    
+
     @RequestMapping("/admin/CadastroFuncionario")
-    public String Cadastro(Model model) {
-        return "cadastroFuncionario";
+    public String Cadastro(Model model, HttpServletRequest request) {
+        if (RestrictedAreaAccess.FuncionarioADM(request.getSession())) {
+            return "cadastroFuncionario";
+        } else {
+            model.addAttribute("MSG", "Área Restrita");
+            return "mensagem";
+        }
     }
-    
+
     @PostMapping("/admin/CadastroFuncionario/add")
-    public String Add(Model model, Funcionario funcionario) {
+    public String Add(Model model, Funcionario funcionario, HttpServletRequest request) {
         try {
-            funcionario.setSenha(Crypto.HashSenha(funcionario.getSenha()));
-            if (FuncionarioDAO.Adicionar(funcionario)) {
-                model.addAttribute("MSG", "Funcionario ao Adicionado com Sucesso!");
-            }else {
-                model.addAttribute("MSG", "Erro ao Adicionar");
+            if (RestrictedAreaAccess.FuncionarioADM(request.getSession())) {
+                funcionario.setSenha(Crypto.HashSenha(funcionario.getSenha()));
+                if (FuncionarioDAO.Adicionar(funcionario)) {
+                    model.addAttribute("MSG", "Funcionario ao Adicionado com Sucesso!");
+                } else {
+                    model.addAttribute("MSG", "Erro ao Adicionar");
+                }
+            } else {
+                model.addAttribute("MSG", "Área Restrita");
             }
-        } catch (Exception e){
-            log.error(""+e);
+        } catch (Exception e) {
+            log.error("" + e);
             model.addAttribute("MSG", e.getMessage());
         }
         return "mensagem";
-    }    
+    }
 }
