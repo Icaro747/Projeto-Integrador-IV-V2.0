@@ -16,23 +16,21 @@
         <div class="ConteinerProdutos">
             <div class="BoxListaSize doTtzZ">
                 <div class="BoxListe">
-                    <table>
-                        <th>Codigo da Venda</th>
-                        <th>Data da Venda</th>
-                         <th>Total</th>
-                         <th>Valor_Total</th>
-                         <th>StatusPedido</th>
-                        
-                         <tr th:each="vendas : ${listaVenda}">
-                             <td th:text="${vendas.id_venda}"></td>
-                             <td th:text="${vendas.data_venda}"></td>
-                             <td th:text="${vendas.v_total}"></td>
-                             <td th:text="${vendas.statusPedido}"></td>
-                             <td><a href="../" class="">Alterar vendas</a></td>
-                        </tr>
-                    </table>
-                </div>
-          
+                        <table>
+                            <th>Codigo da Venda</th>
+                            <th>Data da Venda</th>
+                             <th>Total</th>
+                             <th>StatusPedido</th>
+
+                             <tr th:each="vendas : ${listaVenda}">
+                                 <td th:text="${vendas.id_venda}"></td>
+                                 <td th:text="${vendas.data_venda}"></td>
+                                 <td th:text="${vendas.v_total}"></td>
+                                 <td th:text="${vendas.statusPedido}"></td>
+                                 <td><a th:href="@{'./AlterarPedido/' + ${vendas.id_venda}}" class="">Alterar vendas</a></td>
+                            </tr>
+                        </table>   
+                </div>          
             </div>
         </div>
     </body>
