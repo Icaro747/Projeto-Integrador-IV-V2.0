@@ -21,7 +21,7 @@
                         <p th:text="|Forma de Pagamento: ${venda.formPagamento}|"></p>
                         <select th:field="*{statusPedido}">
                             <option th:value="${venda.statusPedido}" th:text="${venda.statusPedido}"></option>
-                            <div th:if="${venda.statusPedido == 'Aguardando Pagamento'}">
+                            <div th:if="${venda.statusPedido == 'Aguardando pagamento'}">
                                 <option value="Pagamento Rejeitado">Pagamento Rejeitado</option>
                                 <option value="Pagamento com Sucesso">Pagamento com Sucesso</option>
                                 <option value="Aguardando Retirada">Aguardando Retirada</option>
