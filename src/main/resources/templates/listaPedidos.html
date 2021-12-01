@@ -25,11 +25,8 @@
                             <td th:text="${Venda.id_venda}"></td>
                             <td th:text="${Venda.data_venda}"></td>
                             <td th:text="${Venda.v_total}"></td>
-                            <td th:text="${Venda.statusPedido}"></td>
-                                                                                   
-                            <td>
-                                <a th:href="@{'./detalhesPedido/' + ${Venda.id_venda}}" class="btn btn-secundaria">Detalhes</a>
-                            </td>
+                            <td th:text="${Venda.statusPedido}"></td>            
+                            <td><a th:href="@{'./detalhesPedido/' + ${Venda.id_venda}}">Detalhes</a></td>
                         </tr>
                     </table>
                 </div>             

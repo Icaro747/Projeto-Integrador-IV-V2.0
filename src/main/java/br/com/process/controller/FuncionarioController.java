@@ -1,9 +1,12 @@
 package br.com.process.controller;
 
+import br.com.process.DAO.ClienteDAO;
 import br.com.process.DAO.FuncionarioDAO;
 import br.com.process.DAO.VendaDAO;
+import br.com.process.entidade.Cliente;
 import br.com.process.entidade.Funcionario;
 import br.com.process.entidade.Venda;
+import br.com.process.entidade.VendaDetalhada;
 import br.com.process.uteis.PropriedadeStatus;
 import br.com.process.uteis.Crypto;
 
@@ -28,7 +31,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
  *
  * @author Vinicius
  */
-@Controller @Slf4j
+@Controller
+@Slf4j
 public class FuncionarioController {
 
     @RequestMapping(value = "/admin/AtualizarFuncionario/{id}")
@@ -37,18 +41,18 @@ public class FuncionarioController {
             Funcionario funcionario = new Funcionario(id);
             funcionario = FuncionarioDAO.getFuncionarioId(funcionario);
             log.info(funcionario.toString());
-            
+
             if (funcionario.getNome() != null) {
                 funcionario.setSenha("");
                 model.addAttribute("funcionario", funcionario);
-                
+
                 log.info("redirecionando pra tela de update funcionario");
                 return "updateFuncionario";
-            }else{
+            } else {
                 model.addAttribute("MSG", "Fsuncionário não encontrado");
             }
         } catch (Exception e) {
-            log.error(""+e);
+            log.error("" + e);
             model.addAttribute("MSG", e.getMessage());
         }
         return "mensagem";
@@ -72,20 +76,26 @@ public class FuncionarioController {
                 return "updateFuncionario";
             }
         } catch (Exception e) {
-            log.error(""+e);
+            log.error("" + e);
             model.addAttribute("MSG", e.getMessage());
         }
         return "mensagem";
     }
-    
+
+    @GetMapping("/admin/listaVenda")
+    public String ListaVenda(Model model) {
+        model.addAttribute("listaVenda", VendaDAO.Vendas());
+        return "listaVenda";
+    }
+
     @RequestMapping("/admin/listaFuncionario")
-    public String ListaFuncionario (Model model){
+    public String ListaFuncionario(Model model) {
         model.addAttribute("listaFuncionario", FuncionarioDAO.getUsuarios(PropriedadeStatus.Desativa));
         return "listaFuncionario";
     }
-    
+
     @RequestMapping(value = "/admin/listaFuncionario/{id}")
-    public String ListaUse (Model model, @PathVariable int id){
+    public String ListaUse(Model model, @PathVariable int id) {
         try {
             Funcionario funcionario = new Funcionario(id);
             List<Funcionario> Use = new ArrayList<>();
@@ -94,60 +104,60 @@ public class FuncionarioController {
             model.addAttribute("eu", true);
             return "listaFuncionario";
         } catch (Exception e) {
-            log.error(""+e);
+            log.error("" + e);
             model.addAttribute("MSG", e.getMessage());
         }
         return "mensagem";
     }
-    
+
     @RequestMapping(value = "/admin/Desativar/{id}")
-    public String Desativar(Model model, @PathVariable int id){
+    public String Desativar(Model model, @PathVariable int id) {
         Funcionario funcionario = new Funcionario(id);
         try {
             if (FuncionarioDAO.MudancaStatus(funcionario, PropriedadeStatus.Desativa)) {
                 return ListaFuncionario(model);
-            }else{
+            } else {
                 model.addAttribute("MSG", "Erro ao Desativado");
             }
         } catch (Exception e) {
-            log.error(""+e);
+            log.error("" + e);
             model.addAttribute("MSG", e.getMessage());
         }
         return "mensagem";
     }
-    
+
     @RequestMapping(value = "/admin/Ativar/{id}")
-    public String Ativar(Model model, @PathVariable int id){
+    public String Ativar(Model model, @PathVariable int id) {
         Funcionario funcionario = new Funcionario(id);
         try {
             if (FuncionarioDAO.MudancaStatus(funcionario, PropriedadeStatus.Ativo)) {
                 return ListaFuncionario(model);
-            }else{
+            } else {
                 model.addAttribute("MSG", "Erro ao Ativar");
             }
         } catch (Exception e) {
-            log.error(""+e);
+            log.error("" + e);
             model.addAttribute("MSG", e.getMessage());
         }
         return "mensagem";
     }
-    
+
     @RequestMapping("/admin/CadastroFuncionario")
     public String Cadastro(Model model) {
         return "cadastroFuncionario";
     }
-    
+
     @PostMapping("/admin/CadastroFuncionario/add")
     public String Add(Model model, Funcionario funcionario) {
         try {
             funcionario.setSenha(Crypto.HashSenha(funcionario.getSenha()));
             if (FuncionarioDAO.Adicionar(funcionario)) {
                 model.addAttribute("MSG", "Funcionario ao Adicionado com Sucesso!");
-            }else {
+            } else {
                 model.addAttribute("MSG", "Erro ao Adicionar");
             }
-        } catch (Exception e){
-            log.error(""+e);
+        } catch (Exception e) {
+            log.error("" + e);
             model.addAttribute("MSG", e.getMessage());
         }
         return "mensagem";
@@ -156,7 +166,12 @@ public class FuncionarioController {
     @GetMapping("/admin/AlterarPedido/{id}")
     public String AlterarPedido(Model model, HttpServletRequest request, @PathVariable int id) {
         try {
-            model.addAttribute("lista", VendaDAO.getVendaId(id));
+            VendaDetalhada venda = new VendaDetalhada(id);
+            venda = VendaDAO.getVendaId(venda);
+            Cliente cliente = new Cliente(venda.getIdCliente());
+            cliente = ClienteDAO.getClienteId(cliente);
+            model.addAttribute("venda", venda);
+            model.addAttribute("cliente", cliente);            
             return "alterarPedido";
         } catch (Exception e) {
             log.error("" + e);

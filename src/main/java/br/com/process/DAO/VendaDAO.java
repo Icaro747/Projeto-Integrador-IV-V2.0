@@ -3,8 +3,12 @@ package br.com.process.DAO;
 import br.com.process.conexao.Conexao;
 import br.com.process.entidade.Carrinho;
 import br.com.process.entidade.Cliente;
+import br.com.process.entidade.Endereco;
+import br.com.process.entidade.FormaPagamento;
+import br.com.process.entidade.Frete;
 import br.com.process.entidade.Produto;
 import br.com.process.entidade.Venda;
+import br.com.process.entidade.VendaDetalhada;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -70,33 +74,81 @@ public class VendaDAO {
         }
     }
 
-    public static List<Produto> Detalhes(Venda venda) {
+    public static List<Venda> Vendas() {
 
         ResultSet rs = null;
         Connection conexao = null;
         PreparedStatement instrucaoSQL = null;
 
-        List<Produto> produtos = new ArrayList<>();
+        List<Venda> vendas = new ArrayList<>();
 
         try {
             conexao = Conexao.abrirConexao();
-            instrucaoSQL = conexao.prepareStatement("SELECT Produtos.Nome AS Nome, Item.Quantidade AS Quantidade,Item.Desconto AS Desconto, Produtos.Marca AS Marca, Item.V_item AS Valor FROM  Item inner join Produtos on Produtos.Id_Produto = Item.FK_Produto WHERE FK_Venda = ?");
+            instrucaoSQL = conexao.prepareStatement("SELECT * FROM Vendas ORDER BY ID_Venda desc");
+
+            rs = instrucaoSQL.executeQuery();
+            while (rs.next()) {
+                int ID_Venda = rs.getInt("ID_Venda");
+                Date data_Venda = rs.getDate("data_Venda");
+                double V_total = rs.getDouble("V_total");
+                double V_frete = rs.getDouble("V_frete");
+                String StatusPedido = rs.getString("StatusPedido");
+
+                Venda vend = new Venda(ID_Venda, data_Venda, V_total, V_frete, StatusPedido);
+                vendas.add(vend);
+            }
+
+            return vendas;
+        } catch (SQLException e) {
+
+            log.error("" + e);
+            throw new IllegalArgumentException("Erro no banco de dados");
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (instrucaoSQL != null) {
+                    instrucaoSQL.close();
+                }
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
+            } catch (SQLException e) {
+            }
+        }
+    }
+
+    public static VendaDetalhada Detalhes(Venda venda) {
+
+        ResultSet rs = null;
+        Connection conexao = null;
+        PreparedStatement instrucaoSQL = null;
+
+        try {
+            conexao = Conexao.abrirConexao();
+            instrucaoSQL = conexao.prepareStatement("SELECT * FROM Vendas WHERE ID_Venda = ?");
 
             instrucaoSQL.setInt(1, venda.getId_venda());
 
             rs = instrucaoSQL.executeQuery();
-            while (rs.next()) {
-                String Nome = rs.getString("Nome");
-                int Quantidade = rs.getInt("Quantidade");
-                int Desconto = rs.getInt("Desconto");
-                String Marca = rs.getString("Marca");
-                double Valor = rs.getDouble("Valor");
-
-                Produto prod = new Produto(Nome, Marca, Quantidade, Valor, Desconto);
-                produtos.add(prod);
+            if (rs.next()) {
+                VendaDetalhada vd = new VendaDetalhada(
+                        rs.getString("F_pagameto"),
+                        rs.getString("Parcela"),
+                        rs.getString("Endereco"),
+                        venda.getId_venda(),
+                        rs.getDate("data_Venda"),
+                        rs.getDouble("V_total"),
+                        rs.getDouble("V_frete"),
+                        rs.getString("StatusPedido")
+                );
+                vd.setFrete(getEntrega(venda.getId_venda()));
+                vd.setItems(getItem(venda.getId_venda()));
+                return vd;
+            } else {
+                throw new IllegalArgumentException("não foi possível encontrar essa venda");
             }
-
-            return produtos;
         } catch (SQLException e) {
             log.error("" + e);
             throw new IllegalArgumentException("Erro no banco de dados");
@@ -116,7 +168,7 @@ public class VendaDAO {
         }
     }
 
-    public static int Criar(Venda venda, Cliente cliente, Carrinho carrinho) {
+    public static int Criar(Venda venda, Cliente cliente, Carrinho carrinho, FormaPagamento pagamento, Frete frete, Endereco endereco) {
 
         ResultSet rs = null;
         Connection conexao = null;
@@ -124,15 +176,19 @@ public class VendaDAO {
 
         try {
             conexao = Conexao.abrirConexao();
-            instrucaoSQL = conexao.prepareStatement("INSERT INTO Vendas (data_Venda, V_total, V_frete, StatusPedido, FK_Cliente) VALUES (?,?,?,?,?)");
+            instrucaoSQL = conexao.prepareStatement("INSERT INTO Vendas (data_Venda, V_total, V_frete, StatusPedido, F_pagameto, Parcela, FK_Cliente, endereco) VALUES (?,?,?,?,?,?,?,?)");
 
             instrucaoSQL.setDate(1, venda.getData_venda());
-            instrucaoSQL.setDouble(2, 0.0F);
+            instrucaoSQL.setDouble(2, carrinho.getPresoEntrega());
             instrucaoSQL.setDouble(3, carrinho.getPresoEntrega());
             instrucaoSQL.setString(4, "Aguardando pagamento");
-            instrucaoSQL.setInt(5, cliente.getId_cliente());
+            instrucaoSQL.setString(5, pagamento.getFormaPg());
+            instrucaoSQL.setString(6, pagamento.getCartao());
+            instrucaoSQL.setInt(7, cliente.getId_cliente());
+            instrucaoSQL.setString(8, endereco.getEndereco() + ", " + endereco.getNumero());
 
             int linhaAfetadas = instrucaoSQL.executeUpdate();
+            log.info("venda cadastrada");
 
             if (linhaAfetadas > 0) {
 
@@ -145,12 +201,19 @@ public class VendaDAO {
 
                     if (venda.getId_venda() > 0) {
                         for (Produto produto : carrinho.getProdutos()) {
-                            if (Item(produto, venda)) {
+                            if (setItem(produto, venda)) {
                                 linhaAfetadas++;
                             } else {
-                                throw new IllegalArgumentException("Erro ao finalizar seu pedido por favor tente mais tarde novamente");
+                                log.error("ERRO 1");
+                                throw new IllegalArgumentException("Erro ao finalizar seu pedido por favor tente mais tarde novamente. Erro 1");
                             }
                         }
+                        log.info("Items cadastrada");
+                        if (!setEntrega(frete, venda)) {
+                            log.error("ERRO 2");
+                            throw new IllegalArgumentException("Erro ao finalizar seu pedido por favor tente mais tarde novamente. Erro 2");
+                        }
+                        log.info("Entrega cadastrada");
                     }
                 }
 
@@ -174,7 +237,7 @@ public class VendaDAO {
         }
     }
 
-    public static boolean Item(Produto produto, Venda venda) {
+    public static boolean setItem(Produto produto, Venda venda) {
 
         Connection conexao = null;
         PreparedStatement instrucaoSQL = null;
@@ -206,36 +269,147 @@ public class VendaDAO {
             }
         }
     }
-    
-    
-    public static Venda getVendaId(int id) {
+
+    public static List<Produto> getItem(int ID_Vebda) {
 
         ResultSet rs = null;
         Connection conexao = null;
         PreparedStatement instrucaoSQL = null;
 
-        Venda venda = new Venda();
-        
+        List<Produto> Items = new ArrayList<>();
+
+        String QUERY = "SELECT Produtos.Nome, Produtos.Marca, Item.Quantidade, Produtos.V_venda, Item.Desconto FROM Item "
+                + "INNER JOIN Produtos ON ID_Produto = FK_Produto "
+                + "WHERE FK_Venda = ?";
+
+        try {
+            conexao = Conexao.abrirConexao();
+            instrucaoSQL = conexao.prepareStatement(QUERY);
+
+            instrucaoSQL.setInt(1, ID_Vebda);
+
+            rs = instrucaoSQL.executeQuery();
+            while (rs.next()) {
+                Produto item = new Produto(
+                        rs.getString("Nome"),
+                        rs.getString("Marca"),
+                        rs.getInt("Quantidade"),
+                        rs.getDouble("V_venda"),
+                        rs.getInt("Desconto")
+                );
+                Items.add(item);
+            }
+            return Items;
+        } catch (SQLException e) {
+            log.error("" + e);
+            throw new IllegalArgumentException("Erro no banco de dados");
+        } finally {
+            try {
+                if (instrucaoSQL != null) {
+                    instrucaoSQL.close();
+                }
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
+            } catch (SQLException e) {
+            }
+        }
+    }
+
+    public static boolean setEntrega(Frete frete, Venda venda) {
+        Connection conexao = null;
+        PreparedStatement instrucaoSQL = null;
+
+        try {
+            conexao = Conexao.abrirConexao();
+            instrucaoSQL = conexao.prepareStatement("INSERT INTO Entrega (Distribuidora, DataEntraga, FK_Venda) VALUES (?,?,?)");
+
+            instrucaoSQL.setString(1, frete.getNome());
+            instrucaoSQL.setString(2, frete.getDataEntraga());
+            instrucaoSQL.setInt(3, venda.getId_venda());
+
+            int linhaAfetadas = instrucaoSQL.executeUpdate();
+            return linhaAfetadas > 0;
+        } catch (SQLException e) {
+            log.error("" + e);
+            throw new IllegalArgumentException("Erro no banco de dados");
+        } finally {
+            try {
+                if (instrucaoSQL != null) {
+                    instrucaoSQL.close();
+                }
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
+            } catch (SQLException e) {
+            }
+        }
+    }
+
+    public static Frete getEntrega(int ID_venda) {
+
+        ResultSet rs = null;
+        Connection conexao = null;
+        PreparedStatement instrucaoSQL = null;
+
+        try {
+            conexao = Conexao.abrirConexao();
+            instrucaoSQL = conexao.prepareStatement("SELECT * FROM Entrega WHERE FK_Venda = ?");
+
+            instrucaoSQL.setInt(1, ID_venda);
+            rs = instrucaoSQL.executeQuery();
+            if (rs.next()) {
+                String Distribuidora = rs.getString("Distribuidora");
+                String DataEntraga = rs.getString("DataEntraga");
+                return new Frete(Distribuidora, DataEntraga);
+            } else {
+                throw new IllegalArgumentException("erro ao buscar entrega");
+            }
+        } catch (SQLException e) {
+            log.error("" + e);
+            throw new IllegalArgumentException("Erro no banco de dados");
+        } finally {
+            try {
+                if (instrucaoSQL != null) {
+                    instrucaoSQL.close();
+                }
+                if (conexao != null) {
+                    Conexao.fecharConexao();
+                }
+            } catch (SQLException e) {
+            }
+        }
+    }
+
+    public static VendaDetalhada getVendaId(VendaDetalhada venda_d) {
+
+        ResultSet rs = null;
+        Connection conexao = null;
+        PreparedStatement instrucaoSQL = null;
+
         try {
             conexao = Conexao.abrirConexao();
             instrucaoSQL = conexao.prepareStatement("SELECT * FROM Vendas WHERE ID_Venda = ?");
 
-            instrucaoSQL.setInt(1, id);
+            instrucaoSQL.setInt(1, venda_d.getId_venda());
 
             rs = instrucaoSQL.executeQuery();
-            while (rs.next()) {
-                int ID_Venda = rs.getInt("ID_Venda");
-                Date data_Venda = rs.getDate("data_Venda");
-                double V_total = rs.getDouble("V_total");
-                double V_frete = rs.getDouble("V_frete");
-                String StatusPedido = rs.getString("StatusPedido");
-
-                venda = new Venda(ID_Venda, data_Venda, V_total, V_frete, StatusPedido);                
+            if (rs.next()) {
+                VendaDetalhada venda = new VendaDetalhada(
+                        rs.getString("F_pagameto"),
+                        rs.getString("Parcela"), 
+                        rs.getInt("FK_Cliente"), 
+                        rs.getInt("ID_Venda"),
+                        rs.getString("StatusPedido")                                                
+                );                                
+                return venda;
+            }else{
+                log.error("Venda não encontrada");
+                throw new IllegalArgumentException("Venda não encontrada");
             }
 
-            return venda;
+            
         } catch (SQLException e) {
-
             log.error("" + e);
             throw new IllegalArgumentException("Erro no banco de dados");
         } finally {
@@ -252,11 +426,10 @@ public class VendaDAO {
             } catch (SQLException e) {
             }
         }
-    }    
+    }
 
     public static boolean setStatusVenda(Venda venda) {
 
-        ResultSet rs = null;
         Connection conexao = null;
         PreparedStatement instrucaoSQL = null;
 
@@ -271,14 +444,10 @@ public class VendaDAO {
 
             return linhaAfetadas > 0;
         } catch (SQLException e) {
-
             log.error("" + e);
             throw new IllegalArgumentException("Erro no banco de dados");
         } finally {
             try {
-                if (rs != null) {
-                    rs.close();
-                }
                 if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }
@@ -288,6 +457,6 @@ public class VendaDAO {
             } catch (SQLException e) {
             }
         }
-    }    
-    
+    }
+
 }

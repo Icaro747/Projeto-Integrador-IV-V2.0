@@ -88,7 +88,7 @@
                         </div>
                         <h3 th:text="${frete.nome}"></h3>
                         <h3 th:text="|R$ ${frete.valor}|"></h3>
-                        <h4 th:text="${frete.dataEntraga}"></h4>
+                        <p class="text-frete"><b>Em até <samp th:text="${frete.dataEntraga}"></samp></b></p>
                     </div>
                 </div>
             </div>

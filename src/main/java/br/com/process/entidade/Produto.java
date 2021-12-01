@@ -103,7 +103,7 @@ public class Produto {
     }
 
     public double getV_juros3v() {
-        double V_juros3v = (v_venda + (v_venda * ValorJuros)) / ValorDescontoVista;
+        double V_juros3v = (v_venda +(v_venda * ValorJuros)) / QuantidadeParcelaMaxima;
         return Formulas.Arredondando(V_juros3v, 2);
     }
 

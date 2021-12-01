@@ -2,7 +2,7 @@
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>detalhes pedidos</title>
+        <title>Alterar Pedido</title>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="stylesheet" type="text/css" th:href="@{/styles/css/MainCss.css}"/>
@@ -10,59 +10,65 @@
     </head>
     <body>
         <div th:replace="fragments/header :: body"></div>
-        <h1 class="LabelCenter titolo">Resumo do Pedido</h1>
+        <h1 class="LabelCenter titolo">Alterar Pedido</h1>
         <div class="ConteinerProdutos">
             <div class="BoxListaSize doTtzZ" style="min-height: 0;">
-
-                <div class="BoxListe">
-                    <table>
-                        <th>Id</th>
-                        <th>Data</th>
-                        <th>Total</th>
-                        <th>Frete</th>
-                        <th>Status</th>
-
-                        <tr th:each="venda : ${lista}">
-                            <td th:text="${venda.id_venda}"></td>
-                            <td th:text="${venda.data_venda}"></td>
-                            <td th:text="|R$ ${venda.v_total}|"></td>
-                            <td th:text="|R$ ${venda.v_frete}|"></td>
-                            <td th:text="${venda.statusPedido}"></td>
-                        </tr>
-                    </table>
-                </div>
-<!--
-                <div class="frete">
-                    <h3>Frete</h3>
-                    <p class="final-preco-frete" th:text="|R$ ${session.dadosFrete.valor}|"></p>
-                </div>
-                <div class="totalGeral">
-                    <h3>Total</h3>
-                    <p class="final" th:text="|R$ ${session.carrinho.getTotal()}|"></p>
-                </div>
-                <div class="endereco">
-                    <h3>Endereço de entrega</h3>
-                    <p class="final" th:text="|${session.enderecoEntrega.endereco}, ${session.enderecoEntrega.numero}|"></p>
-                </div>
-                <div class="formapg">
-                    <h3>Forma de pagamento</h3>
-                    <p class="final" th:if="${tipoPg.formaPg == 'cartao'}">Cartão</p>
-                    <p class="final" th:if="${tipoPg.formaPg == 'boleto'}">Boleto</p>
-                </div>
--->                
-                <div style="display: flex; width: 100%;">
-                    <div style="
-                        padding: 3px;
-                        width: 50%;
-                        text-align: center;">
-                        <a href="./pagamento#none" class="btn-Comprar" style="background-color: cadetblue;">Voltar</a>
-                    </div><div style="
-                        padding: 3px;
-                        width: 50%;
-                        text-align: center;">
-                        <a href="./finalizar" class="btn-Comprar">Concluir</a>
-                    </div>
-                </div>
+                <div>
+                    <form th:action="@{/admin/Alterar}" th:object="${venda}" method="POST">
+                        <input type="hidden" name="id_venda" th:value="${venda.id_venda}"/>
+                        <p th:field="*{id_venda}" th:text="|Pedido: ${venda.id_venda}|"></p>
+                        <p th:text="|Cliente: ${cliente.nome} ${cliente.sobrenome}|"></p>
+                        <p th:text="|Forma de Pagamento: ${venda.formPagamento}|"></p>
+                        <select th:field="*{statusPedido}">
+                            <option th:value="${venda.statusPedido}" th:text="${venda.statusPedido}"></option>
+                            <div th:if="${venda.statusPedido == 'Aguardando Pagamento'}">
+                                <option value="Pagamento Rejeitado">Pagamento Rejeitado</option>
+                                <option value="Pagamento com Sucesso">Pagamento com Sucesso</option>
+                                <option value="Aguardando Retirada">Aguardando Retirada</option>
+                                <option value="Em Trânsito">Em Trânsito</option>
+                                <option value="Entregue">Entregue</option>
+                            </div>
+                            <div th:if="${venda.statusPedido == 'Pagamento Rejeitado'}">
+                                <option value="Aguardando Pagamento">Aguardando Pagamento</option>
+                                <option value="Pagamento com Sucesso">Pagamento com Sucesso</option>
+                                <option value="Aguardando Retirada">Aguardando Retirada</option>
+                                <option value="Em Trânsito">Em Trânsito</option>
+                                <option value="Entregue">Entregue</option>
+                            </div>
+                            <div th:if="${venda.statusPedido == 'Pagamento com Sucesso'}">
+                                <option value="Aguardando Pagamento">Aguardando Pagamento</option>
+                                <option value="Pagamento Rejeitado">Pagamento Rejeitado</option>
+                                <option value="Aguardando Retirada">Aguardando Retirada</option>
+                                <option value="Em Trânsito">Em Trânsito</option>
+                                <option value="Entregue">Entregue</option>
+                            </div>
+                            <div th:if="${venda.statusPedido == 'Aguardando Retirada'}">
+                                <option value="Aguardando Pagamento">Aguardando Pagamento</option>
+                                <option value="Pagamento Rejeitado">Pagamento Rejeitado</option>
+                                <option value="Pagamento com Sucesso">Pagamento com Sucesso</option>
+                                <option value="Em Trânsito">Em Trânsito</option>
+                                <option value="Entregue">Entregue</option>
+                            </div>
+                            <div th:if="${venda.statusPedido == 'Em Trânsito'}">
+                                <option value="Aguardando Pagamento">Aguardando Pagamento</option>
+                                <option value="Pagamento Rejeitado">Pagamento Rejeitado</option>
+                                <option value="Pagamento com Sucesso">Pagamento com Sucesso</option>
+                                <option value="Aguardando Retirada">Aguardando Retirada</option>
+                                <option value="Entregue">Entregue</option>
+                            </div>
+                            <div th:if="${venda.statusPedido == 'Entregue'}">
+                                <option value="Aguardando Pagamento">Aguardando Pagamento</option>
+                                <option value="Pagamento Rejeitado">Pagamento Rejeitado</option>
+                                <option value="Pagamento com Sucesso">Pagamento com Sucesso</option>
+                                <option value="Aguardando Retirada">Aguardando Retirada</option>
+                                <option value="Em Trânsito">Em Trânsito</option>
+                            </div>
+                        </select>                        
+                        <button style="text-align: center" type="submit" class="btn-Comprar">Salvar</button>
+                    </form>                    
+                </div>            
+            </div>
+                
             </div>            
         </div>
     </body>
