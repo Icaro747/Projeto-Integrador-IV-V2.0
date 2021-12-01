@@ -25,12 +25,24 @@ public class VendaDetalhada extends Venda {
     private String endereco;
     private Frete frete;
     private List<Produto> Items;
-
+    private int idCliente;
+    
     public VendaDetalhada(String formPagamento, String parcela, String endereco, int id_venda, Date data_venda, double v_total, double v_frete, String statusPedido) {
         super(id_venda, data_venda, v_total, v_frete, statusPedido);
         this.formPagamento = formPagamento;
         this.parcela = parcela;
         this.endereco = endereco;
     }
-    
+
+    public VendaDetalhada(String formPagamento, String parcela, int idCliente, int id_venda, String statusPedido) {
+        super(id_venda, statusPedido);
+        this.formPagamento = formPagamento;
+        this.parcela = parcela;
+        this.idCliente = idCliente;
+    }
+
+    public VendaDetalhada(int id_venda) {
+        super(id_venda);
+    }
+        
 }

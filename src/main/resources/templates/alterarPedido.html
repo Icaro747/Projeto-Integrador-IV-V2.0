@@ -1,0 +1,76 @@
+<html lang="pt-br"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Alterar Pedido</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/styles/css/MainCss.css}"/>
+        <link rel="shortcut icon" th:href="@{img/newman.ico}" type="image/x-icon"/>
+    </head>
+    <body>
+        <div th:replace="fragments/header :: body"></div>
+        <h1 class="LabelCenter titolo">Alterar Pedido</h1>
+        <div class="ConteinerProdutos">
+            <div class="BoxListaSize doTtzZ" style="min-height: 0;">
+                <div>
+                    <form th:action="@{/admin/Alterar}" th:object="${venda}" method="POST">
+                        <input type="hidden" name="id_venda" th:value="${venda.id_venda}"/>
+                        <p th:field="*{id_venda}" th:text="|Pedido: ${venda.id_venda}|"></p>
+                        <p th:text="|Cliente: ${cliente.nome} ${cliente.sobrenome}|"></p>
+                        <p th:text="|Forma de Pagamento: ${venda.formPagamento}|"></p>
+                        <select th:field="*{statusPedido}">
+                            <option th:value="${venda.statusPedido}" th:text="${venda.statusPedido}"></option>
+                            <div th:if="${venda.statusPedido == 'Aguardando pagamento'}">
+                                <option value="Pagamento Rejeitado">Pagamento Rejeitado</option>
+                                <option value="Pagamento com Sucesso">Pagamento com Sucesso</option>
+                                <option value="Aguardando Retirada">Aguardando Retirada</option>
+                                <option value="Em Trânsito">Em Trânsito</option>
+                                <option value="Entregue">Entregue</option>
+                            </div>
+                            <div th:if="${venda.statusPedido == 'Pagamento Rejeitado'}">
+                                <option value="Aguardando Pagamento">Aguardando Pagamento</option>
+                                <option value="Pagamento com Sucesso">Pagamento com Sucesso</option>
+                                <option value="Aguardando Retirada">Aguardando Retirada</option>
+                                <option value="Em Trânsito">Em Trânsito</option>
+                                <option value="Entregue">Entregue</option>
+                            </div>
+                            <div th:if="${venda.statusPedido == 'Pagamento com Sucesso'}">
+                                <option value="Aguardando Pagamento">Aguardando Pagamento</option>
+                                <option value="Pagamento Rejeitado">Pagamento Rejeitado</option>
+                                <option value="Aguardando Retirada">Aguardando Retirada</option>
+                                <option value="Em Trânsito">Em Trânsito</option>
+                                <option value="Entregue">Entregue</option>
+                            </div>
+                            <div th:if="${venda.statusPedido == 'Aguardando Retirada'}">
+                                <option value="Aguardando Pagamento">Aguardando Pagamento</option>
+                                <option value="Pagamento Rejeitado">Pagamento Rejeitado</option>
+                                <option value="Pagamento com Sucesso">Pagamento com Sucesso</option>
+                                <option value="Em Trânsito">Em Trânsito</option>
+                                <option value="Entregue">Entregue</option>
+                            </div>
+                            <div th:if="${venda.statusPedido == 'Em Trânsito'}">
+                                <option value="Aguardando Pagamento">Aguardando Pagamento</option>
+                                <option value="Pagamento Rejeitado">Pagamento Rejeitado</option>
+                                <option value="Pagamento com Sucesso">Pagamento com Sucesso</option>
+                                <option value="Aguardando Retirada">Aguardando Retirada</option>
+                                <option value="Entregue">Entregue</option>
+                            </div>
+                            <div th:if="${venda.statusPedido == 'Entregue'}">
+                                <option value="Aguardando Pagamento">Aguardando Pagamento</option>
+                                <option value="Pagamento Rejeitado">Pagamento Rejeitado</option>
+                                <option value="Pagamento com Sucesso">Pagamento com Sucesso</option>
+                                <option value="Aguardando Retirada">Aguardando Retirada</option>
+                                <option value="Em Trânsito">Em Trânsito</option>
+                            </div>
+                        </select>                        
+                        <button style="text-align: center" type="submit" class="btn-Comprar">Salvar</button>
+                    </form>                    
+                </div>            
+            </div>
+                
+            </div>            
+        </div>
+    </body>
+</html>
+

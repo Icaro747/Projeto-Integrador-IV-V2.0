@@ -2,6 +2,8 @@ package br.com.process.controller;
 
 import br.com.process.DAO.VendaDAO;
 import br.com.process.DAO.EnderecoDAO;
+import br.com.process.DAO.FuncionarioDAO;
+import br.com.process.DAO.TagDAO;
 import br.com.process.entidade.Cliente;
 import br.com.process.entidade.Carrinho;
 import br.com.process.entidade.Endereco;
@@ -74,6 +76,8 @@ public class VendaController {
         }
         return "mensagem";
     }
+    
+    
 
     public void setFretes(int km) {
         try {

@@ -29,4 +29,9 @@ public class Venda {
         this.id_venda = id_venda;
     }
     
+    public Venda(int id_venda, String statusPedido) {
+        this.id_venda = id_venda;
+        this.statusPedido = statusPedido;
+    }
+    
 }

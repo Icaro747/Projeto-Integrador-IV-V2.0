@@ -137,22 +137,26 @@ public class ProdutoController {
     }
 
     @RequestMapping("/admin/listaProduto")
-    public String ListaProduto(Model model) {
+    public String ListaProduto(Model model, HttpServletRequest request) {
         try {
-            Pagina pagina = new Pagina();
-            pagina.setPageAtual(0);
-            pagina.setQuantidadeItems(100);
-            List<Produto> Estoque = ProdutoDAO.getEstoque(PropriedadeStatus.Desativa, pagina);
-            Estoque.forEach(produto -> {
-                produto.setQtdImg(ProdutoDAO.QuantidadeImagensProduto(produto));
-            });
-            model.addAttribute("listaProduto", Estoque);
-            return "listaProduto";
+            if (RestrictedAreaAccess.Funcionario(request.getSession())) {
+                Pagina pagina = new Pagina();
+                pagina.setPageAtual(0);
+                pagina.setQuantidadeItems(100);
+                List<Produto> Estoque = ProdutoDAO.getEstoque(PropriedadeStatus.Desativa, pagina);
+                Estoque.forEach(produto -> {
+                    produto.setQtdImg(ProdutoDAO.QuantidadeImagensProduto(produto));
+                });
+                model.addAttribute("listaProduto", Estoque);
+                return "listaProduto";
+            } else {
+                model.addAttribute("MSG", "Área Restrita");
+            }
         } catch (Exception e) {
             log.error("" + e);
             model.addAttribute("MSG", e.getMessage());
-            return "mensagem";
         }
+        return "mensagem";
     }
 
     @RequestMapping("/admin/buscar")
@@ -174,10 +178,10 @@ public class ProdutoController {
     }
 
     @RequestMapping("Desativar")
-    public String Desativar(Model model, Produto produto) {
+    public String Desativar(Model model, Produto produto, HttpServletRequest request) {
         try {
             if (ProdutoDAO.MudancaStatus(produto, PropriedadeStatus.Desativa)) {
-                return ListaProduto(model);
+                return ListaProduto(model, request);
             } else {
                 model.addAttribute("MSG", "Erro ao Desativado");
             }
@@ -189,10 +193,10 @@ public class ProdutoController {
     }
 
     @RequestMapping("Ativar")
-    public String Ativar(Model model, Produto produto) {
+    public String Ativar(Model model, Produto produto, HttpServletRequest request) {
         try {
             if (ProdutoDAO.MudancaStatus(produto, PropriedadeStatus.Ativo)) {
-                return ListaProduto(model);
+                return ListaProduto(model, request);
             } else {
                 model.addAttribute("MSG", "Erro ao Ativar");
             }
